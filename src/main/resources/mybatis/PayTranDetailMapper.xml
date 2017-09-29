@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="com.asgab.repository.PayTranDetailMapper">
+
+	<select id="get" parameterType="long" resultType="PayTranDetail">
+		SELECT tranNumDetail,tranNum,payCode,bdUserName,amount,amountInRMB,rewards,mgtFee,additionAmount,deleted,createDate,createBy,updateDate,updateBy
+		FROM ss_pay_tran_detail where deleted=1 and tranNum=#{tranNum}
+	</select>
+
+	<insert id="save" parameterType="PayTranDetail" useGeneratedKeys="true" keyProperty="tranNumDetail">
+		insert into ss_pay_tran_detail (
+		tranNum,payCode,bdUserName,amount,amountInRMB,rewards,mgtFee,additionAmount,deleted,createDate,createBy)
+		values (
+		#{tranNum},#{payCode},#{bdUserName},#{amount},#{amountInRMB},#{rewards},#{mgtFee},#{additionAmount},1,#{createDate},#{createBy})
+	</insert>
+	
+	<insert id="update" parameterType="PayTranDetail">
+		update ss_pay_tran_detail set 
+		payCode=#{payCode},
+		bdUserName=#{bdUserName},
+		amount=#{amount},
+		amountInRMB=#{amountInRMB},
+		rewards=#{rewards},
+		mgtFee=#{mgtFee},
+		additionAmount=#{additionAmount},
+		deleted=#{deleted},
+		updateDate=#{updateDate},
+		updateBy=#{updateBy}
+		where tranNumDetail = #{tranNumDetail}
+	</insert>
+	
+	<!-- 删除用户 -->
+	<delete id="delete" parameterType="long">
+	     update ss_pay_tran_detail set deleted=2 where tranNumDetail = #{tranNumDetail}
+	</delete>
+</mapper> 
