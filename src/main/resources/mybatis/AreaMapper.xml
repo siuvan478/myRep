@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="com.asgab.repository.AreaMapper">
+
+	<sql id="area_columns">
+		`name`, name_en as nameEN, city_id as cityId, status
+	</sql>
+
+	<select id="search" parameterType="map" resultType="Area">
+		select id, <include refid="area_columns"/>
+		from ss_area where true
+		<if test="name != null">
+			and `name` like "%"#{name}"%"
+		</if>
+		<if test="nameEN != null">
+			and name_en like "%"#{nameEN}"%"
+		</if>
+		<if test="cityId != null">
+			and city_id = #{cityId}
+		</if>
+		<if test="status != null">
+			and status = #{status}
+		</if>
+		<if test="sort != null and sort!=''">
+			order by ${sort}
+		</if>
+	</select>
+
+	<select id="count" parameterType="map" resultType="int">
+		select count(1)
+		from ss_area where true
+		<if test="name != null">
+			and `name` like "%"#{name}"%"
+		</if>
+		<if test="nameEN != null">
+			and name_en like "%"#{nameEN}"%"
+		</if>
+		<if test="cityId != null">
+			and city_id = #{cityId}
+		</if>
+		<if test="status != null">
+			and status = #{status}
+		</if>
+	</select>
+
+	<select id="get" parameterType="long" resultType="Area">
+		select id, <include refid="area_columns"/>
+		from ss_area
+		where status = 1 and id = #{id}
+	</select>
+
+	<insert id="save" parameterType="Area" useGeneratedKeys="true" keyProperty="id">
+		insert into ss_area (`name`, name_en, city_id)
+		values (#{name}, #{nameEN}, #{cityId})
+	</insert>
+
+	<update id="update" parameterType="Area">
+		update ss_area set
+		`name` = #{name},
+		name_en = #{nameEN},
+		city_id = #{cityId},
+		status = #{status}
+		where id = #{id}
+	</update>
+
+	<delete id="delete" parameterType="long">
+	     update ss_area set status = 0 where id = #{id}
+	</delete>
+</mapper> 

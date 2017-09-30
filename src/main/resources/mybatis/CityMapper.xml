@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="com.asgab.repository.CityMapper">
+
+	<sql id="city_columns">
+		`name`, name_en as nameEN, status
+	</sql>
+
+	<select id="findAll" parameterType="map" resultType="City">
+		select id, <include refid="city_columns"/>
+		from ss_city where status = 1
+	</select>
+
+	<select id="get" parameterType="long" resultType="City">
+		select id, <include refid="city_columns"/>
+		from ss_city
+		where status = 1 and id = #{id}
+	</select>
+
+	<insert id="save" parameterType="City" useGeneratedKeys="true" keyProperty="id">
+		insert into ss_city (`name`, name_en)
+		values (#{name}, #{nameEN})
+	</insert>
+
+	<update id="update" parameterType="City">
+		update ss_city set
+		`name` = #{name},
+		name_en = #{nameEN},
+		status = #{status}
+		where id = #{id}
+	</update>
+
+	<delete id="delete" parameterType="long">
+	     update ss_city set status = 0 where id = #{id}
+	</delete>
+</mapper> 

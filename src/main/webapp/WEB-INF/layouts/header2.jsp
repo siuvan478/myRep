@@ -50,7 +50,15 @@
                 <div class="sidebar-nav navbar-collapse">
                     <ul class="nav" id="side-menu">
                         <li>
-                            <a href="${ctx}/user"><i class="fa fa-user fa-fw"></i><spring:message code="menu.user" /></a>
+                            <a href="${ctx}/user"><i class="fa fa-users fa-fw"></i><spring:message code="menu.user" /></a>
+                        </li>
+                        <li>
+                            <a href="${ctx}/area"><i class="fa fa-wrench fa-fw"></i>设置<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="${ctx}/area"><spring:message code="menu.area" /></a>
+                                </li>
+                            </ul>
                         </li>
                     </ul>
                 </div>

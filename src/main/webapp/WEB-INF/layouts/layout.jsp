@@ -94,7 +94,16 @@
         </div>
     </div>
     <script type="text/javascript">
-    <!-- 3秒后自动关闭成功提示框，错误的不自动关闭 -->
+        function delcfm(url) {
+            $('#url').val(url);//给会话中的隐藏属性URL赋值
+            $('#delcfmModel').modal();
+        }
+
+        function urlSubmit(){
+            var url=$.trim($("#url").val());//获取会话中的隐藏属性URL
+            window.location.href=url;
+        }
+
     window.setTimeout(function() { $(".alert-success").alert('close'); }, 3000);
     </script>
 </body>

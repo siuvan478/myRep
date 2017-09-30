@@ -2,9 +2,9 @@ package com.asgab.web.account;
 
 import com.asgab.core.pagination.Page;
 import com.asgab.entity.User;
-import com.asgab.service.MailService;
 import com.asgab.service.account.AccountService;
 import com.asgab.util.Servlets;
+import com.asgab.web.BaseController;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,14 +28,10 @@ import java.util.Map;
 * */
 @Controller
 @RequestMapping(value = "/user")
-public class UserController {
+public class UserController extends BaseController {
 
-    private static final String PAGE_SIZE = "10";
     @Autowired
     AccountService accountService;
-
-    @Autowired
-    MailService mailService;
 
     @RequestMapping(method = RequestMethod.GET)
     public String list(@RequestParam(value = "pageNumber", defaultValue = "1") int pageNumber,
@@ -56,7 +52,6 @@ public class UserController {
         params.put("sort", sort);
         Page<User> page = new Page<>(pageNumber, pageSize, sort, params);
         model.addAttribute("pages", accountService.getAllUser(page));
-        mailService.sendCaptcha("295636011@qq.com");
         return "account/usersList";
     }
 

@@ -52,8 +52,10 @@
 		<property name="successUrl" value="/user" />
 		<property name="filterChainDefinitions">
 			<value>
+				/favicon.ico = anon
 				<!-- 可匿名访问   -->
 				/login = authc
+				/api/user/pwd/* = anon
 				<!-- 静态资源可匿名访问 -->
 				/static/** = anon
 				<!-- 登出过滤器，自动清空缓存，清空session中数据，不需要有实际的logout方法 -->

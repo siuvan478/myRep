@@ -1,5 +1,6 @@
 package com.asgab.service;
 
+import com.asgab.core.mail.MailTemplateEnum;
 import com.asgab.core.mail.MailUtil;
 import com.asgab.entity.*;
 import com.asgab.entity.Process;
@@ -10,7 +11,6 @@ import com.asgab.service.currMaster.CurrMasterService;
 import com.asgab.service.paymentPurpose.PaymentPurposeService;
 import com.asgab.service.paytran.PayTranHeaderService;
 import com.asgab.util.CommonUtil;
-import com.asgab.util.RandomNumUtil;
 import com.asgab.web.AutoEmailNotification;
 import freemarker.template.TemplateException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,10 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import javax.mail.MessagingException;
 import java.io.IOException;
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Component
 @Transactional
@@ -30,14 +33,11 @@ public class MailService {
     @Resource
     private EhCacheService ehCacheService;
 
-    public boolean sendCaptcha(String username) {
-        String captcha = RandomNumUtil.getRandNumber(6);
-        String templateName = "my.ftl";
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("content", "验证码为：" + captcha);
+    public boolean sendCaptcha(String receiver, MailTemplateEnum mte, Map<String, Object> params) {
         boolean success = true;
         try {
-            MailUtil.sendMailByTemplate(username, "注册验证码", map, templateName);
+            ehCacheService.put(receiver, params.get("verifyCode"));
+            MailUtil.sendMailByTemplate(receiver, mte.getTitle(), params, mte.getTemplateName());
         } catch (IOException e) {
             e.printStackTrace();
             success = false;
