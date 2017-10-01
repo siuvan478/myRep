@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="com.asgab.repository.AddressMapper">
+
+	<sql id="address_columns">
+		city_id as cityId, area_id as areaId, address, user_id as userId, status
+	</sql>
+
+	<select id="search" parameterType="map" resultType="Address">
+		select id, <include refid="address_columns"/>
+		from ss_address where true
+		<if test="cityId != null">
+			and city_id = #{cityId}
+		</if>
+		<if test="areaId != null">
+			and area_id = #{areaId}
+		</if>
+		<if test="address != null">
+			and `address` like "%"#{address}"%"
+		</if>
+		<if test="userId != null">
+			and user_id = #{userId}
+		</if>
+		<if test="status != null">
+			and status = #{status}
+		</if>
+		<if test="sort != null and sort!=''">
+			order by ${sort}
+		</if>
+	</select>
+
+	<select id="count" parameterType="map" resultType="int">
+		select count(1)
+		from ss_address where true
+		<if test="cityId != null">
+			and city_id = #{cityId}
+		</if>
+		<if test="areaId != null">
+			and area_id = #{areaId}
+		</if>
+		<if test="address != null">
+			and `address` like "%"#{address}"%"
+		</if>
+		<if test="userId != null">
+			and user_id = #{userId}
+		</if>
+		<if test="status != null">
+			and status = #{status}
+		</if>
+		<if test="status != null">
+			and status = #{status}
+		</if>
+	</select>
+
+	<select id="get" parameterType="long" resultType="Address">
+		select id, <include refid="address_columns"/>
+		from ss_address
+		where status = 1 and id = #{id}
+	</select>
+
+	<insert id="save" parameterType="Address" useGeneratedKeys="true" keyProperty="id">
+		insert into ss_address (city_id, area_id, address, user_id)
+		values (#{cityId}, #{areaId}, #{address}, #{userId})
+	</insert>
+
+	<update id="update" parameterType="Address">
+		update ss_address set
+		city_id = #{cityId},
+		area_id = #{areaId},
+		address = #{address},
+		status = #{status}
+		where id = #{id}
+	</update>
+
+	<delete id="delete" parameterType="long">
+	     update ss_address set status = 0 where id = #{id}
+	</delete>
+</mapper> 

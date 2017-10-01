@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:util="http://www.springframework.org/schema/util" xmlns:aop="http://www.springframework.org/schema/aop"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="
+	   xmlns:util="http://www.springframework.org/schema/util" xmlns:aop="http://www.springframework.org/schema/aop"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xsi:schemaLocation="
        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.0.xsd
        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd"
-	default-lazy-init="true">
+	   default-lazy-init="true">
 
 	<description>Shiro安全配置</description>
 
@@ -18,11 +18,11 @@
 	</bean>
 
 	<!-- 会话Cookie模板 -->
-	<bean id="sessionIdCookie" class="org.apache.shiro.web.servlet.SimpleCookie">  
-	    <constructor-arg value="sid"/>  
-	    <property name="httpOnly" value="true"/>  
-	    <property name="maxAge" value="-1"/>  
-	</bean> 
+	<bean id="sessionIdCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
+		<constructor-arg value="sid"/>
+		<property name="httpOnly" value="true"/>
+		<property name="maxAge" value="-1"/>
+	</bean>
 	<bean id="rememberMeCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
 		<constructor-arg value="rememberMe" />
 		<property name="httpOnly" value="true" />
@@ -31,7 +31,7 @@
 	<!-- rememberMe管理器 -->
 	<bean id="rememberMeManager" class="org.apache.shiro.web.mgt.CookieRememberMeManager">
 		<property name="cipherKey"
-			value="#{T(org.apache.shiro.codec.Base64).decode('4AvVhmFLUs0KTA3Kprsdag==')}" />
+				  value="#{T(org.apache.shiro.codec.Base64).decode('4AvVhmFLUs0KTA3Kprsdag==')}" />
 		<property name="cookie" ref="rememberMeCookie" />
 	</bean>
 
@@ -39,6 +39,19 @@
 	<bean id="shiroDbRealm" class="com.asgab.service.account.ShiroDbRealm">
 		<property name="accountService" ref="accountService" />
 	</bean>
+
+	<bean id="myFormAuthenticationFilter" class="com.asgab.core.MyFormAuthenticationFilter">
+		<property name="usernameParam" value="username" />
+		<property name="passwordParam" value="password" />
+		<property name="rememberMeParam" value="rememberMe" />
+		<property name="failureKeyAttribute" value="shiroLoginFailure" />
+	</bean>
+	<bean id="jCaptchaValidateFilter" class="com.asgab.core.JCaptchaValidateFilter">
+		<property name="jcaptchaEbabled" value="true" />
+		<property name="jcaptchaParam" value="jcaptchaCode" />
+		<property name="failureKeyAttribute" value="shiroLoginFailure" />
+	</bean>
+
 
 	<!-- Shiro Filter -->
 	<!-- anon 拦截器表示匿名访问(即不需要登录即可访问) -->
@@ -50,18 +63,27 @@
 		<property name="securityManager" ref="securityManager" />
 		<property name="loginUrl" value="/login" />
 		<property name="successUrl" value="/user" />
+		<property name="filters">
+			<util:map>
+				<entry key="authc" value-ref="myFormAuthenticationFilter" />
+				<entry key="jCaptchaValidate" value-ref="jCaptchaValidateFilter" />
+			</util:map>
+		</property>
 		<property name="filterChainDefinitions">
 			<value>
 				/favicon.ico = anon
-				<!-- 可匿名访问   -->
-				/login = authc
-				/api/user/pwd/* = anon
-				<!-- 静态资源可匿名访问 -->
-				/static/** = anon
-				<!-- 登出过滤器，自动清空缓存，清空session中数据，不需要有实际的logout方法 -->
+				/jcaptcha* = anon
+				/login = jCaptchaValidate,authc
 				/logout = logout
-				<!-- 必须通过认证，默认为FormAuthenticationFilter过滤器 -->
-				/** = authc
+				/static/** = anon
+				/process/** = anon
+				/file/** = anon
+				/paytran/create = anon
+				/ajax/** = anon
+				/register/** = anon
+				/admin/** = roles[admin]
+				/api/user/pwd/* = anon
+				/** = user
 			</value>
 		</property>
 	</bean>
@@ -73,6 +95,4 @@
 
 	<!-- 保证实现了Shiro内部lifecycle函数的bean执行 -->
 	<bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor" />
-
-
 </beans>

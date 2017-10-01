@@ -60,6 +60,9 @@
                                 </li>
                             </ul>
                         </li>
+                        <li>
+                            <a href="${ctx}/address"><i class="fa fa-users fa-fw"></i>取货地址</a>
+                        </li>
                     </ul>
                 </div>
             </div>

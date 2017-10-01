@@ -107,14 +107,14 @@
                                 	<label for="password"><spring:message code="index.password" />:</label>
                                     <input class="form-control" placeholder="<spring:message code="index.password" />" name="password" type="password" id="password" value="">
                                 </div>
-                                 <c:if test="${jcaptchaEbabled}">
+
                                  <div class="form-group input-group">
                                    	<label for="jcaptchaCode"><spring:message code="index.verificationcode" />:</label><br/>
 									<input type="text" id="jcaptchaCode" name="jcaptchaCode" class="form-control col-sm-6" style="width: 50%">
 									<img class="col-sm-6 jcaptcha-btn jcaptcha-img" style="height: 34px" id="jcaptchaCodeImg" src="${pageContext.request.contextPath}/jcaptcha.jpg" title="<spring:message code='index.verificationcode' />">
 									
                                 </div>
-                                </c:if>
+
                                
                                 <div class="checkbox">
                                     <label>

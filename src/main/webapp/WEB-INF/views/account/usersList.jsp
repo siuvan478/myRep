@@ -47,11 +47,14 @@
 								<i class="fa fa-search"></i>
 								<spring:message code="public.search" />
 							</button>
-							<button id="resetButtom" type="button" class="btn  btn-warning">
+							<button id="resetButton" type="button" class="btn  btn-warning">
 								<i class="fa fa-repeat"></i>
 								<spring:message code="public.reset" />
 							</button>
 						</div>
+
+						<a class="btn btn-primary pull-right" data-toggle="modal" data-target="#myModal"><i
+								class="fa fa-edit"></i> <spring:message code="public.upload" /></a>
 
 						<a class="btn  btn-primary pull-right" href="${ctx}/user/create"><i
 							class="fa fa-edit"></i> <spring:message code="public.create" /></a>
@@ -124,7 +127,7 @@
 				}
 			});
 
-			$("#resetButtom").on("click", function() {
+			$("#resetButton").on("click", function() {
 				$("#name").val("");
 				$("#loginName").val("");
 				$("#roles").val("");

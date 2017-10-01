@@ -23,6 +23,9 @@
 				<div class="file-box">
 					<input type="button" class="btn" name="up" id="uploadButton" class="btn" value="<spring:message code='public.upload'/>" />
 					<span id='uploading'></span>
+					<a href="#" class="thumbnail">
+					<img id="uploadImg${attach.attachmentId}" src="${ctx}/file/dumpImage?path=/usr/tmp/upload/1c59e2307bfaa702fe79378dcbea977c_t016b6eddf7901eb9fd.jpg"  />
+						</a>
 				</div>
 			</div>
 			<div class="modal-footer">
