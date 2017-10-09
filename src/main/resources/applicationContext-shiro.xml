@@ -76,13 +76,14 @@
 				/login = jCaptchaValidate,authc
 				/logout = logout
 				/static/** = anon
+				/static111/** = anon
 				/process/** = anon
 				/file/** = anon
 				/paytran/create = anon
 				/ajax/** = anon
 				/register/** = anon
 				/admin/** = roles[admin]
-				/api/user/pwd/* = anon
+				/api/** = anon
 				/** = user
 			</value>
 		</property>

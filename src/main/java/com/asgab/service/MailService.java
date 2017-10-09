@@ -29,14 +29,9 @@ import java.util.Map;
 @Transactional
 public class MailService {
 
-
-    @Resource
-    private EhCacheService ehCacheService;
-
     public boolean sendCaptcha(String receiver, MailTemplateEnum mte, Map<String, Object> params) {
         boolean success = true;
         try {
-            ehCacheService.put(receiver, params.get("verifyCode"));
             MailUtil.sendMailByTemplate(receiver, mte.getTitle(), params, mte.getTemplateName());
         } catch (IOException e) {
             e.printStackTrace();

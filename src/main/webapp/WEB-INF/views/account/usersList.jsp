@@ -44,18 +44,15 @@
 					<div class="panel-footer panel-footer-search">
 						<div class="btn-group" role="group" aria-label="...">
 							<button type="submit" class="btn  btn-info">
-								<i class="fa fa-search"></i>
-								<spring:message code="public.search" />
+								<i class="fa fa-search"></i><spring:message code="public.search" />
 							</button>
 							<button id="resetButton" type="button" class="btn  btn-warning">
-								<i class="fa fa-repeat"></i>
-								<spring:message code="public.reset" />
+								<i class="fa fa-repeat"></i><spring:message code="public.reset" />
 							</button>
 						</div>
 
 						<a class="btn btn-primary pull-right" data-toggle="modal" data-target="#myModal"><i
 								class="fa fa-edit"></i> <spring:message code="public.upload" /></a>
-
 						<a class="btn  btn-primary pull-right" href="${ctx}/user/create"><i
 							class="fa fa-edit"></i> <spring:message code="public.create" /></a>
 					</div>

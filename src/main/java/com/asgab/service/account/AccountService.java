@@ -121,4 +121,8 @@ public class AccountService {
     public void setClock(Clock clock) {
         this.clock = clock;
     }
+
+    public User checkLoginName(String loginName) {
+        return userMapper.checkLoginName(loginName);
+    }
 }

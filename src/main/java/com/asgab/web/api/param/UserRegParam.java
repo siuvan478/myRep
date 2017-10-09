@@ -3,21 +3,17 @@ package com.asgab.web.api.param;
 import java.io.Serializable;
 
 /**
- * 功能：
- * 作者：Siuvan(Siuvan@lianj.com)
- * 日期：2017年09月30日 下午 3:50
- * 版权所有：广东联结网络技术有限公司 版权所有(C) 2016-2018
+ * 注册用户参数
  */
-public class UserParam implements Serializable {
-    private static final long serialVersionUID = 3774683785421118868L;
+public class UserRegParam implements Serializable {
+    private static final long serialVersionUID = -8320733747366480833L;
 
     private String loginName; //用户名
     private String verifyCode; //验证码
-    private String newPassword; //新密码
+    private String password; //密码
     private String confirmPassword; //确认密码
-    private Integer findMode;//找回方式 1=邮箱 2=手机
 
-    public UserParam() {
+    public UserRegParam() {
     }
 
     public String getLoginName() {
@@ -36,12 +32,12 @@ public class UserParam implements Serializable {
         this.verifyCode = verifyCode;
     }
 
-    public String getNewPassword() {
-        return newPassword;
+    public String getPassword() {
+        return password;
     }
 
-    public void setNewPassword(String newPassword) {
-        this.newPassword = newPassword;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getConfirmPassword() {
@@ -50,13 +46,5 @@ public class UserParam implements Serializable {
 
     public void setConfirmPassword(String confirmPassword) {
         this.confirmPassword = confirmPassword;
-    }
-
-    public Integer getFindMode() {
-        return findMode;
-    }
-
-    public void setFindMode(Integer findMode) {
-        this.findMode = findMode;
     }
 }

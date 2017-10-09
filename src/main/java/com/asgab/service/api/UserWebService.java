@@ -3,12 +3,16 @@ package com.asgab.service.api;
 import com.asgab.core.mail.MailTemplateEnum;
 import com.asgab.entity.User;
 import com.asgab.service.ApiException;
-import com.asgab.service.EhCacheService;
+import com.asgab.service.JedisService;
 import com.asgab.service.MailService;
 import com.asgab.service.account.AccountService;
 import com.asgab.util.RandomNumUtil;
-import com.asgab.web.api.param.UserParam;
+import com.asgab.util.Validator;
+import com.asgab.web.api.param.FindPwdParam;
+import com.asgab.web.api.param.UserRegParam;
+import com.asgab.web.api.param.VerifyCodeParam;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,74 +34,114 @@ public class UserWebService {
     private MailService mailService;
 
     @Resource
-    private EhCacheService ehCacheService;
-
-    @Resource
     private AccountService accountService;
 
+    @Autowired
+    private JedisService jedisService;
 
     /**
      * 找回密码
      */
-    public void findPassword(UserParam userParam) {
-        final User user = accountService.findUserByLoginName(userParam.getLoginName());
-        user.setPlainPassword(userParam.getNewPassword());
-        accountService.updateUser(user);
-    }
-
-    /**
-     * 校验验证码是否正确
-     */
-    public boolean checkVerifyCode(UserParam userParam) {
-        if (StringUtils.isBlank(userParam.getLoginName())) {
-            throw new ApiException("用户名不存在");
+    public void resetPwd(FindPwdParam param) {
+        if (StringUtils.isBlank(param.getLoginName())) {
+            throw new ApiException("用户名不能为空");
         }
-        if (userParam.getFindMode() == null || (userParam.getFindMode().equals(1) &&
-                userParam.getFindMode().equals(2))) {
-            throw new ApiException("找回类型不合法");
+        if (StringUtils.isBlank(param.getNewPassword())) {
+            throw new ApiException("新密码不能为空");
         }
-        final User user = accountService.findUserByLoginName(userParam.getLoginName());
+        if (StringUtils.isBlank(param.getConfirmPassword())) {
+            throw new ApiException("重复密码不能为空");
+        }
+        final User user = accountService.checkLoginName(param.getLoginName());
         if (user == null) {
             throw new ApiException("用户名不存在");
         }
-        boolean validFlag = false;
-        //邮箱验证码
-        if (userParam.getFindMode().equals(1)) {
-            Object verifyCode = ehCacheService.get(user.getEmail());
-            if (verifyCode == null) {
-                throw new ApiException("验证码不正确");
-            }
-            validFlag = userParam.getVerifyCode().equals(verifyCode.toString());
+        String verifyCode = jedisService.get(param.getLoginName());
+        if (verifyCode == null) {
+            throw new ApiException("验证码已过期");
+        } else if (!verifyCode.equals(param.getVerifyCode())) {
+            throw new ApiException("验证码错误");
+        } else {
+            //更新密码
+            user.setPlainPassword(param.getNewPassword());
+            accountService.updateUser(user);
         }
-        return validFlag;
     }
 
     /**
-     * 找回密码发送验证码
+     * 注册用户
      */
-    public void sendVerifyCode(UserParam userParam) throws ApiException {
-        if (StringUtils.isBlank(userParam.getLoginName())) {
-            throw new ApiException("用户名不存在");
+    public void register(UserRegParam param) {
+        if (StringUtils.isBlank(param.getLoginName())) {
+            throw new ApiException("手机号或邮箱不能为空");
         }
-        if (userParam.getFindMode() == null || (userParam.getFindMode().equals(1) &&
-                userParam.getFindMode().equals(2))) {
-            throw new ApiException("找回类型不合法");
+        if (StringUtils.isBlank(param.getVerifyCode())) {
+            throw new ApiException("验证码不能为空");
         }
-        final User user = accountService.findUserByLoginName(userParam.getLoginName());
-        if (user == null) {
-            throw new ApiException("用户名不存在");
+        if (StringUtils.isBlank(param.getPassword())) {
+            throw new ApiException("密码不能为空");
         }
-        //邮箱验证码
-        if (userParam.getFindMode().equals(1)) {
-            if (StringUtils.isBlank(user.getEmail())) {
-                throw new ApiException("未设置用户邮箱");
+        if (StringUtils.isBlank(param.getConfirmPassword())) {
+            throw new ApiException("重复密码不能为空");
+        }
+        if (!param.getPassword().equals(param.getConfirmPassword())) {
+            throw new ApiException("两次密码输入不一致");
+        }
+
+        String verifyCode = jedisService.get(param.getLoginName());
+        if (verifyCode == null) {
+            throw new ApiException("验证码已过期");
+        } else if (!verifyCode.equals(param.getVerifyCode())) {
+            throw new ApiException("验证码错误");
+        } else {
+            //注册用户
+            User user = new User();
+            user.setLoginName(param.getLoginName());
+            user.setPlainPassword(param.getPassword());
+            accountService.registerUser(user);
+        }
+    }
+
+    /**
+     * 发送验证码 todo
+     */
+    public void sendVerifyCode(VerifyCodeParam param) {
+        if (StringUtils.isBlank(param.getLoginName())) {
+            throw new ApiException("手机号或邮箱不能为空");
+        }
+        if (param.getType() == null) {
+            throw new ApiException("验证码类型不能为空");
+        }
+        MailTemplateEnum mte = null;
+        //注册用户
+        if (param.getType().equals(1)) {
+            User user = accountService.checkLoginName(param.getLoginName());
+            if (user != null) {
+                throw new ApiException("用户名已被注册");
             }
+            mte = MailTemplateEnum.REG_USER;
+        }
+        //重置密码
+        else if (param.getType().equals(2)) {
+            mte = MailTemplateEnum.RESET_PWD;
+        } else {
+            throw new ApiException("验证码类型非法");
+        }
+        //验证码
+        String verifyCode = RandomNumUtil.getRandNumber(6);
+        //发送验证码到邮箱
+        if (Validator.isEmail(param.getLoginName())) {
+            //验证码有效时间2分钟
+            jedisService.setex(param.getLoginName(), 2 * 60, verifyCode);
             Map<String, Object> params = new HashMap<>();
-            params.put("verifyCode", RandomNumUtil.getRandNumber(6));
-            if (!mailService.sendCaptcha(user.getEmail(), MailTemplateEnum.RESET_PWD, params)) {
-                throw new ApiException("验证码发送失败，请联系Freeman客服");
+            params.put("verifyCode", verifyCode);
+            if (!mailService.sendCaptcha(param.getLoginName(), mte, params)) {
+                throw new ApiException("验证码发送失败，请联系FreeMan客服");
             }
-            System.out.println(ehCacheService.get(user.getEmail()));
+        }
+        //发送验证码到手机
+        else if (Validator.isHongKongMobile(param.getLoginName()) || Validator.isMobile(param.getLoginName())) {
+
         }
     }
 }

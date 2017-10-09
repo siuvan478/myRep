@@ -39,13 +39,25 @@
 	<!-- 定义无需Controller的url<->view直接映射 -->
 	<mvc:view-controller path="/" view-name="redirect:/user"/>
 
+	<mvc:interceptors>
+		<!-- Changes the locale when a 'lang' request parameter is sent; e.g. /?lang=de -->
+		<bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
+			<property name="paramName" value="lang"/>
+		</bean>
+	</mvc:interceptors>
+
 	<!-- i18n -->
-	<bean id="messageSource"
-            class="org.springframework.context.support.ResourceBundleMessageSource">
-            <property name="basename" value="message" />
-        </bean>
-	
-	
+	<bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+         <property name="basename" value="message" />
+    </bean>
+
+	<!-- 基于Cookie的本地化解析器 -->
+	<bean id="localeResolver" class="org.springframework.web.servlet.i18n.CookieLocaleResolver">
+		<property name="cookieMaxAge" value="2592000" /><!-- 30 days -->
+		<property name="CookieName" value="Lang" />
+		<property name="defaultLocale" value="en_US" />
+	</bean>
+
 	<!-- 将Controller抛出的异常转到特定View, 保持SiteMesh的装饰效果 -->
 	<bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">  
 		<property name="exceptionMappings">  

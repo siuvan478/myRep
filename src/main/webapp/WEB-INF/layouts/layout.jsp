@@ -1,114 +1,274 @@
+<%@page import="org.springframework.web.servlet.support.RequestContextUtils"%>
+<%@page import="org.springframework.web.servlet.LocaleResolver"%>
+<%@ page import="org.springframework.context.i18n.LocaleContextHolder"%>
 <%@ page contentType="text/html;charset=UTF-8"%>
-<%@ taglib prefix="sitemesh" uri="http://www.opensymphony.com/sitemesh/decorator" %>  
+<%@ taglib prefix="sitemesh" uri="http://www.opensymphony.com/sitemesh/decorator"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
-
 <!DOCTYPE html>
-<html lang="en">
-
+<html>
 <head>
-
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
+    <link rel="shortcut icon" href="${ctx}/static111/images/favicon.ico">
+    <title>Box | <sitemesh:title/></title>
 
-    <title>
-    	 <sitemesh:title/>
-    </title>
+    <style type="text/css">
+        table th{word-break: keep-all;white-space:nowrap;}
+    </style>
 
-	<style type="text/css">
-		table th, td{word-break: keep-all;white-space:nowrap;}
-	</style>
-    <!-- Bootstrap Core CSS -->
-    <link href="${ctx}/static/startbootstrap-sb-admin-2-1.0.7/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.6 -->
+    <link rel="stylesheet" href="${ctx}/static111/AdminLTE-2.3.3/bootstrap/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="${ctx}/static111/styles/font-awesome.min.css">
 
-    <!-- MetisMenu CSS -->
-    <link href="${ctx}/static/startbootstrap-sb-admin-2-1.0.7/bower_components/metisMenu/dist/metisMenu.min.css" rel="stylesheet">
+    <!-- Ion Slider -->
+    <link rel="stylesheet" href="${ctx}/static111/AdminLTE-2.3.3/plugins/ionslider/css/ion.rangeSlider.css">
+    <link rel="stylesheet" href="${ctx}/static111/AdminLTE-2.3.3/plugins/ionslider/css/ion.rangeSlider.skinHTML5.css">
 
-    <!-- Timeline CSS -->
-    <link href="${ctx}/static/startbootstrap-sb-admin-2-1.0.7/dist/css/timeline.css" rel="stylesheet">
+    <!-- daterange picker -->
+    <link rel="stylesheet" href="${ctx}/static111/AdminLTE-2.3.3/plugins/daterangepicker/daterangepicker-bs3.css">
+    <!-- iCheck for checkboxes and radio inputs -->
+    <link rel="stylesheet" href="${ctx}/static111/AdminLTE-2.3.3/plugins/iCheck/all.css">
+    <!-- Bootstrap Color Picker -->
+    <link rel="stylesheet" href="${ctx}/static111/AdminLTE-2.3.3/plugins/colorpicker/bootstrap-colorpicker.min.css">
+    <!-- Bootstrap time Picker -->
+    <link rel="stylesheet" href="${ctx}/static111/AdminLTE-2.3.3/plugins/timepicker/bootstrap-timepicker.min.css">
+    <!-- Select2 -->
+    <link rel="stylesheet" href="${ctx}/static111/AdminLTE-2.3.3/plugins/select2/select2.min.css">
 
-    <!-- Custom CSS -->
-    <link href="${ctx}/static/startbootstrap-sb-admin-2-1.0.7/dist/css/sb-admin-2.css" rel="stylesheet">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="${ctx}/static111/AdminLTE-2.3.3/dist/css/AdminLTE.css">
+    <link rel="stylesheet" href="${ctx}/static111/AdminLTE-2.3.3/dist/css/skins/_all-skins.css">
 
-    <!-- Morris Charts CSS -->
-    <link href="${ctx}/static/startbootstrap-sb-admin-2-1.0.7/bower_components/morrisjs/morris.css" rel="stylesheet">
+    <!-- daterangepicker -->
+    <link rel="stylesheet" href="${ctx}/static111/AdminLTE-2.3.3/plugins/daterangepicker/daterangepicker-bs3.css">
 
-    <!-- Custom Fonts -->
-    <link href="${ctx}/static/startbootstrap-sb-admin-2-1.0.7/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <!-- datatable -->
+    <link rel="stylesheet" href="${ctx}/static111/AdminLTE-2.3.3/plugins/datatables/dataTables.bootstrap.css">
 
-	<link href="${ctx}/static/jquery-validation/1.11.1/validate.css" type="text/css" rel="stylesheet" />
-	
-	<!-- datetimepicker -->
-    <link href="${ctx}/static/bootstrap/3.3.5/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
-	
+    <!-- custom style -->
+    <link rel="stylesheet" href="${ctx}/static111/styles/custom.css">
 
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
-      <!-- jQuery -->
-    <script src="${ctx}/static/startbootstrap-sb-admin-2-1.0.7/bower_components/jquery/dist/jquery.min.js"></script>
 
-    <!-- Bootstrap Core JavaScript -->
-    <script src="${ctx}/static/startbootstrap-sb-admin-2-1.0.7/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <!-- jQuery 2.1.4 -->
+    <script src="${ctx}/static111/AdminLTE-2.3.3/plugins/jQuery/jQuery-2.2.0.min.js"></script>
+    <!-- Bootstrap 3.3.5 -->
+    <script src="${ctx}/static111/AdminLTE-2.3.3/bootstrap/js/bootstrap.min.js"></script>
+    <!-- Select2 -->
+    <script src="${ctx}/static111/AdminLTE-2.3.3/plugins/select2/select2.full.min.js"></script>
+    <!-- InputMask -->
+    <script src="${ctx}/static111/AdminLTE-2.3.3/plugins/input-mask/jquery.inputmask.js"></script>
+    <script src="${ctx}/static111/AdminLTE-2.3.3/plugins/input-mask/jquery.inputmask.date.extensions.js"></script>
+    <script src="${ctx}/static111/AdminLTE-2.3.3/plugins/input-mask/jquery.inputmask.extensions.js"></script>
+    <script src="${ctx}/static111/AdminLTE-2.3.3/plugins/input-mask/jquery.inputmask.numeric.extensions.js"></script>
+    <!-- date-range-picker -->
+    <script src="${ctx}/static111/AdminLTE-2.3.3/plugins/daterangepicker/moment-with-locales.min.js"></script>
+    <script src="${ctx}/static111/AdminLTE-2.3.3/plugins/daterangepicker/daterangepicker.js"></script>
+    <!-- bootstrap color picker -->
+    <script src="${ctx}/static111/AdminLTE-2.3.3/plugins/colorpicker/bootstrap-colorpicker.min.js"></script>
+    <!-- bootstrap time picker -->
+    <script src="${ctx}/static111/AdminLTE-2.3.3/plugins/timepicker/bootstrap-timepicker.min.js"></script>
+    <!-- SlimScroll 1.3.0 -->
+    <script src="${ctx}/static111/AdminLTE-2.3.3/plugins/slimScroll/jquery.slimscroll.min.js"></script>
+    <!-- iCheck 1.0.1 -->
+    <script src="${ctx}/static111/AdminLTE-2.3.3/plugins/iCheck/icheck.min.js"></script>
+    <!-- ChartJS 2.1.4 -->
+    <script src="${ctx}/static111/chartjs/Chart.js"></script>
+    <!-- FastClick -->
+    <script src="${ctx}/static111/AdminLTE-2.3.3/plugins/fastclick/fastclick.min.js"></script>
+    <!-- Ion Slider -->
+    <script src="${ctx}/static111/AdminLTE-2.3.3/plugins/ionslider/ion.rangeSlider.min.js"></script>
+    <!-- bootbox -->
+    <script src="${ctx}/static111/bootbox/bootbox.js"></script>
+    <!-- jquery validate 1.14.0 -->
+    <script src="${ctx}/static111/jquery-validation/1.14.0/dist/jquery.validate.js" type="text/javascript"></script>
+    <script src="${ctx}/static111/jquery-validation/1.14.0/dist/jquey.validate.override.js" type="text/javascript"></script>
+    <!-- DataTables -->
+    <script src="${ctx}/static111/AdminLTE-2.3.3/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="${ctx}/static111/AdminLTE-2.3.3/plugins/datatables/dataTables.bootstrap.min.js"></script>
 
-    <!-- Metis Menu Plugin JavaScript -->
-    <script src="${ctx}/static/startbootstrap-sb-admin-2-1.0.7/bower_components/metisMenu/dist/metisMenu.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="${ctx}/static111/AdminLTE-2.3.3/dist/js/app.min.js"></script>
+    <!-- AdminLTE for demo purposes -->
+    <script src="${ctx}/static111/AdminLTE-2.3.3/dist/js/demo.js"></script>
 
-   <!-- ajaxupload -->
-   <script src="${ctx}/static/ajaxupload/ajaxupload.3.6.js"></script>
+    <!-- ztree -->
+    <link rel="stylesheet" href="${ctx}/static111/zTree/css/zTreeStyle/zTreeStyle.css" type="text/css">
+    <script type="text/javascript" src="${ctx}/static111/zTree/js/jquery.ztree.core.js"></script>
 
-    <!-- Custom Theme JavaScript -->
-    <script src="${ctx}/static/startbootstrap-sb-admin-2-1.0.7/dist/js/sb-admin-2.js"></script>
-    
-    <!-- 
-    <script src="${ctx}/static/jquery/jquery-1.9.1.min.js" type="text/javascript"></script>
-     -->
-	<script src="${ctx}/static/jquery-validation/1.14.0/dist/jquery.validate.js" type="text/javascript"></script>
-	<script src="${ctx}/static/jquery-validation/1.14.0/dist/jquey.validate.override.js" type="text/javascript"></script>
-	
-	<!-- datepickerjs -->
-	<script src="${ctx}/static/bootstrap/3.3.5/js/bootstrap-datetimepicker.min.js" type="text/javascript"></script>
-	<%
-	String lang = request.getLocale().getLanguage();
-	if("zh".equals(lang)){
-		%>
-		<script src="${ctx}/static/jquery-validation/1.14.0/dist/localization/messages_zh.js" type="text/javascript"></script>
-		<%
-	}
-	%>
+    <%
+        LocaleResolver localeResolver = RequestContextUtils.getLocaleResolver (request);
+        String lang =localeResolver.resolveLocale(request).getLanguage();
+        if("zh".equals(lang)){
+    %>
+        <script src="${ctx}/static111/jquery-validation/1.14.0/dist/localization/messages_zh.js" type="text/javascript"></script>
+        <script type="text/javascript">
+            moment.locale("zh-cn");
+        </script>
+    <%
+        }
+    %>
+    <style type="text/css">
+        #cover {
+            background: url("${ctx}/static111/images/spin.gif") no-repeat scroll center center #000;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            filter:alpha(opacity=50);
+            -moz-opacity:0.5;
+            -khtml-opacity: 0.5;
+            opacity: 0.5;
+            z-index: 10000;
+        }
 
-    <%--select2--%>
-<%--    <link href="${ctx}/static/plugins/select2-4.0.4/select2.min.css" rel="stylesheet" />--%>
-    <script src="${ctx}/static/plugins/select2/select2.full.min.js"></script>
+        .btn-60 { width: 60px; line-height: 1.1 }
+        .btn-65 { width: 65px; line-height: 1.1 }
+        .btn-70 { width: 70px; line-height: 1.1 }
+        .btn-75 { width: 75px; line-height: 1.1 }
+        .btn-80 { width: 80px; line-height: 1.1 }
+        .btn-85 { width: 85px; line-height: 1.1 }
+        .btn-90 { width: 90px; line-height: 1.1 }
+
+        /* select2 placeholder font */
+        .select2-selection__placeholder{
+            font-size: 14px !important;
+        }
+        .select2-search__field{
+            font-size: 14px !important;
+            margin-left: 6px;
+        }
+
+        /* 双日期看不到yyyy/MM/dd dd 看不到 */
+        .daterangepicker .ranges .input-mini {
+            width: 80px !important;
+        }
+
+        .daterangepicker .ranges {
+            width: 172px !important;
+        }
+
+        /* select2 remove selected option 
+        .select2-results__option[aria-selected=true] {
+            display: none;
+        }*/
+    </style>
+
 </head>
+<body class="hold-transition fixed layout-top-nav skin-black">
+<div id="cover" style="display: none;"></div>
 
-<body>
-    <div id="wrapper">
-		<%@ include file="/WEB-INF/layouts/header2.jsp"%>
-        <div id="page-wrapper">
-          <sitemesh:body/>
-        </div>
-    </div>
-    <script type="text/javascript">
-        function delcfm(url) {
-            $('#url').val(url);//给会话中的隐藏属性URL赋值
-            $('#delcfmModel').modal();
+<div class="wrapper">
+    <%@ include file="/WEB-INF/layouts/menu.jsp"%>
+    <!-- Full Width Column -->
+    <div class="content-wrapper" style="padding-top: 50px;">
+        <div class="container">
+            <sitemesh:body/>
+        </div><!-- /.container -->
+    </div><!-- /.content-wrapper -->
+    <footer class="main-footer">
+        <div class="container">
+            <div class="pull-right hidden-xs">
+                <b>Version</b> 1.0
+            </div>
+            <strong>Copyright &copy; 2017 XXXXXX</a>.</strong> All rights reserved.
+        </div><!-- /.container -->
+    </footer>
+</div><!-- ./wrapper -->
+
+<script type="text/javascript">
+    $(function () {
+        $( document ).ajaxStart(function() {
+            $( "#cover" ).show();
+        });
+        $( document ).ajaxComplete(function() {
+            $( "#cover" ).hide();
+        });
+
+        var slideToTop = $("<div />");
+        slideToTop.html('<i class="fa fa-chevron-up"></i>');
+        slideToTop.css({
+            position: 'fixed',
+            bottom: '20px',
+            right: '25px',
+            width: '40px',
+            height: '40px',
+            color: '#eee',
+            'font-size': '',
+            'line-height': '40px',
+            'text-align': 'center',
+            'background-color': '#222d32',
+            cursor: 'pointer',
+            'border-radius': '5px',
+            'z-index': '99999',
+            opacity: '.7',
+            'display': 'none'
+        });
+        slideToTop.on('mouseenter', function () {
+            $(this).css('opacity', '1');
+        });
+        slideToTop.on('mouseout', function () {
+            $(this).css('opacity', '.7');
+        });
+        $('.wrapper').append(slideToTop);
+        $(window).scroll(function () {
+            if ($(window).scrollTop() >= 20) {
+                if (!$(slideToTop).is(':visible')) {
+                    $(slideToTop).fadeIn(500);
+                }
+            } else {
+                $(slideToTop).fadeOut(500);
+            }
+        });
+        $(slideToTop).click(function () {
+            $("body").animate({
+                scrollTop: 0
+            }, 500);
+        });
+    });
+
+    function changeLang(lang){
+        url = window.location.href;
+        if(url.indexOf("#")>-1){
+            window.location.href = url.replace("#","");
         }
-
-        function urlSubmit(){
-            var url=$.trim($("#url").val());//获取会话中的隐藏属性URL
-            window.location.href=url;
+        if(url.indexOf("lang=zh_CN")>-1){
+            window.location.href = url.replace("lang=zh_CN","lang="+lang);
+        } else if(url.indexOf("lang=en_US")>-1){
+            window.location.href = url.replace("lang=en_US","lang="+lang);
+        } else if( url.indexOf("?")==-1){
+            window.location.href = url+"?lang="+lang;
+        } else {
+            window.location.href = url+"&lang="+lang;
         }
+    }
 
-    window.setTimeout(function() { $(".alert-success").alert('close'); }, 3000);
-    </script>
+    function lang_options( minimumInputLength ) {
+        var lang_options = {
+            inputTooShort: function () { return "<spring:message code='select2.inputTooShort' arguments='"+minimumInputLength+"' />"; },
+            noResults: function(){ return "<spring:message code='select2.noResults' />"; },
+            searching: function(){ return "<spring:message code='select2.searching' />" }
+        }
+        return lang_options;
+    }
+
+    function delcfm(url) {
+        $('#url').val(url);//给会话中的隐藏属性URL赋值
+        $('#delcfmModel').modal();
+    }
+
+    function urlSubmit(){
+        var url=$.trim($("#url").val());//获取会话中的隐藏属性URL
+        window.location.href=url;
+    }
+</script>
 </body>
-
 </html>

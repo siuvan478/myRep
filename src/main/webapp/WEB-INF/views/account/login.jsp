@@ -1,164 +1,211 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ page import="org.apache.shiro.web.filter.authc.FormAuthenticationFilter"%>
-<%@ page import="org.apache.shiro.authc.ExcessiveAttemptsException"%>
-<%@ page import="org.apache.shiro.authc.IncorrectCredentialsException"%>
+<%@ page import="org.springframework.context.i18n.LocaleContextHolder"%>
+<%@ page import="org.apache.commons.lang3.StringUtils"%>
+<%@ page import="org.apache.shiro.web.util.SavedRequest"%>
+<%@ page import="org.apache.shiro.web.util.WebUtils"%>
+
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <c:set var="ctx" value="${pageContext.request.contextPath}"/>
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
+    <link rel="shortcut icon" href="${ctx}/static111/images/favicon.ico">
+    <title>登录 | Box</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.5 -->
+    <link rel="stylesheet" href="${ctx}/static111/AdminLTE-2.3.3/bootstrap/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="${ctx}/static111/styles//font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="${ctx}/static111/styles//ionicons.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="${ctx}/static111/AdminLTE-2.3.3/dist/css/AdminLTE.min.css">
+    <!-- custom style -->
+    <link rel="stylesheet" href="${ctx}/static111/styles/custom.css">
+    <!-- Override default font -->
+    <style type="text/css">
+        body,button, input, select, textarea,h1 ,h2, h3, h4, h5, h6 { font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;}
+    </style>
 
-    <title>csa</title>
-
-    <!-- Bootstrap Core CSS -->
-    <link href="${ctx}/static/startbootstrap-sb-admin-2-1.0.7/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- MetisMenu CSS -->
-    <link href="${ctx}/static/startbootstrap-sb-admin-2-1.0.7/bower_components/metisMenu/dist/metisMenu.min.css" rel="stylesheet">
-
-    <!-- Timeline CSS -->
-    <link href="${ctx}/static/startbootstrap-sb-admin-2-1.0.7/dist/css/timeline.css" rel="stylesheet">
-
-    <!-- Custom CSS -->
-    <link href="${ctx}/static/startbootstrap-sb-admin-2-1.0.7/dist/css/sb-admin-2.css" rel="stylesheet">
-
-    <!-- Morris Charts CSS -->
-    <link href="${ctx}/static/startbootstrap-sb-admin-2-1.0.7/bower_components/morrisjs/morris.css" rel="stylesheet">
-
-    <!-- Custom Fonts -->
-    <link href="${ctx}/static/startbootstrap-sb-admin-2-1.0.7/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-
-	<link href="${ctx}/static/jquery-validation/1.11.1/validate.css" type="text/css" rel="stylesheet" />
-
-	
-
+    <!-- iCheck -->
+    <link rel="stylesheet" href="${ctx}/static111/AdminLTE-2.3.3/plugins/iCheck/square/blue.css">
+    <!-- validate -->
+    <link href="${ctx}/static111/jquery-validation/1.11.1/validate.css" type="text/css" rel="stylesheet" />
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
-      <!-- jQuery -->
-    <script src="${ctx}/static/startbootstrap-sb-admin-2-1.0.7/bower_components/jquery/dist/jquery.min.js"></script>
 
-    <!-- Bootstrap Core JavaScript -->
-    <script src="${ctx}/static/startbootstrap-sb-admin-2-1.0.7/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <%
+        String lang  = LocaleContextHolder.getLocale().getLanguage();
+        request.setAttribute("lang", lang);
+    %>
 
-    <!-- Metis Menu Plugin JavaScript -->
-    <script src="${ctx}/static/startbootstrap-sb-admin-2-1.0.7/bower_components/metisMenu/dist/metisMenu.min.js"></script>
-
-   
-
-    <!-- Custom Theme JavaScript -->
-    <script src="${ctx}/static/startbootstrap-sb-admin-2-1.0.7/dist/js/sb-admin-2.js"></script>
-    <!-- 
-    <script src="${ctx}/static/jquery/jquery-1.9.1.min.js" type="text/javascript"></script>
-     -->
-	<script src="${ctx}/static/jquery-validation/1.14.0/dist/jquery.validate.js" type="text/javascript"></script>
-	<script src="${ctx}/static/jquery-validation/1.14.0/dist/jquey.validate.override.js" type="text/javascript"></script>
-	<%
-	String lang = request.getLocale().getLanguage();
-	if(lang.equals("zh")){
-		%>
-		<script src="${ctx}/static/jquery-validation/1.14.0/dist/localization/messages_zh.js" type="text/javascript"></script>
-		<%
-	}
-	%>
-	
-
+    <style type="text/css">
+        .loginbg{ background-image: url( ${ctx}/static111/images/maxresdefault.jpg);background-size: cover;}
+    </style>
 </head>
+<body class="hold-transition login-page" style="background-image: url(http://pic.ibaotu.com/00/21/58/889888piCaMk.jpg-1.jpg!ww700); background-repeat:no-repeat; background-size: cover" >
 
-<body>
-
-    <div class="container">
-        <div class="row">
-            <div class="col-md-4 col-md-offset-4">
-                <div class="login-panel panel panel-default">
-                    <div class="panel-heading">
-                        <span style="font-size: 16px" ><spring:message code="index.welcome" /></span>
-                    </div>
-                    <div class="panel-body">
-                        <form role="form" id="loginForm" action="${ctx}/login" method="post">
-                            <fieldset>
-                            	<%
-								String error = (String) request.getAttribute(FormAuthenticationFilter.DEFAULT_ERROR_KEY_ATTRIBUTE_NAME);
-								if(error != null){
-									if(error.startsWith("org"))error = "zh".equalsIgnoreCase(request.getLocale().getLanguage())? "用户名或密码错误":"User Name or Password Error";
-								%>
-									<div class="alert alert-danger alert-dismissable">
-	                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-	                                <%=error%>
-	                            </div>
-								<%
-								}
-								%>
-                                <div class="form-group">
-                                	<label for="username"><spring:message code="index.username"/>:</label>
-                                    <input class="form-control" placeholder="<spring:message code="index.username"/>" name="username" type="text"  id="username" value="${username}" autofocus>
-                                </div>
-                                <div class="form-group">
-                                	<label for="password"><spring:message code="index.password" />:</label>
-                                    <input class="form-control" placeholder="<spring:message code="index.password" />" name="password" type="password" id="password" value="">
-                                </div>
-
-                                 <div class="form-group input-group">
-                                   	<label for="jcaptchaCode"><spring:message code="index.verificationcode" />:</label><br/>
-									<input type="text" id="jcaptchaCode" name="jcaptchaCode" class="form-control col-sm-6" style="width: 50%">
-									<img class="col-sm-6 jcaptcha-btn jcaptcha-img" style="height: 34px" id="jcaptchaCodeImg" src="${pageContext.request.contextPath}/jcaptcha.jpg" title="<spring:message code='index.verificationcode' />">
-									
-                                </div>
-
-                               
-                                <div class="checkbox">
-                                    <label>
-                                        <input name="rememberMe" type="checkbox" value="true"><spring:message code="index.rememberme" />
-                                    </label>
-                                </div>
-                                
-                                <input id="submit_btn" class="btn btn-lg btn-success btn-block" type="submit" value="<spring:message code="public.login"/>"/>
-                            </fieldset>
-                        </form>
-                    </div>
-                </div>
-            </div>
+<div class="login-box" >
+    <div class="login-logo">
+        <div class="login-logo">
+            <a href="#"><b>Admin</b>LTE</a>
         </div>
-    </div>
+    </div><!-- /.login-logo -->
+    <div class="login-box-body" >
+        <p class="login-box-msg">
+            欢迎访问<b style="font-size: 16px;"> BOX</b>
+            <a href="javascript:void(0)" class="dropdown-toggle text-right" style="cursor: default;height: 50px;" >
+                <span class="x-lang-ch pull-right <c:if test="${pageContext.response.locale.language=='zh' }">selected</c:if>" onclick="changeLang('zh_CN')" ></span>
+                <span class="x-lang-en pull-right <c:if test="${pageContext.response.locale.language=='en' }">selected</c:if>" onclick="changeLang('en_US')" ></span>
+            </a>
+        </p>
+        <%
+            String error = (String) request.getAttribute(FormAuthenticationFilter.DEFAULT_ERROR_KEY_ATTRIBUTE_NAME);
+            SavedRequest savedRequest = WebUtils.getSavedRequest(request);
+            String url = savedRequest!=null?savedRequest.getRequestUrl():"";
+            if(StringUtils.isNotBlank(url)){
+                url = url.replaceFirst(request.getServletContext().getContextPath(), "");
+            }
+            if(StringUtils.isBlank(error) && StringUtils.isNotBlank(url) && !url.startsWith("/login")&& !url.startsWith("/favicon.ico") && !url.equals("/")){
+                error = "zh".equalsIgnoreCase(lang)? "请登录后进行操作。":"Please login before performing any operations.";
+            }
 
-   
-	
-</body>
+            if(error != null){
+                if(error.endsWith("UnknownAccountException") || error.endsWith("IncorrectCredentialsException")){
+                    error = "zh".equalsIgnoreCase(lang)? "邮箱地址或密码错误。":"Email or password error.";
+                }
+                if(error.endsWith("LockedAccountException")){
+                    error = "zh".equalsIgnoreCase(lang)? "帐号被锁定，请联系XMO系统管理员。":"Account has locked. Please contact XMO system administrator。 ";
+                }
+        %>
+        <div class="alert alert-danger alert-dismissable">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <%=error%>
+        </div>
+        <%
+            }
+        %>
+
+        <form id="loginForm" action="${ctx}/login" method="post">
+            <div class="form-group has-feedback">
+                <input type="text" class="form-control" name="username" placeholder="Enter username...">
+                <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+            </div>
+            <div class="form-group has-feedback">
+                <input type="password" class="form-control" name="password" placeholder="Enter password...">
+                <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+            </div>
+
+            <c:if test="${jcaptchaEbabled}">
+                <div class="form-group input-group">
+                    <label for="jcaptchaCode">验证码:</label><br/>
+                    <input type="text" id="jcaptchaCode" name="jcaptchaCode" class="form-control col-sm-6" style="width: 50%">
+                    <img class="col-sm-6 jcaptcha-btn jcaptcha-img" style="height: 34px" id="jcaptchaCodeImg" src="${pageContext.request.contextPath}/jcaptcha.jpg"
+                         title="登陆验证码">
+                </div>
+            </c:if>
+
+            <div class="row">
+                <div class="col-xs-8">
+                    <div class="checkbox icheck">
+                        <label>
+                            <input  name="rememberMe" type="checkbox" value="true"> 记住我
+                        </label>
+                    </div>
+                </div><!-- /.col -->
+                <div class="col-xs-4" style="margin-top: 10px;">
+                    <button type="submit" class="btn btn-primary btn-block btn-flat"><spring:message code="public.login" /></button>
+                </div><!-- /.col -->
+            </div>
+        </form>
+
+        <%
+            if(lang.equals("zh")){
+        %>
+            <a href="#">忘记密码?</a>
+        <%
+        }else{
+        %>
+            <a href="#">忘记密码?</a>
+        <%
+            }
+        %>
+    </div><!-- /.login-box-body -->
+</div><!-- /.login-box -->
+
+<!-- jQuery 2.1.4 -->
+<script src="${ctx}/static111/AdminLTE-2.3.3/plugins/jQuery/jQuery-2.2.0.min.js"></script>
+<!-- Bootstrap 3.3.5 -->
+<script src="${ctx}/static111/AdminLTE-2.3.3/bootstrap/js/bootstrap.min.js"></script>
+<!-- iCheck -->
+<script src="${ctx}/static111/AdminLTE-2.3.3/plugins/iCheck/icheck.min.js"></script>
+
+<!-- validate -->
+<script src="${ctx}/static111/jquery-validation/1.14.0/dist/jquery.validate.js" type="text/javascript"></script>
+<script src="${ctx}/static111/jquery-validation/1.14.0/dist/jquey.validate.override.js" type="text/javascript"></script>
+<%
+    if(lang.equals("zh")){
+%>
+    <script src="${ctx}/static111/jquery-validation/1.14.0/dist/localization/messages_zh.js" type="text/javascript"></script>
+<%
+    }
+%>
 <script>
-		$(document).ready(function() {
-			$("#loginForm").validate({
-				errorPlacement: function(error, element) {
-					if (element.attr("name") == "jcaptchaCode") {
-						 error.insertAfter("#jcaptchaCodeImg");
-					} 
-					else if (element.parent('.input-group').length || element.prop('type') === 'checkbox' || element.prop('type') === 'radio') {
-			            error.insertAfter(element.parent());
-			        } else {
-			            error.insertAfter(element);
-			        }
-			    },
-			    rules: {
-			    	username:"required",
-			    	password:"required",
-			    	jcaptchaCode:"required",
-			    }
-			   
-			});
-			
-			 $(".jcaptcha-btn").click(function() {
-		            $(".jcaptcha-img").attr("src", '${pageContext.request.contextPath}/jcaptcha.jpg?'+new Date().getTime());
-		        });
-		});
-	</script>
-</html>
+    $(function () {
+        $('input').iCheck({
+            checkboxClass: 'icheckbox_square-blue',
+            radioClass: 'iradio_square-blue',
+            increaseArea: '20%' // optional
+        });
 
+        $("#loginForm").validate({
+            errorPlacement: function(error, element) {
+                if (element.attr("name") == "jcaptchaCode") {
+                    error.insertAfter("#jcaptchaCodeImg");
+                } else if (element.parent('.input-group').length || element.prop('type') === 'checkbox' || element.prop('type') === 'radio') {
+                    error.insertAfter(element.parent());
+                } else {
+                    error.insertAfter(element);
+                }
+            },
+            rules: {
+                username:"required",
+                password:"required",
+                jcaptchaCode:"required",
+            }
+        });
+
+        $(".jcaptcha-btn").click(function() {
+            $(".jcaptcha-img").attr("src", '${pageContext.request.contextPath}/jcaptcha.jpg?'+new Date().getTime());
+        });
+    });
+
+    function changeLang(lang){
+        url = window.location.href;
+        if(url.indexOf("#")>-1){
+            window.location.href = url.replace("#","");
+        }
+        if(url.indexOf("lang=zh_CN")>-1){
+            window.location.href = url.replace("lang=zh_CN","lang="+lang);
+        }
+        else if(url.indexOf("lang=en_US")>-1){
+            window.location.href = url.replace("lang=en_US","lang="+lang);
+        }else if( url.indexOf("?")==-1){
+            window.location.href = url+"?lang="+lang;
+        }else {
+            window.location.href = url+"&lang="+lang;
+        }
+    }
+
+</script>
+</body>
+</html>

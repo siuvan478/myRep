@@ -31,4 +31,6 @@ public interface UserMapper {
 
 	int count(Map<String, Object> map);
 
+	User checkLoginName(String loginName);
+
 }

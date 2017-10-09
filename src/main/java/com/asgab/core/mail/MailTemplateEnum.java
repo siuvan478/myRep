@@ -2,6 +2,7 @@ package com.asgab.core.mail;
 
 public enum MailTemplateEnum {
 
+    REG_USER("regUser.ftl", "[Freeman] Welcome join"),
     RESET_PWD("resetPwd.ftl", "[Freeman] Reset password verify code");
 
     public String templateName;

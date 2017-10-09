@@ -73,4 +73,10 @@
 	<delete id="delete" parameterType="long">
 	     update ss_user set status = 2 where id = #{id}
 	</delete>
+
+	<!--用户名是否已注册-->
+	<select id="checkLoginName" parameterType="java.lang.String" resultType="User">
+		select id, <include refid="user_columns"/>
+		from ss_user where login_name = #{loginName} or email = #{loginName} or phone = #{loginName}
+	</select>
 </mapper> 
