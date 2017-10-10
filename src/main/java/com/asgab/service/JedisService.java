@@ -60,4 +60,17 @@ public class JedisService {
         }
         return str;
     }
+
+    public void delete(String key) {
+        Jedis jedis = jedisPool.getResource();
+        try {
+            jedis.del(key);
+        } finally {
+            try {
+                jedis.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }

@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50710
 File Encoding         : 65001
 
-Date: 2017-09-30 18:15:56
+Date: 2017-10-10 18:06:21
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -129,19 +129,6 @@ INSERT INTO `ss_area` VALUES ('95', '烏溪沙', 'Wu Kai Sha', '3', '1');
 INSERT INTO `ss_area` VALUES ('96', '元朗', 'Yuen Long', '3', '1');
 
 -- ----------------------------
--- Table structure for ss_box_mode
--- ----------------------------
-DROP TABLE IF EXISTS `ss_box_mode`;
-CREATE TABLE `ss_box_mode` (
-  `ID` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'ID',
-  PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- ----------------------------
--- Records of ss_box_mode
--- ----------------------------
-
--- ----------------------------
 -- Table structure for ss_city
 -- ----------------------------
 DROP TABLE IF EXISTS `ss_city`;
@@ -188,7 +175,7 @@ CREATE TABLE `ss_order` (
 -- ----------------------------
 DROP TABLE IF EXISTS `ss_pickup_address`;
 CREATE TABLE `ss_pickup_address` (
-  `id` bigint(255) NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
   `city_code` varchar(10) NOT NULL COMMENT '城市',
   `area_code` varchar(10) NOT NULL COMMENT '区域',
   `address` varchar(100) DEFAULT NULL COMMENT '具体地址',
@@ -201,6 +188,73 @@ CREATE TABLE `ss_pickup_address` (
 -- ----------------------------
 -- Records of ss_pickup_address
 -- ----------------------------
+
+-- ----------------------------
+-- Table structure for ss_product
+-- ----------------------------
+DROP TABLE IF EXISTS `ss_product`;
+CREATE TABLE `ss_product` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主鍵',
+  `product_name` varchar(50) NOT NULL COMMENT '產品名',
+  `product_no` varchar(20) DEFAULT NULL COMMENT '編號',
+  `feature` varchar(200) DEFAULT NULL COMMENT '特征',
+  `description` varchar(200) DEFAULT NULL COMMENT '描述',
+  `image` varchar(200) DEFAULT NULL COMMENT '照片',
+  `create_time` datetime NOT NULL COMMENT '創建時間',
+  `update_time` datetime NOT NULL COMMENT '更新時間',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4;
+
+-- ----------------------------
+-- Records of ss_product
+-- ----------------------------
+INSERT INTO `ss_product` VALUES ('1', 'FREEMAN 衣服', null, '- 免費送收服務\r\n- 特定存取點無限次存取\r\n- 每月4日特定送收時間\r\n- 恆溫及濕度控制存放', '換季啲衫點算好？ FREEMAN教您要幾多用幾多！FREEMAN衣櫥特有恆溫及濕度控制存放，存取點可無限次存放，想著邊件衫話咁易！空間管理做得好，生活自然由我話事！', null, '2017-10-10 14:45:59', '2017-10-10 14:46:01');
+INSERT INTO `ss_product` VALUES ('2', 'FREEMAN 單車儲存', null, '- 免費送收服務\r\n- 特定存取點無限次存取\r\n- 每月4日特定送收時間\r\n- 恆溫及濕度控制存放', '告别迷你倉！ FREEMAN教您要幾多用幾多！FREEMAN 單車儲存，無限次存取服務，唔怕有入無出，幫您省卻家中空間，想踩車先嚟拎。空間管理做得好，生活自然由我話事！', null, '2017-10-10 14:48:33', '2017-10-10 14:48:35');
+INSERT INTO `ss_product` VALUES ('3', 'FreeBOX自由箱', null, '- 免費送箱服務\r\n- 特定存取點無限次存取\r\n- 每月4日特定送箱時間\r\n- 恆溫及濕度控制存放', '告别迷你倉！ FREEMAN教您要幾多用幾多！FreeBOX自由箱可以填滿每吋空間，每個箱分類儲存，記低入面放咗啲咩。空間管理做得好，生活自然由我話事！', null, '2017-10-10 14:50:13', '2017-10-10 14:50:17');
+INSERT INTO `ss_product` VALUES ('4', 'FREEMAN 儲物櫃', null, '- 每個儲物櫃獨立指紋鎖\r\n- 最大尺寸儲物櫃可記錄兩組指紋，供二人共用\r\n- 租用者可親身無限次存取\r\n- 全天候360監察系統，高度保安\r\n- 獨立VIP空間，恆溫及濕度控制環境', '告别迷你倉！ FREEMAN教您要幾多用幾多！FREEMAN 儲物櫃備有指紋鎖，保安度極高，而且裝有360監察系統，只有租用者可開啟。儲物櫃有3個尺寸，最大尺寸儲物櫃可二人共用，足夠儲存滑浪板或高爾夫球桿套裝等運動用品。空間管理做得好，生活自然由我話事！', null, '2017-10-10 14:52:17', '2017-10-10 14:52:19');
+INSERT INTO `ss_product` VALUES ('5', 'FREEMAN 信箱', null, '- 專屬私人商業地址\r\n- 收信通知服務\r\n- 尊貴VIP空間，恆溫及濕度控制環境', '告别迷你倉！ FREEMAN教您要幾多用幾多！FREEMAN 信箱為客戶提供專屬商業地址，讓中小企或營運獨立生意人士更加方便。空間管理做得好，生活自然由我話事！\r\n', null, '2017-10-10 14:54:34', '2017-10-10 14:54:36');
+INSERT INTO `ss_product` VALUES ('6', 'FREEMAN 行李箱', null, '- 免費存取服務\r\n- 特定存取點無限次存取\r\n- 每月4日特定存取時間\r\n- 恆溫及濕度控制存放', '告别迷你倉！ FREEMAN教您要幾多用幾多！FREEMAN 幫您寄存行李箱，有需要時預約取回，就可以出發去玩啦。空間管理做得好，生活自然由我話事！\r\n', null, '2017-10-10 14:55:47', '2017-10-10 14:55:49');
+INSERT INTO `ss_product` VALUES ('7', 'FREEMAN 文件箱', null, '- 免費送箱服務\r\n- 特定存取點無限次存取\r\n- 每月4日特定送箱時間\r\n- 恆溫及濕度控制存放', '告别迷你倉！ FREEMAN教您要幾多用幾多！FREEMAN 文件箱可以把文件分類儲存，記低入面放咗啲咩。空間管理做得好，生活自然由我話事！', null, '2017-10-10 14:58:31', '2017-10-10 14:58:32');
+INSERT INTO `ss_product` VALUES ('8', 'FREEMAN 大型物件', null, '', null, null, '2017-10-10 15:00:28', '2017-10-10 15:00:30');
+
+-- ----------------------------
+-- Table structure for ss_scale
+-- ----------------------------
+DROP TABLE IF EXISTS `ss_scale`;
+CREATE TABLE `ss_scale` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主鍵',
+  `product_id` bigint(20) NOT NULL COMMENT '产品ID',
+  `scale` varchar(50) NOT NULL COMMENT '尺寸',
+  `need_quote` tinyint(4) NOT NULL DEFAULT '0' COMMENT '需要报价 0=不需要(默认) 1=需要',
+  `twelve_month_price` decimal(10,2) DEFAULT NULL COMMENT '购买1年单价',
+  `six_month_price` decimal(10,2) DEFAULT NULL COMMENT '购买6个月单价',
+  `three_month_price` decimal(10,2) DEFAULT NULL COMMENT '购买3个月单价',
+  `one_month_price` decimal(10,2) DEFAULT NULL COMMENT '购买1个月单价',
+  `status` tinyint(4) NOT NULL DEFAULT '1' COMMENT '状态 1=正常 0=删除/停用',
+  `create_time` datetime NOT NULL COMMENT '创建时间',
+  `update_time` datetime NOT NULL COMMENT '更新时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4;
+
+-- ----------------------------
+-- Records of ss_scale
+-- ----------------------------
+INSERT INTO `ss_scale` VALUES ('1', '1', '90 x 60 x 30 cm (約10件T恤)', '0', '65.00', '75.00', '85.00', '100.00', '1', '2017-10-10 14:47:07', '2017-10-10 14:47:09');
+INSERT INTO `ss_scale` VALUES ('2', '1', '90 x 60 x 80 cm (約30件T恤)', '0', '195.00', '225.00', '255.00', '300.00', '1', '2017-10-10 14:47:49', '2017-10-10 14:47:52');
+INSERT INTO `ss_scale` VALUES ('3', '2', '无规格', '0', '247.00', '285.00', '323.00', '380.00', '1', '2017-10-10 14:49:15', '2017-10-10 14:49:18');
+INSERT INTO `ss_scale` VALUES ('4', '3', '60 x 35.5 x 40 cm', '0', '52.00', '60.00', '68.00', '80.00', '1', '2017-10-10 14:51:19', '2017-10-10 14:51:22');
+INSERT INTO `ss_scale` VALUES ('5', '4', '50 x 50 x 37.5 cm', '0', '195.00', '225.00', '255.00', '300.00', '1', '2017-10-10 14:52:51', '2017-10-10 14:52:53');
+INSERT INTO `ss_scale` VALUES ('6', '4', '100 x 50 x 37.5 cm', '0', '248.63', '337.50', '382.50', '450.00', '1', '2017-10-10 14:53:27', '2017-10-10 14:53:29');
+INSERT INTO `ss_scale` VALUES ('7', '4', '150 x 50 x 39 cm (記錄2組指紋，可供2人使用)', '0', '357.50', '412.50', '467.50', '550.00', '1', '2017-10-10 14:54:00', '2017-10-10 14:54:02');
+INSERT INTO `ss_scale` VALUES ('8', '5', '12 x 24 x 34 cm', '0', '50.00', '60.00', '0.00', '0.00', '1', '2017-10-10 14:55:15', '2017-10-10 14:55:17');
+INSERT INTO `ss_scale` VALUES ('9', '6', '长+宽+高+不超过 150 cm\r\n净重不超过 25kg', '0', '52.00', '60.00', '68.00', '80.00', '1', '2017-10-10 14:56:43', '2017-10-10 14:56:45');
+INSERT INTO `ss_scale` VALUES ('10', '6', '长+宽+高+不超过 150-175 cm\r\n净重不超过 25kg', '0', '55.25', '63.75', '72.25', '85.00', '1', '2017-10-10 14:57:17', '2017-10-10 14:57:19');
+INSERT INTO `ss_scale` VALUES ('11', '6', '长+宽+高+不超过 175-200 cm\r\n净重不超过 25kg', '0', '58.50', '67.50', '76.50', '90.00', '1', '2017-10-10 14:57:50', '2017-10-10 14:57:52');
+INSERT INTO `ss_scale` VALUES ('12', '7', '41 x 34 x 27 cm', '0', '26.00', '30.00', '34.00', '40.00', '1', '2017-10-10 14:59:06', '2017-10-10 14:59:08');
+INSERT INTO `ss_scale` VALUES ('13', '8', '	\r\n长+宽+高+不超过 150 cm\r\n净重不超过 25kg', '0', '52.00', '60.00', '68.00', '80.00', '1', '2017-10-10 15:01:04', '2017-10-10 15:01:06');
+INSERT INTO `ss_scale` VALUES ('14', '8', '长+宽+高+不超过 150-175 cm\r\n净重不超过 25kg', '0', '55.25', '63.75', '72.25', '85.00', '1', '2017-10-10 15:01:38', '2017-10-10 15:01:40');
+INSERT INTO `ss_scale` VALUES ('15', '8', '长+宽+高+不超过 175-200 cm\r\n净重不超过 25kg', '0', '58.50', '67.50', '76.50', '90.00', '1', '2017-10-10 15:02:03', '2017-10-10 15:02:05');
+INSERT INTO `ss_scale` VALUES ('16', '8', '长+宽+高+超过 200cm\r\n净重不超过 25kg', '1', '0.00', '0.00', '0.00', '0.00', '1', '2017-10-10 15:02:24', '2017-10-10 15:02:26');
 
 -- ----------------------------
 -- Table structure for ss_user

@@ -108,6 +108,13 @@ public class AccountService {
         return user.loginName;
     }
 
+    public User login(String loginName, String password) {
+        User user = this.findUserByLoginName(loginName);
+        if (user == null) return null;
+        byte[] hashPassword = Digests.sha1(password.getBytes(), Encodes.decodeHex(user.getSalt()), HASH_INTERATIONS);
+        return Encodes.encodeHex(hashPassword).equals(user.getPassword()) ? user : null;
+    }
+
     /**
      * 设定安全的密码，生成随机的salt并经过1024次 sha-1 hash
      */

@@ -6,6 +6,8 @@ import com.asgab.service.ApiException;
 import com.asgab.service.JedisService;
 import com.asgab.service.MailService;
 import com.asgab.service.account.AccountService;
+import com.asgab.util.Digests;
+import com.asgab.util.JsonMapper;
 import com.asgab.util.RandomNumUtil;
 import com.asgab.util.Validator;
 import com.asgab.web.api.param.FindPwdParam;
@@ -144,4 +146,29 @@ public class UserWebService {
 
         }
     }
+
+    /**
+     * 用户登录
+     *
+     * @param loginName
+     * @param password
+     */
+    public void login(String loginName, String password, String token) {
+        if (StringUtils.isBlank(loginName)) {
+            throw new ApiException("用户名不能为空");
+        }
+        if (StringUtils.isBlank(password)) {
+            throw new ApiException("密码不能为空");
+        }
+        User user = accountService.login(loginName, password);
+        if (user == null) {
+            throw new ApiException("用户名或密码错误");
+        }
+        byte[] hashUserKey = Digests.sha1(user.getId().toString().getBytes(), "freeman".getBytes(), 1024);
+        String userKey = "";
+        jedisService.setex(token, CONVERSATION_KEEP_TIMEOUT, JsonMapper.nonEmptyMapper().toJson(user));
+
+    }
+
+    private static int CONVERSATION_KEEP_TIMEOUT = 60 * 60 * 24 * 15;
 }
