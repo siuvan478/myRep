@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="com.asgab.repository.ScaleMapper">
+
+	<sql id="scale_columns">
+		product_id as productId, `scale`, need_quote as neetQuote, twelve_month_price as twelveMonthPrice, six_month_price as sixMonthPrice,
+		three_month_price as threeMonthPrice, one_month_price as oneMonthPrice, status, create_time as createTime, update_time as updateTime
+	</sql>
+
+
+</mapper> 

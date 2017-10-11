@@ -1,12 +1,12 @@
 package com.asgab.service.api;
 
+import com.alibaba.fastjson.JSONObject;
 import com.asgab.core.mail.MailTemplateEnum;
 import com.asgab.entity.User;
 import com.asgab.service.ApiException;
 import com.asgab.service.JedisService;
 import com.asgab.service.MailService;
 import com.asgab.service.account.AccountService;
-import com.asgab.util.Digests;
 import com.asgab.util.JsonMapper;
 import com.asgab.util.RandomNumUtil;
 import com.asgab.util.Validator;
@@ -164,10 +164,14 @@ public class UserWebService {
         if (user == null) {
             throw new ApiException("用户名或密码错误");
         }
-        byte[] hashUserKey = Digests.sha1(user.getId().toString().getBytes(), "freeman".getBytes(), 1024);
-        String userKey = "";
+        String userJson = jedisService.get(user.getId().toString());
+        User history = JSONObject.parseObject(userJson, User.class);
+        if (history != null && StringUtils.isNotBlank(history.getToken())) {
+            jedisService.delete(history.getToken());
+        }
+        user.setToken(token);
+        jedisService.setex(user.getId().toString(), CONVERSATION_KEEP_TIMEOUT, JsonMapper.nonEmptyMapper().toJson(user));
         jedisService.setex(token, CONVERSATION_KEEP_TIMEOUT, JsonMapper.nonEmptyMapper().toJson(user));
-
     }
 
     private static int CONVERSATION_KEEP_TIMEOUT = 60 * 60 * 24 * 15;

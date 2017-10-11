@@ -25,6 +25,7 @@ public class User {
     private Integer status;
 
     private String plainPassword;
+    private String token;
 
     public User() {
     }
@@ -127,6 +128,14 @@ public class User {
 
     public void setPlainPassword(String plainPassword) {
         this.plainPassword = plainPassword;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 
     @JsonIgnore
