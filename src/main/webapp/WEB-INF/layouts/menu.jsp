@@ -9,7 +9,7 @@
     <nav class="navbar navbar-static-top ">
         <div class="container">
             <div class="navbar-header">
-                <a href="${ctx}/businessOpportunity" class="navbar-brand"><img style="width: 110px;height: 40px;margin-top: -6px;" src="${ctx}/static/images/iclick-logo.png"></a>
+                <a href="${ctx}/user" class="navbar-brand"><img style="width: 110px;height: 40px;margin-top: -6px;" src="${ctx}/static111/images/freeman-logo.jpg"></a>
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
                     <i class="fa fa-bars"></i>
                 </button>
@@ -25,6 +25,7 @@
                         </ul>
                     </li>
                     <li><a href="${ctx}/address"><i class="fa fa-users fa-fw"></i>取货地址</a></li>
+                    <li><a href="${ctx}/product"><i class="fa fa-users fa-fw"></i>产品管理</a></li>
                 </ul>
             </div><!-- /.navbar-collapse -->
             <!-- Navbar Right Menu -->

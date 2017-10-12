@@ -3,6 +3,7 @@
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
+
 <!-- Modal -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog"
 	aria-labelledby="myModalLabel">
@@ -23,10 +24,14 @@
 				<div class="file-box">
 					<input type="button" class="btn" name="up" id="uploadButton" class="btn" value="<spring:message code='public.upload'/>" />
 					<span id='uploading'></span>
-					<a href="#" class="thumbnail">
-					<img id="uploadImg${attach.attachmentId}" src="${ctx}/file/dumpImage?path=/usr/tmp/upload/1c59e2307bfaa702fe79378dcbea977c_t016b6eddf7901eb9fd.jpg"  />
-						</a>
 				</div>
+				<%--<div class="file-box">--%>
+					<%--<input type="button" class="btn" name="up" id="uploadButton" class="btn" value="<spring:message code='public.upload'/>" />--%>
+					<%--<span id='uploading'></span>--%>
+					<%--<a href="#" class="thumbnail">--%>
+						<%--<img id="uploadImg${attach.attachmentId}" src="${ctx}/file/dumpImage?path=/usr/tmp/upload/1c59e2307bfaa702fe79378dcbea977c_t016b6eddf7901eb9fd.jpg"  />--%>
+					<%--</a>--%>
+				<%--</div>--%>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -34,6 +39,7 @@
 		</div>
 	</div>
 </div>
+
 <script type="text/javascript">
 	var intervalId 	;
 	var url = '<%=request.getParameter("upload_url")%>';
@@ -58,7 +64,6 @@
 				return false;
 			}
 		},
-
 		// 上传完成后取得文件名filename为本地取得的文件名，msg为服务器返回的信息
 		onComplete : function(filename, msg) {
 			$("#progress-bar").html(100 + "%");
@@ -72,8 +77,9 @@
 				$("#uploading").html("<span style='color:red;'>"+msg.message+"</span>");
 			}else{
 				$("#uploading").html(filename+":"+ msg.message);
+				$("#product_image").html("<img class='img-responsive' src='${ctx}/file/dumpImage?path=" + msg.fileUrl +"' />");
+				$("#product_image_value").val(msg.fileUrl);
 			}
-			
 		}
 	});
 	
@@ -90,7 +96,6 @@
 					$("#progress-bar").attr("aria-valuenow",data.msg);
 					$("#progress-bar").css("width", data.msg + "%");
 				}
-
 			}
 		});
 	}

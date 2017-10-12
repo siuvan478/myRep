@@ -1,8 +1,8 @@
 package com.asgab.core.fileupload;
 
-import javax.servlet.http.HttpSession;
-
 import org.apache.commons.fileupload.ProgressListener;
+
+import javax.servlet.http.HttpSession;
 
 public class MyProgressListener implements ProgressListener {
 
@@ -30,6 +30,6 @@ public class MyProgressListener implements ProgressListener {
 		ps.setpItems(items);
 		// 更新
 		session.setAttribute("upload_ps", ps);
-		// System.out.println("当前进度:"+ps.getpBytesRead());
+		System.out.println("当前进度:"+ps.getpBytesRead());
 	}
 }

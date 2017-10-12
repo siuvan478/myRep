@@ -3,13 +3,18 @@ package com.asgab.filter;
 
 import com.alibaba.druid.util.PatternMatcher;
 import com.alibaba.druid.util.ServletPathMatcher;
+import com.alibaba.fastjson.JSON;
 import com.asgab.service.JedisService;
+import com.asgab.web.api.ApiResponse;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -49,29 +54,37 @@ public class LoginCheckFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-
         HttpServletRequest httpRequest = (HttpServletRequest) request;
+        HttpServletResponse httpResponse = (HttpServletResponse) response;
         String token = httpRequest.getHeader("x-token");
         String requestURI = httpRequest.getServletPath();
         System.out.println(requestURI);
         if (filterPath(requestURI)) {
-            String userJson = jedisService.get(token);
-            if (userJson != null) {
-
-            } else {
-
+            if (StringUtils.isBlank(token)) {
+                this.redirect(httpRequest, httpResponse, "用户未登录");
+                return;
             }
-            System.out.println("拦截");
-        } else {
-            System.out.println("不拦截");
+            String userJson = jedisService.get(token);
+            if (StringUtils.isBlank(userJson)) {
+                this.redirect(httpRequest, httpResponse, "用户未登录");
+                return;
+            }
         }
-
         chain.doFilter(request, response);
     }
 
     @Override
     public void destroy() {
 
+    }
+
+    private void redirect(HttpServletRequest httpRequest, HttpServletResponse httpResponse, String appMessage) throws IOException {
+        ApiResponse<String> responseData = new ApiResponse<>(401, appMessage, null);
+        httpResponse.setContentType("text/html;charset=UTF-8");
+        PrintWriter out = httpResponse.getWriter();
+        out.print(JSON.toJSONString(responseData));
+        out.flush();
+        out.close();
     }
 
     private boolean filterPath(String requestURI) {

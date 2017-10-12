@@ -16,6 +16,7 @@ public class Scale {
     private BigDecimal sixMonthPrice; //6月单价
     private BigDecimal threeMonthPrice; //3月单价
     private BigDecimal oneMonthPrice; //1月单价
+    private Integer num; //库存
     private Integer status; //状态
     private Date createTime; //创建时间
     private Date updateTime; //更新时间
@@ -85,6 +86,14 @@ public class Scale {
 
     public void setOneMonthPrice(BigDecimal oneMonthPrice) {
         this.oneMonthPrice = oneMonthPrice;
+    }
+
+    public Integer getNum() {
+        return num;
+    }
+
+    public void setNum(Integer num) {
+        this.num = num;
     }
 
     public Integer getStatus() {

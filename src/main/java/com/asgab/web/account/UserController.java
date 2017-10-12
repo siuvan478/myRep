@@ -3,9 +3,7 @@ package com.asgab.web.account;
 import com.asgab.core.pagination.Page;
 import com.asgab.entity.User;
 import com.asgab.service.account.AccountService;
-import com.asgab.util.Servlets;
 import com.asgab.web.BaseController;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.ServletRequest;
-import java.util.HashMap;
 import java.util.Map;
 
 /*
@@ -31,24 +28,14 @@ import java.util.Map;
 public class UserController extends BaseController {
 
     @Autowired
-    AccountService accountService;
+    private AccountService accountService;
 
     @RequestMapping(method = RequestMethod.GET)
-    public String list(@RequestParam(value = "pageNumber", defaultValue = "1") int pageNumber,
+    public String list(@RequestParam(value = "pageNumber", defaultValue = PAGE_NUMBER) int pageNumber,
                        @RequestParam(value = "pageSize", defaultValue = PAGE_SIZE) int pageSize,
                        @RequestParam(value = "sort", defaultValue = "") String sort, ServletRequest request, Model model) {
-        Map<String, Object> params = new HashMap<>();
-        if (StringUtils.isNotBlank(request.getParameter("loginName"))) {
-            params.put("loginName", request.getParameter("loginName"));
-        }
-        if (StringUtils.isNotBlank(request.getParameter("name"))) {
-            params.put("name", request.getParameter("name"));
-        }
-        if (StringUtils.isNotBlank(request.getParameter("roles"))) {
-            params.put("roles", request.getParameter("roles"));
-        }
-        // 将搜索条件编码成字符串，用于排序，分页的URL
-        model.addAttribute("search", Servlets.encodeParameterString(params));
+        //处理搜索条件
+        Map<String, Object> params = dealSearchCondition(request, model, "loginName", "name", "roles");
         params.put("sort", sort);
         Page<User> page = new Page<>(pageNumber, pageSize, sort, params);
         model.addAttribute("pages", accountService.getAllUser(page));

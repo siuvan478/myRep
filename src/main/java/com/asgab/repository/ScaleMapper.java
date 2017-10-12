@@ -1,6 +1,11 @@
 package com.asgab.repository;
 
+import com.asgab.entity.Scale;
 import com.asgab.repository.mybatis.MyBatisRepository;
+import org.apache.ibatis.session.RowBounds;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * 通过@MapperScannerConfigurer扫描目录中的所有接口, 动态在Spring Context中生成实现.
@@ -11,5 +16,17 @@ import com.asgab.repository.mybatis.MyBatisRepository;
 @MyBatisRepository
 public interface ScaleMapper {
 
+    Scale get(Long id);
 
+    int count(Map<String, Object> parameters);
+
+    List<Scale> search(Map<String, Object> parameters);
+
+    List<Scale> search(Map<String, Object> parameters, RowBounds rowBounds);
+
+    void save(Scale scale);
+
+    void update(Scale scale);
+
+    void delete(Long id);
 }

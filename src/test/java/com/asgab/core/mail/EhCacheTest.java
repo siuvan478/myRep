@@ -8,12 +8,6 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-/**
- * 功能：
- * 作者：Siuvan(Siuvan@lianj.com)
- * 日期：2017年09月29日 下午 5:06
- * 版权所有：广东联结网络技术有限公司 版权所有(C) 2016-2018
- */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath*:applicationContext.xml" })
 public class EhCacheTest {

@@ -1,12 +1,32 @@
 package com.asgab.web;
 
-/**
- * 功能：
- * 作者：Siuvan(Siuvan@lianj.com)
- * 日期：2017年09月30日 上午 10:27
- * 版权所有：广东联结网络技术有限公司 版权所有(C) 2016-2018
- */
+import com.asgab.util.Servlets;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.ui.Model;
+
+import javax.servlet.ServletRequest;
+import java.util.HashMap;
+import java.util.Map;
+
 public abstract class BaseController {
 
+    protected static final String PAGE_NUMBER = "1";
+
     protected static final String PAGE_SIZE = "10";
+
+    protected static final String SORT_COLUMN = "createTime";
+
+    protected Map<String, Object> dealSearchCondition(ServletRequest request, Model model, String... parameters) {
+        Map<String, Object> params = new HashMap<>();
+        if (parameters != null && parameters.length > 0) {
+            for (String parameter : parameters) {
+                if (StringUtils.isNotBlank(request.getParameter(parameter))) {
+                    params.put(parameter, request.getParameter(parameter));
+                }
+            }
+        }
+        // 将搜索条件编码成字符串，用于排序，分页的URL
+        model.addAttribute("search", Servlets.encodeParameterString(params));
+        return params;
+    }
 }

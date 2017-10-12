@@ -103,6 +103,9 @@
     <link rel="stylesheet" href="${ctx}/static111/zTree/css/zTreeStyle/zTreeStyle.css" type="text/css">
     <script type="text/javascript" src="${ctx}/static111/zTree/js/jquery.ztree.core.js"></script>
 
+    <!-- ajaxUpload -->
+    <script type="text/javascript" src="${ctx}/static111/ajaxupload/ajaxupload.3.6.js"></script>
+
     <%
         LocaleResolver localeResolver = RequestContextUtils.getLocaleResolver (request);
         String lang =localeResolver.resolveLocale(request).getLanguage();

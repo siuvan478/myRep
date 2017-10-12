@@ -6,8 +6,55 @@
 
 	<sql id="scale_columns">
 		product_id as productId, `scale`, need_quote as neetQuote, twelve_month_price as twelveMonthPrice, six_month_price as sixMonthPrice,
-		three_month_price as threeMonthPrice, one_month_price as oneMonthPrice, status, create_time as createTime, update_time as updateTime
+		three_month_price as threeMonthPrice, one_month_price as oneMonthPrice, num, status, create_time as createTime, update_time as updateTime
 	</sql>
 
+	<select id="get" parameterType="long" resultType="Scale">
+		select id, <include refid="scale_columns"/>
+		from ss_scale
+		where status = 1 and id = #{id}
+	</select>
+
+	<select id="search" parameterType="map" resultType="Scale">
+		select id, <include refid="scale_columns"/>
+		from ss_scale where status = 1
+		<if test="productId != null">
+			and product_id = #{productId}
+		</if>
+		<if test="sort != null and sort!=''">
+			order by ${sort}
+		</if>
+	</select>
+
+	<select id="count" parameterType="map" resultType="int">
+		select count(1)
+		from ss_scale where status = 1
+		<if test="productId != null">
+			and product_id = #{productId}
+		</if>
+	</select>
+
+	<insert id="save" parameterType="Scale" useGeneratedKeys="true" keyProperty="id">
+		insert into ss_scale (product_id, `scale`, need_quote, twelve_month_price, six_month_price, three_month_price, one_month_price, num, create_time, update_time)
+		values (#{productId}, #{scale}, #{neetQuote}, #{twelveMonthPrice}, #{sixMonthPrice}, #{threeMonthPrice}, #{oneMonthPrice}, #{num}, now(), now())
+	</insert>
+
+	<update id="update" parameterType="Scale">
+		update ss_scale set
+		`scale` = #{scale},
+		need_quote = #{neetQuote},
+		twelve_month_price = #{twelveMonthPrice},
+		six_month_price = #{sixMonthPrice},
+		three_month_price = #{threeMonthPrice},
+		one_month_price = #{oneMonthPrice},
+		num = #{num},
+		update_time = NOW(),
+		status = #{status}
+		where id = #{id}
+	</update>
+
+	<delete id="delete" parameterType="long">
+		update ss_scale set status = 0 where id = #{id}
+	</delete>
 
 </mapper> 

@@ -27,61 +27,59 @@
 				<div class="box-body">
 					<div class="row">
 						<div class="col-md-8">
-
-								<c:if test="${not empty message}">
-									<div id="message" class="alert alert-success">
-										<button data-dismiss="alert" class="close">×</button>${message}</div>
-								</c:if>
+							<c:if test="${not empty message}">
+								<div id="message" class="alert alert-success">
+									<button data-dismiss="alert" class="close">×</button>${message}</div>
+							</c:if>
+							<div class="form-group">
+								<label class="col-md-3 control-label"><spring:message code="user.name" />:</label>
+								<div class="col-md-9">
+									<input class="form-control" type="text" id="name" name="name" value="${user.name}">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-md-3 control-label"><spring:message code="index.loginname" />:</label>
+								<div class="col-md-9">
+									<input class="form-control" type="text" id="loginName" name="loginName" value="${user.loginName}"
+									<c:if test="${action=='update'}">disabled="disabled"</c:if>>
+								</div>
+							</div>
+							<c:if test="${ action == 'create' }">
 								<div class="form-group">
-									<label class="col-md-3 control-label"><spring:message code="user.name" />:</label>
+									<label class="col-md-3 control-label"><spring:message code="index.password" />:</label>
 									<div class="col-md-9">
-										<input class="form-control" type="text" id="name" name="name" value="${user.name}">
+										<input class="form-control" type="password" id="plainPassword" name="plainPassword" />
 									</div>
 								</div>
 								<div class="form-group">
-									<label class="col-md-3 control-label"><spring:message code="index.loginname" />:</label>
+									<label class="col-md-3 control-label"><spring:message code="user.confirmpassword" />:</label>
 									<div class="col-md-9">
-										<input class="form-control" type="text" id="loginName" name="loginName" value="${user.loginName}"
-										<c:if test="${action=='update'}">disabled="disabled"</c:if>>
+										<input class="form-control" type="password" id="confirmPassword" name="confirmPassword" />
 									</div>
 								</div>
-								<c:if test="${ action == 'create' }">
-									<div class="form-group">
-										<label class="col-md-3 control-label"><spring:message code="index.password" />:</label>
-										<div class="col-md-9">
-											<input class="form-control" type="password" id="plainPassword" name="plainPassword" />
-										</div>
-									</div>
-									<div class="form-group">
-										<label class="col-md-3 control-label"><spring:message code="user.confirmpassword" />:</label>
-										<div class="col-md-9">
-											<input class="form-control" type="password" id="confirmPassword" name="confirmPassword" />
-										</div>
-									</div>
-								</c:if>
-								<div class="form-group">
-									<label class="col-md-3 control-label"><spring:message code="user.email" />:</label>
-									<div class="col-md-9">
-										<input class="form-control" type="email" id="email" name="email" value="${user.email }" />
-									</div>
+							</c:if>
+							<div class="form-group">
+								<label class="col-md-3 control-label"><spring:message code="user.email" />:</label>
+								<div class="col-md-9">
+									<input class="form-control" type="email" id="email" name="email" value="${user.email }" />
 								</div>
-								<div class="form-group">
-									<label class="col-md-3 control-label">手机号:</label>
-									<div class="col-md-9">
-										<input class="form-control" type="text" id="phone" name="phone" value="${user.phone }" />
-									</div>
-								</div>
-
-								<div class="box-footer">
-									<button type="submit" class="btn btn-success btn-65"><spring:message code="public.save" /></button>
-									<button type="button" class="btn btn-primary btn-65 disabled" onclick="window.location.href='${ctx}/user'">取消</button>
+							</div>
+							<div class="form-group">
+								<label class="col-md-3 control-label">手机号:</label>
+								<div class="col-md-9">
+									<input class="form-control" type="text" id="phone" name="phone" value="${user.phone }" />
 								</div>
 							</div>
 
-	</div>
-	</div>
-	</div>
-	</section>
+							<div class="box-footer">
+								<button type="submit" class="btn btn-success btn-65"><spring:message code="public.save" /></button>
+								<button type="button" class="btn btn-primary btn-65 disabled" onclick="window.location.href='${ctx}/user'">取消</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
 	</form>
 	<script>
 		$(document).ready(function() {

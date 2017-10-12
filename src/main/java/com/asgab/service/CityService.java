@@ -10,12 +10,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-/**
- * 功能：
- * 作者：Siuvan(Siuvan@lianj.com)
- * 日期：2017年09月30日 上午 10:13
- * 版权所有：广东联结网络技术有限公司 版权所有(C) 2016-2018
- */
 @Component
 @Transactional
 public class CityService {

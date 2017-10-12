@@ -22,12 +22,6 @@ import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * 功能：
- * 作者：Siuvan(Siuvan@lianj.com)
- * 日期：2017年09月30日 下午 4:06
- * 版权所有：广东联结网络技术有限公司 版权所有(C) 2016-2018
- */
 @Component
 @Transactional
 public class UserWebService {
@@ -162,7 +156,10 @@ public class UserWebService {
         }
         User user = accountService.login(loginName, password);
         if (user == null) {
+            this.accountOrPwdError(loginName);
             throw new ApiException("用户名或密码错误");
+        } else {
+            this.cleanErrorCount(loginName);
         }
         String userJson = jedisService.get(user.getId().toString());
         User history = JSONObject.parseObject(userJson, User.class);
@@ -170,9 +167,25 @@ public class UserWebService {
             jedisService.delete(history.getToken());
         }
         user.setToken(token);
-        jedisService.setex(user.getId().toString(), CONVERSATION_KEEP_TIMEOUT, JsonMapper.nonEmptyMapper().toJson(user));
+        jedisService.setex(user.getId().toString(), CONVERSATION_KEEP_TIMEOUT, JSONObject.toJSONString(user));
         jedisService.setex(token, CONVERSATION_KEEP_TIMEOUT, JsonMapper.nonEmptyMapper().toJson(user));
     }
 
+    private void accountOrPwdError(String loginName) {
+        String errorCountKey = ERROR_COUNT_KEY_PREFIX + loginName;
+        String errorCount = jedisService.get(errorCountKey);
+        int count = 1;
+        if (errorCount != null) {
+            count = Integer.parseInt(errorCount) + 1;
+        }
+        jedisService.setex(errorCountKey, CONVERSATION_KEEP_TIMEOUT, String.valueOf(count));
+    }
+
+    private void cleanErrorCount(String loginName) {
+        jedisService.delete(ERROR_COUNT_KEY_PREFIX + loginName);
+    }
+
     private static int CONVERSATION_KEEP_TIMEOUT = 60 * 60 * 24 * 15;
+
+    private static String ERROR_COUNT_KEY_PREFIX = "error_count_";
 }

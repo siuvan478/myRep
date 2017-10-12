@@ -1,23 +1,16 @@
 package com.asgab.web;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.alibaba.fastjson.JSONObject;
+import com.asgab.core.fileupload.ProgressEntity;
+import com.asgab.core.fileupload.SuccessBean;
+import com.asgab.entity.CustMaster;
+import com.asgab.entity.PayTranAttachement;
+import com.asgab.repository.PayTranAttachmentMapper;
+import com.asgab.service.custMaster.CustMasterService;
+import com.asgab.util.CommonUtil;
+import com.asgab.util.Identities;
+import com.asgab.util.JsonMapper;
+import com.asgab.web.custMaster.ReadExcel4CustMaster;
 import org.apache.commons.fileupload.disk.DiskFileItem;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Controller;
@@ -29,16 +22,11 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
-import com.alibaba.fastjson.JSONObject;
-import com.asgab.core.fileupload.ProgressEntity;
-import com.asgab.core.fileupload.SuccessBean;
-import com.asgab.entity.CustMaster;
-import com.asgab.entity.PayTranAttachement;
-import com.asgab.repository.PayTranAttachmentMapper;
-import com.asgab.service.custMaster.CustMasterService;
-import com.asgab.util.CommonUtil;
-import com.asgab.util.JsonMapper;
-import com.asgab.web.custMaster.ReadExcel4CustMaster;
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
+import java.util.*;
 
 @Controller
 @RequestMapping(value = "/file")
@@ -57,7 +45,6 @@ public class FileUploadController {
     /***
      * 上传文件 用@RequestParam注解来指定表单上的file为MultipartFile
      *
-     * @param file
      * @return
      * @throws IOException
      * @throws IllegalStateException
@@ -71,8 +58,8 @@ public class FileUploadController {
                 request.getSession().getServletContext());
 
         String success = "true";
-        String message = CommonUtil.i18nStr(request, "文件上传成功", "file uppload success");
-
+        String message = CommonUtil.i18nStr(request, "文件上传成功", "file upload success");
+        String fileUrl = "";
         // 检查form中是否有enctype="multipart/form-data"
         if (multipartResolver.isMultipart(request)) {
             // 将request变成多部分request
@@ -83,6 +70,7 @@ public class FileUploadController {
             while (iter.hasNext()) {
                 // 一次遍历所有文件
                 MultipartFile file = multiRequest.getFile(iter.next().toString());
+                String prefix = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".") + 1);
                 // 文件超大，不保存文件，给出提示
                 if (file != null && file.getSize() > (UPLOAD_MAX_SIZE * 1048576)) {
                     success = "false";
@@ -95,8 +83,9 @@ public class FileUploadController {
                     try {
                         File rootFileUrl = new File(UPLOAD_FOLDER);
                         if (!rootFileUrl.exists()) rootFileUrl.mkdirs();
-                        String path = UPLOAD_FOLDER + file.getOriginalFilename();
+                        String path = UPLOAD_FOLDER + Identities.uuid2() + "." + prefix;
                         file.transferTo(new File(path));
+                        fileUrl = path;
                         break;// 一次只能上传一个文件
                     } catch (Exception e) {
                         success = "false";
@@ -110,6 +99,7 @@ public class FileUploadController {
         Map<String, Object> map = new HashMap<>();
         map.put("success", success);
         map.put("message", message);
+        map.put("fileUrl", fileUrl);
         JsonMapper mapper = JsonMapper.nonDefaultMapper();
         response.getWriter().print(mapper.toJson(map));
         response.getWriter().flush();
