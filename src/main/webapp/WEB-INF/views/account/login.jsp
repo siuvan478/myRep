@@ -52,7 +52,7 @@
         .loginbg{ background-image: url( ${ctx}/static111/images/maxresdefault.jpg);background-size: cover;}
     </style>
 </head>
-<body class="hold-transition login-page" style="background-image: url(http://pic.ibaotu.com/00/21/58/889888piCaMk.jpg-1.jpg!ww700); background-repeat:no-repeat; background-size: cover" >
+<body class="hold-transition login-page">
 
 <div class="login-box" >
     <div class="login-logo">

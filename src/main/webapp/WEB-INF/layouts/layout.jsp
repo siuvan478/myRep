@@ -106,6 +106,9 @@
     <!-- ajaxUpload -->
     <script type="text/javascript" src="${ctx}/static111/ajaxupload/ajaxupload.3.6.js"></script>
 
+    <!-- x-edittable -->
+    <link rel="stylesheet" href="${ctx}/static111/x-editable/bootstrap-editable.css" type="text/css">
+    <script type="text/javascript" src="${ctx}/static111/x-editable/bootstrap-editable.min.js"></script>
     <%
         LocaleResolver localeResolver = RequestContextUtils.getLocaleResolver (request);
         String lang =localeResolver.resolveLocale(request).getLanguage();

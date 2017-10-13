@@ -2,7 +2,9 @@ package com.asgab.web;
 
 import com.asgab.core.pagination.Page;
 import com.asgab.entity.Product;
+import com.asgab.entity.Scale;
 import com.asgab.service.ProductService;
+import com.asgab.service.ScaleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,6 +20,9 @@ public class ProductController extends BaseController {
 
     @Autowired
     private ProductService productService;
+
+    @Autowired
+    private ScaleService scaleService;
 
     @RequestMapping(method = RequestMethod.GET)
     public String list(@RequestParam(value = "pageNumber", defaultValue = PAGE_NUMBER) int pageNumber,
@@ -67,10 +72,31 @@ public class ProductController extends BaseController {
         return "redirect:/area";
     }
 
-    @ModelAttribute
+    @ModelAttribute("product")
     public void getProduct(@RequestParam(value = "id", defaultValue = "-1") Long id, Model model) {
         if (id != -1) {
             model.addAttribute("product", productService.get(id));
         }
+    }
+
+    @ModelAttribute("scale")
+    public void getScale(@RequestParam(value = "id", defaultValue = "-1") Long id, Model model) {
+        if (id != -1) {
+            model.addAttribute("scale", scaleService.get(id));
+        }
+    }
+
+    @RequestMapping(value = "scale/update/{id}", method = RequestMethod.GET)
+    public String toScaleUpdate(@PathVariable("id") Long id, Model model) {
+        model.addAttribute("scaleForm", scaleService.get(id));
+        model.addAttribute("action2", "update");
+        return "include/scaleForm";
+    }
+
+    @RequestMapping(value = "scale/update", method = RequestMethod.POST)
+    public String scaleUpdate(@ModelAttribute("scale") Scale scale, RedirectAttributes redirectAttributes) {
+        scaleService.update(scale);
+        redirectAttributes.addFlashAttribute("message", "update scale success");
+        return "redirect:/product/update/" + scale.getProductId();
     }
 }

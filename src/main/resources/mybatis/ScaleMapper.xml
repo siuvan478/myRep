@@ -5,7 +5,7 @@
 <mapper namespace="com.asgab.repository.ScaleMapper">
 
 	<sql id="scale_columns">
-		product_id as productId, `scale`, need_quote as neetQuote, twelve_month_price as twelveMonthPrice, six_month_price as sixMonthPrice,
+		product_id as productId, `scale`, need_quote as needQuote, twelve_month_price as twelveMonthPrice, six_month_price as sixMonthPrice,
 		three_month_price as threeMonthPrice, one_month_price as oneMonthPrice, num, status, create_time as createTime, update_time as updateTime
 	</sql>
 
@@ -36,13 +36,13 @@
 
 	<insert id="save" parameterType="Scale" useGeneratedKeys="true" keyProperty="id">
 		insert into ss_scale (product_id, `scale`, need_quote, twelve_month_price, six_month_price, three_month_price, one_month_price, num, create_time, update_time)
-		values (#{productId}, #{scale}, #{neetQuote}, #{twelveMonthPrice}, #{sixMonthPrice}, #{threeMonthPrice}, #{oneMonthPrice}, #{num}, now(), now())
+		values (#{productId}, #{scale}, #{needQuote}, #{twelveMonthPrice}, #{sixMonthPrice}, #{threeMonthPrice}, #{oneMonthPrice}, #{num}, now(), now())
 	</insert>
 
 	<update id="update" parameterType="Scale">
 		update ss_scale set
 		`scale` = #{scale},
-		need_quote = #{neetQuote},
+		need_quote = #{needQuote},
 		twelve_month_price = #{twelveMonthPrice},
 		six_month_price = #{sixMonthPrice},
 		three_month_price = #{threeMonthPrice},
