@@ -1,16 +1,21 @@
 package com.asgab.service.api;
 
+import com.alibaba.druid.support.json.JSONUtils;
 import com.alibaba.fastjson.JSONObject;
 import com.asgab.core.mail.MailTemplateEnum;
+import com.asgab.entity.Address;
 import com.asgab.entity.User;
+import com.asgab.service.AddressService;
 import com.asgab.service.ApiException;
 import com.asgab.service.JedisService;
 import com.asgab.service.MailService;
 import com.asgab.service.account.AccountService;
+import com.asgab.util.BeanMapper;
 import com.asgab.util.JsonMapper;
 import com.asgab.util.RandomNumUtil;
 import com.asgab.util.Validator;
 import com.asgab.web.api.param.FindPwdParam;
+import com.asgab.web.api.param.UserInfo;
 import com.asgab.web.api.param.UserRegParam;
 import com.asgab.web.api.param.VerifyCodeParam;
 import org.apache.commons.lang3.StringUtils;
@@ -25,6 +30,15 @@ import java.util.Map;
 @Component
 @Transactional
 public class UserWebService {
+    /**
+     * token缓存时间 15天
+     */
+    private static int CONVERSATION_KEEP_TIMEOUT = 60 * 60 * 24 * 15;
+
+    /**
+     * 错误次数
+     */
+    private static String ERROR_COUNT_KEY_PREFIX = "error_count_";
 
     @Resource
     private MailService mailService;
@@ -32,8 +46,11 @@ public class UserWebService {
     @Resource
     private AccountService accountService;
 
-    @Autowired
+    @Resource
     private JedisService jedisService;
+
+    @Resource
+    private AddressService addressService;
 
     /**
      * 找回密码
@@ -168,7 +185,48 @@ public class UserWebService {
         }
         user.setToken(token);
         jedisService.setex(user.getId().toString(), CONVERSATION_KEEP_TIMEOUT, JSONObject.toJSONString(user));
-        jedisService.setex(token, CONVERSATION_KEEP_TIMEOUT, JsonMapper.nonEmptyMapper().toJson(user));
+        jedisService.setex(token, CONVERSATION_KEEP_TIMEOUT, JSONObject.toJSONString(user));
+    }
+
+    public UserInfo profile(String token) {
+        String userJson = jedisService.get(token);
+        if (StringUtils.isBlank(userJson)) {
+            throw new ApiException("用户未登录");
+        }
+        UserInfo userInfo = JSONObject.parseObject(userJson, UserInfo.class);
+        Address addressInfo = addressService.getUniqueAddressByUserId(userInfo.getId());
+        if (addressInfo != null) {
+            userInfo.setCityId(addressInfo.getCityId());
+            userInfo.setAreaId(addressInfo.getAreaId());
+            userInfo.setAddress(addressInfo.getAddress());
+        }
+        return userInfo;
+    }
+
+    public void updateUserInfo(UserInfo userInfo) {
+        if (userInfo.getId() == null) throw new ApiException("非法参数");
+        if (userInfo.getCityId() == null) throw new ApiException("大区地址不能为空");
+        if (userInfo.getAreaId() == null) throw new ApiException("小区地址不能为空");
+        User user = accountService.getUser(userInfo.getId());
+        if (user == null) throw new ApiException("用户信息不存在");
+        //更新用户信息
+        BeanMapper.copy(userInfo, user);
+        accountService.updateUser(user);
+        //更新地址信息
+        Address addressInfo = addressService.getUniqueAddressByUserId(userInfo.getId());
+        if (addressInfo == null) {
+            addressInfo = new Address();
+            addressInfo.setUserId(userInfo.getId());
+            addressInfo.setCityId(userInfo.getCityId());
+            addressInfo.setAreaId(userInfo.getAreaId());
+            addressInfo.setAddress(userInfo.getAddress());
+            addressService.save(addressInfo);
+        } else {
+            addressInfo.setCityId(userInfo.getCityId());
+            addressInfo.setAreaId(userInfo.getAreaId());
+            addressInfo.setAddress(userInfo.getAddress());
+            addressService.update(addressInfo);
+        }
     }
 
     private void accountOrPwdError(String loginName) {
@@ -185,7 +243,5 @@ public class UserWebService {
         jedisService.delete(ERROR_COUNT_KEY_PREFIX + loginName);
     }
 
-    private static int CONVERSATION_KEEP_TIMEOUT = 60 * 60 * 24 * 15;
 
-    private static String ERROR_COUNT_KEY_PREFIX = "error_count_";
 }

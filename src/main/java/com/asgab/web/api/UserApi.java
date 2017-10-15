@@ -6,6 +6,7 @@ import com.asgab.service.ApiException;
 import com.asgab.service.JedisService;
 import com.asgab.service.api.UserWebService;
 import com.asgab.web.api.param.FindPwdParam;
+import com.asgab.web.api.param.UserInfo;
 import com.asgab.web.api.param.UserRegParam;
 import com.asgab.web.api.param.VerifyCodeParam;
 import org.apache.commons.lang3.StringUtils;
@@ -112,6 +113,7 @@ public class UserApi {
             response.setData(false);
             response.setCode(500);
             response.setMessage(e.getMessage());
+            e.printStackTrace();
         }
         return response;
     }
@@ -133,6 +135,47 @@ public class UserApi {
                     jedisService.delete(user.getId().toString());
                 }
             }
+        } catch (ApiException e) {
+            response.setData(false);
+            response.setCode(e.getErrorCode());
+            response.setMessage(e.getMessage());
+        } catch (Exception e) {
+            response.setData(false);
+            response.setCode(500);
+            response.setMessage(e.getMessage());
+        }
+        return response;
+    }
+
+    /**
+     * 用户资料
+     */
+    @RequestMapping(value = "/user/profile", method = RequestMethod.GET)
+    @ResponseBody
+    public ApiResponse<UserInfo> profile(HttpServletRequest request) {
+        ApiResponse<UserInfo> response = new ApiResponse<>();
+        String token = request.getHeader("x-token");
+        try {
+            response.setData(userWebService.profile(token));
+        } catch (ApiException e) {
+            response.setCode(e.getErrorCode());
+            response.setMessage(e.getMessage());
+        } catch (Exception e) {
+            response.setCode(500);
+            response.setMessage(e.getMessage());
+        }
+        return response;
+    }
+
+    /**
+     * 更新用户资料
+     */
+    @RequestMapping(value = "/user/profile", method = RequestMethod.POST, produces = "application/json")
+    @ResponseBody
+    public ApiResponse<Boolean> profile(UserInfo userInfo) {
+        ApiResponse<Boolean> response = new ApiResponse<>(Boolean.TRUE);
+        try {
+            userWebService.updateUserInfo(userInfo);
         } catch (ApiException e) {
             response.setData(false);
             response.setCode(e.getErrorCode());

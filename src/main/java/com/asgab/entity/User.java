@@ -2,16 +2,19 @@ package com.asgab.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
 /**
  * 用户信息
  */
-public class User {
+public class User implements Serializable{
+    private static final long serialVersionUID = 3752986061605719378L;
     private Long id;//用户ID
     private String loginName;//登录名
     private String name;//姓名
@@ -140,6 +143,8 @@ public class User {
 
     @JsonIgnore
     public List<String> getRoleList() {
+        if (StringUtils.isBlank(roles))
+            return Lists.newArrayList();
         // 角色列表在数据库中实际以逗号分隔字符串存储，因此返回不能修改的List.
         return ImmutableList.copyOf(StringUtils.split(roles, ","));
     }
