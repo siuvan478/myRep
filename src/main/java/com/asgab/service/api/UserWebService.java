@@ -1,9 +1,11 @@
 package com.asgab.service.api;
 
 import com.alibaba.fastjson.JSONObject;
+import com.asgab.constants.CacheKey;
 import com.asgab.core.mail.MailTemplateEnum;
 import com.asgab.entity.Address;
 import com.asgab.entity.User;
+import com.asgab.entity.UserEntity;
 import com.asgab.service.AddressService;
 import com.asgab.service.ApiException;
 import com.asgab.service.JedisService;
@@ -24,6 +26,9 @@ import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.asgab.constants.CacheKey.VERIFY_CODE_KEY;
+
+
 @Component
 @Transactional
 public class UserWebService {
@@ -33,9 +38,9 @@ public class UserWebService {
     private static int CONVERSATION_KEEP_TIMEOUT = 60 * 60 * 24 * 15;
 
     /**
-     * 错误次数
+     * 密码最大错误次数
      */
-    private static String ERROR_COUNT_KEY_PREFIX = "error_count_";
+    private static int MAX_PWD_ERROR_COUNT = 5;
 
     @Resource
     private MailService mailService;
@@ -66,7 +71,7 @@ public class UserWebService {
         if (user == null) {
             throw new ApiException("用户名不存在");
         }
-        String verifyCode = jedisService.get(param.getLoginName());
+        String verifyCode = jedisService.get(CacheKey.VERIFY_CODE_KEY + param.getLoginName());
         if (verifyCode == null) {
             throw new ApiException("验证码已过期");
         } else if (!verifyCode.equals(param.getVerifyCode())) {
@@ -75,6 +80,7 @@ public class UserWebService {
             //更新密码
             user.setPlainPassword(param.getNewPassword());
             accountService.updateUser(user);
+            this.cleanErrorCount(param.getLoginName());
         }
     }
 
@@ -84,6 +90,9 @@ public class UserWebService {
     public void register(UserRegParam param) {
         if (StringUtils.isBlank(param.getLoginName())) {
             throw new ApiException("手机号或邮箱不能为空");
+        }
+        if (!(Validator.isEmail(param.getLoginName()) || Validator.isHongKongMobile(param.getLoginName()) || Validator.isMobile(param.getLoginName()))) {
+            throw new ApiException("请输入有效的用户名");
         }
         if (StringUtils.isBlank(param.getVerifyCode())) {
             throw new ApiException("验证码不能为空");
@@ -98,7 +107,7 @@ public class UserWebService {
             throw new ApiException("两次密码输入不一致");
         }
 
-        String verifyCode = jedisService.get(param.getLoginName());
+        String verifyCode = jedisService.get(VERIFY_CODE_KEY + param.getLoginName());
         if (verifyCode == null) {
             throw new ApiException("验证码已过期");
         } else if (!verifyCode.equals(param.getVerifyCode())) {
@@ -116,19 +125,13 @@ public class UserWebService {
      * 发送验证码 todo
      */
     public void sendVerifyCode(VerifyCodeParam param) {
-        if (StringUtils.isBlank(param.getLoginName())) {
-            throw new ApiException("手机号或邮箱不能为空");
-        }
-        if (param.getType() == null) {
-            throw new ApiException("验证码类型不能为空");
-        }
+        if (StringUtils.isBlank(param.getLoginName())) throw new ApiException("手机号或邮箱不能为空");
+        if (param.getType() == null) throw new ApiException("验证码类型不能为空");
         MailTemplateEnum mte = null;
         //注册用户
         if (param.getType().equals(1)) {
             User user = accountService.checkLoginName(param.getLoginName());
-            if (user != null) {
-                throw new ApiException("用户名已被注册");
-            }
+            if (user != null) throw new ApiException("用户名已被注册");
             mte = MailTemplateEnum.REG_USER;
         }
         //重置密码
@@ -142,7 +145,7 @@ public class UserWebService {
         //发送验证码到邮箱
         if (Validator.isEmail(param.getLoginName())) {
             //验证码有效时间2分钟
-            jedisService.setex(param.getLoginName(), 2 * 60, verifyCode);
+            jedisService.setex(VERIFY_CODE_KEY + param.getLoginName(), 2 * 60, verifyCode);
             Map<String, Object> params = new HashMap<>();
             params.put("verifyCode", verifyCode);
             if (!mailService.sendCaptcha(param.getLoginName(), mte, params)) {
@@ -164,6 +167,11 @@ public class UserWebService {
      * @param password
      */
     public void login(String loginName, String password, String token) {
+        String errorCountKey = CacheKey.PWD_ERROR_COUNT_KEY + loginName;
+        String errorCount = jedisService.get(errorCountKey);
+        if (errorCount != null && Integer.valueOf(errorCount) >= MAX_PWD_ERROR_COUNT) {
+            throw new ApiException("用户名或错误错误次数过多，请联系FREEMAN客服或找回密码");
+        }
         if (StringUtils.isBlank(loginName)) {
             throw new ApiException("用户名不能为空");
         }
@@ -172,23 +180,24 @@ public class UserWebService {
         }
         User user = accountService.login(loginName, password);
         if (user == null) {
-            this.accountOrPwdError(loginName);
+            this.recordErrorCount(loginName);
             throw new ApiException("用户名或密码错误");
         } else {
             this.cleanErrorCount(loginName);
         }
-        String userJson = jedisService.get(user.getId().toString());
+        String userJson = jedisService.get(CacheKey.USER_ID_KEY + user.getId().toString());
         User history = JSONObject.parseObject(userJson, User.class);
         if (history != null && StringUtils.isNotBlank(history.getToken())) {
-            jedisService.delete(history.getToken());
+            jedisService.delete(CacheKey.TOKEN_KEY + history.getToken());
         }
-        user.setToken(token);
-        jedisService.setex(user.getId().toString(), CONVERSATION_KEEP_TIMEOUT, JSONObject.toJSONString(user));
-        jedisService.setex(token, CONVERSATION_KEEP_TIMEOUT, JSONObject.toJSONString(user));
+        UserEntity userEntity = BeanMapper.map(user, UserEntity.class);
+        userEntity.setToken(token);
+        jedisService.setex(CacheKey.USER_ID_KEY + userEntity.getId().toString(), CONVERSATION_KEEP_TIMEOUT, JSONObject.toJSONString(userEntity));
+        jedisService.setex(CacheKey.TOKEN_KEY + token, CONVERSATION_KEEP_TIMEOUT, JSONObject.toJSONString(userEntity));
     }
 
     public UserInfo profile(String token) {
-        String userJson = jedisService.get(token);
+        String userJson = jedisService.get(CacheKey.TOKEN_KEY + token);
         if (StringUtils.isBlank(userJson)) {
             throw new ApiException("用户未登录");
         }
@@ -228,8 +237,13 @@ public class UserWebService {
         }
     }
 
-    private void accountOrPwdError(String loginName) {
-        String errorCountKey = ERROR_COUNT_KEY_PREFIX + loginName;
+    /**
+     * 记录用户名密码错误次数
+     *
+     * @param loginName
+     */
+    private void recordErrorCount(String loginName) {
+        String errorCountKey = CacheKey.PWD_ERROR_COUNT_KEY + loginName;
         String errorCount = jedisService.get(errorCountKey);
         int count = 1;
         if (errorCount != null) {
@@ -238,8 +252,13 @@ public class UserWebService {
         jedisService.setex(errorCountKey, CONVERSATION_KEEP_TIMEOUT, String.valueOf(count));
     }
 
+    /**
+     * 清空密码错误次数
+     *
+     * @param loginName
+     */
     private void cleanErrorCount(String loginName) {
-        jedisService.delete(ERROR_COUNT_KEY_PREFIX + loginName);
+        jedisService.delete(CacheKey.PWD_ERROR_COUNT_KEY + loginName);
     }
 
 

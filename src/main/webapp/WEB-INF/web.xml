@@ -117,7 +117,7 @@
                 /api/login,
                 /api/verifyCode,
                 /api/user/resetPwd,
-                /api//user/register
+                /api/user/register
             </param-value>
         </init-param>
     </filter>

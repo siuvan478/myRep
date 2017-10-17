@@ -5,6 +5,7 @@ import com.asgab.entity.Product;
 import com.asgab.entity.Scale;
 import com.asgab.service.ApiException;
 import com.asgab.service.ProductService;
+import com.asgab.service.ScaleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +21,9 @@ public class ProductApi {
 
     @Autowired
     private ProductService productService;
+
+    @Autowired
+    private ScaleService scaleService;
 
     /**
      * 获取产品类型
@@ -67,7 +71,7 @@ public class ProductApi {
     public ApiResponse<Scale> getScaleDetail(@RequestParam Long scaleId) {
         ApiResponse<Scale> response = new ApiResponse<>();
         try {
-            response.setData(productService.getScale(scaleId));
+            response.setData(scaleService.get(scaleId));
         } catch (ApiException e) {
             response.setCode(e.getErrorCode());
             response.setMessage(e.getMessage());

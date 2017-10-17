@@ -1,11 +1,15 @@
 package com.asgab.service;
 
+import com.alibaba.fastjson.JSONObject;
+import com.asgab.constants.CacheKey;
 import com.asgab.core.pagination.Page;
 import com.asgab.entity.Product;
 import com.asgab.entity.Scale;
 import com.asgab.repository.ProductMapper;
 import com.asgab.repository.ScaleMapper;
 import com.google.common.collect.Maps;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,13 +20,16 @@ import java.util.Map;
 
 @Component
 @Transactional
-public class ProductService {
+public class ProductService implements InitializingBean {
 
     @Resource
     private ProductMapper productMapper;
 
     @Resource
     private ScaleMapper scaleMapper;
+
+    @Resource
+    private JedisService jedisService;
 
     public void save(Product product) {
         productMapper.save(product);
@@ -58,7 +65,30 @@ public class ProductService {
         return scaleMapper.search(parameters);
     }
 
-    public Scale getScale(Long scaleId) {
-        return scaleMapper.get(scaleId);
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        jedisService.delete(CacheKey.PRODUCT_KEY);
+        List<Product> products = this.getAll();
+        if (products != null && products.size() > 0) {
+            jedisService.hashPut(CacheKey.PRODUCT_KEY, CacheKey.LIST, JSONObject.toJSONString(products));
+            for (Product product : products) {
+                jedisService.hashPut(CacheKey.PRODUCT_KEY, String.valueOf(product.getId()), JSONObject.toJSONString(product));
+            }
+        }
     }
+
+    public Product getProductFromCache(Long id) {
+        String jsonObject = jedisService.hashGet(CacheKey.PRODUCT_KEY, String.valueOf(id));
+        if (StringUtils.isNotBlank(jsonObject)) {
+            return JSONObject.parseObject(jsonObject, Product.class);
+        } else {
+            Product product = productMapper.get(id);
+            if (product != null) {
+                jedisService.hashPut(CacheKey.PRODUCT_KEY, String.valueOf(id), JSONObject.toJSONString(product));
+                return product;
+            }
+        }
+        return null;
+    }
+
 }

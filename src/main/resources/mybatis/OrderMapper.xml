@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="com.asgab.repository.OrderMapper">
+
+	<sql id="order_columns">
+		order_no as orderNo, user_id as userId, address_id as addressId, product_id as productId, scale_id as scaleId, quantity, total_price as totalPrice,
+		order_time as orderTime, effective_time as effectiveTime, status
+	</sql>
+
+	<select id="get" parameterType="long" resultType="Order">
+		select id, <include refid="order_columns"/>
+		from ss_order
+		where status = 1 and id = #{id}
+	</select>
+
+	<select id="search" parameterType="map" resultType="Order">
+		select id, <include refid="order_columns"/>
+		from ss_order where status = 1
+		<if test="sort != null and sort!=''">
+			order by ${sort}
+		</if>
+	</select>
+	
+	<select id="count" parameterType="map" resultType="int">
+		select count(1)
+		from ss_order where status = 1
+		<if test="">
+
+		</if>
+	</select>
+
+	<insert id="save" parameterType="Order" useGeneratedKeys="true" keyProperty="id">
+		insert into ss_order (user_id, order_no, address_id, product_id, scale_id, quantity, total_price, order_time)
+		values (#{userId}, #{orderNo}, #{addressId}, #{productId}, #{scaleId}, #{quantity}, #{totalPrice}, now())
+	</insert>
+	
+	<update id="update" parameterType="Order">
+		update ss_order set
+	  	user_id = #{userId}
+		order_no = #{orderNo},
+		address_id = #{addressId},
+		product_id = #{productId},
+		scale_id = #{scaleId},
+		quantity = #{quantity},
+		total_price = #{totalPrice},
+		order_time = #{orderTime},
+		effective_time = #{effectiveTime},
+		status = #{status}
+		where id = #{id}
+	</update>
+
+</mapper> 

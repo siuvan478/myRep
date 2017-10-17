@@ -1,6 +1,7 @@
 package com.asgab.web.api;
 
 import com.alibaba.fastjson.JSONObject;
+import com.asgab.constants.CacheKey;
 import com.asgab.entity.User;
 import com.asgab.service.ApiException;
 import com.asgab.service.JedisService;
@@ -127,12 +128,12 @@ public class UserApi {
         ApiResponse<Boolean> response = new ApiResponse<>(Boolean.TRUE);
         try {
             String token = request.getHeader("x-token");
-            String userJson = jedisService.get(token);
+            String userJson = jedisService.get(CacheKey.TOKEN_KEY + token);
             if (StringUtils.isNotBlank(userJson)) {
-                jedisService.delete(token);
+                jedisService.delete(CacheKey.TOKEN_KEY + token);
                 User user = JSONObject.parseObject(userJson, User.class);
                 if (user != null) {
-                    jedisService.delete(user.getId().toString());
+                    jedisService.delete(CacheKey.USER_ID_KEY + user.getId().toString());
                 }
             }
         } catch (ApiException e) {

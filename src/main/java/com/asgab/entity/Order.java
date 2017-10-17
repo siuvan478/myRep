@@ -1,14 +1,17 @@
 package com.asgab.entity;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
 /**
  * 订单
  */
-public class Order {
+public class Order implements Serializable{
 
+    private static final long serialVersionUID = 5177031418711704992L;
     private Long id;
+    private Long userId;
     private String orderNo;
     private Long addressId;
     private Long productId;
@@ -28,6 +31,14 @@ public class Order {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public String getOrderNo() {
