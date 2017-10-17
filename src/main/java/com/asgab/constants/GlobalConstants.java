@@ -1,7 +1,7 @@
 package com.asgab.constants;
 
 /**
- * Created by Administrator on 2017/10/15 0015.
+ * 全局常量
  */
 public class GlobalConstants {
 

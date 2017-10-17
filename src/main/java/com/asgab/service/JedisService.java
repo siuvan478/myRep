@@ -73,4 +73,33 @@ public class JedisService {
             }
         }
     }
+
+    public void hashPut(String key, String field, String value) {
+        Jedis jedis = jedisPool.getResource();
+        try {
+            jedis.hset(key, field, value);
+        } finally {
+            try {
+                jedis.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public String hashGet(String key, String field) {
+        Jedis jedis = jedisPool.getResource();
+        String result = "";
+        try {
+            result = jedis.hget(key, field);
+        } finally {
+            try {
+                jedis.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return result;
+    }
+
 }

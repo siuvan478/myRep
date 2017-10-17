@@ -1,6 +1,5 @@
 package com.asgab.service.api;
 
-import com.alibaba.druid.support.json.JSONUtils;
 import com.alibaba.fastjson.JSONObject;
 import com.asgab.core.mail.MailTemplateEnum;
 import com.asgab.entity.Address;
@@ -11,7 +10,6 @@ import com.asgab.service.JedisService;
 import com.asgab.service.MailService;
 import com.asgab.service.account.AccountService;
 import com.asgab.util.BeanMapper;
-import com.asgab.util.JsonMapper;
 import com.asgab.util.RandomNumUtil;
 import com.asgab.util.Validator;
 import com.asgab.web.api.param.FindPwdParam;
@@ -19,7 +17,6 @@ import com.asgab.web.api.param.UserInfo;
 import com.asgab.web.api.param.UserRegParam;
 import com.asgab.web.api.param.VerifyCodeParam;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -155,6 +152,8 @@ public class UserWebService {
         //发送验证码到手机
         else if (Validator.isHongKongMobile(param.getLoginName()) || Validator.isMobile(param.getLoginName())) {
 
+        } else {
+            throw new ApiException("用户名必须为邮箱或手机号");
         }
     }
 

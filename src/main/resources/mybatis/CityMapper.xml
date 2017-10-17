@@ -8,9 +8,35 @@
 		`name`, name_en as nameEN, status
 	</sql>
 
-	<select id="findAll" parameterType="map" resultType="City">
+	<select id="search" parameterType="map" resultType="City">
 		select id, <include refid="city_columns"/>
 		from ss_city where status = 1
+		<if test="name != null">
+			and `name` like "%"#{name}"%"
+		</if>
+		<if test="nameEN != null">
+			and name_en like "%"#{nameEN}"%"
+		</if>
+		<if test="status != null">
+			and status = #{status}
+		</if>
+		<if test="sort != null and sort!=''">
+			order by ${sort}
+		</if>
+	</select>
+
+	<select id="count" parameterType="map" resultType="int">
+		select count(1)
+		from city_columns where true
+		<if test="name != null">
+			and `name` like "%"#{name}"%"
+		</if>
+		<if test="nameEN != null">
+			and name_en like "%"#{nameEN}"%"
+		</if>
+		<if test="status != null">
+			and status = #{status}
+		</if>
 	</select>
 
 	<select id="get" parameterType="long" resultType="City">

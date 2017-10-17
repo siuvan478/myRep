@@ -172,7 +172,7 @@ public class UserApi {
      */
     @RequestMapping(value = "/user/profile", method = RequestMethod.POST, produces = "application/json")
     @ResponseBody
-    public ApiResponse<Boolean> profile(UserInfo userInfo) {
+    public ApiResponse<Boolean> profile(@RequestBody UserInfo userInfo) {
         ApiResponse<Boolean> response = new ApiResponse<>(Boolean.TRUE);
         try {
             userWebService.updateUserInfo(userInfo);
