@@ -23,7 +23,7 @@ public class OrderApi {
         ApiResponse<Scale> response = new ApiResponse<>();
         try {
             System.out.println(JSON.toJSONString(object));
-            orderWebService.submitOrder();
+
         } catch (ApiException e) {
             response.setCode(e.getErrorCode());
             response.setMessage(e.getMessage());

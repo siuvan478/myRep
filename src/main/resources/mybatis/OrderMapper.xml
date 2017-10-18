@@ -5,8 +5,8 @@
 <mapper namespace="com.asgab.repository.OrderMapper">
 
 	<sql id="order_columns">
-		order_no as orderNo, user_id as userId, address_id as addressId, product_id as productId, scale_id as scaleId, quantity, total_price as totalPrice,
-		order_time as orderTime, effective_time as effectiveTime, status
+		order_no as orderNo, user_id as userId, address_id as addressId, product_id as productId, scale_id as scaleId, cycle, quantity, total_price as totalPrice,
+		order_time as orderTime, effective_time as effectiveTime, status, callback_id as callback_id
 	</sql>
 
 	<select id="get" parameterType="long" resultType="Order">
@@ -32,8 +32,8 @@
 	</select>
 
 	<insert id="save" parameterType="Order" useGeneratedKeys="true" keyProperty="id">
-		insert into ss_order (user_id, order_no, address_id, product_id, scale_id, quantity, total_price, order_time)
-		values (#{userId}, #{orderNo}, #{addressId}, #{productId}, #{scaleId}, #{quantity}, #{totalPrice}, now())
+		insert into ss_order (user_id, order_no, address_id, product_id, scale_id, cycle, quantity, total_price, order_time, callback_id)
+		values (#{userId}, #{orderNo}, #{addressId}, #{productId}, #{scaleId}, #{cycle}, #{quantity}, #{totalPrice}, now(), #{callbackId})
 	</insert>
 	
 	<update id="update" parameterType="Order">
@@ -43,11 +43,13 @@
 		address_id = #{addressId},
 		product_id = #{productId},
 		scale_id = #{scaleId},
+		cycle = #{cycle},
 		quantity = #{quantity},
 		total_price = #{totalPrice},
 		order_time = #{orderTime},
 		effective_time = #{effectiveTime},
-		status = #{status}
+		status = #{status},
+		callback_id = #{callbackId}
 		where id = #{id}
 	</update>
 

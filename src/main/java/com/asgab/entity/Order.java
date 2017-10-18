@@ -7,7 +7,7 @@ import java.util.Date;
 /**
  * 订单
  */
-public class Order implements Serializable{
+public class Order implements Serializable {
 
     private static final long serialVersionUID = 5177031418711704992L;
     private Long id;
@@ -16,11 +16,13 @@ public class Order implements Serializable{
     private Long addressId;
     private Long productId;
     private Long scaleId;
+    private Integer cycle;
     private Integer quantity;
     private BigDecimal totalPrice;
     private Date orderTime;
     private Date effectiveTime;
     private Integer status;
+    private Long callbackId;
 
     public Order() {
     }
@@ -73,6 +75,14 @@ public class Order implements Serializable{
         this.scaleId = scaleId;
     }
 
+    public Integer getCycle() {
+        return cycle;
+    }
+
+    public void setCycle(Integer cycle) {
+        this.cycle = cycle;
+    }
+
     public Integer getQuantity() {
         return quantity;
     }
@@ -111,5 +121,13 @@ public class Order implements Serializable{
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public Long getCallbackId() {
+        return callbackId;
+    }
+
+    public void setCallbackId(Long callbackId) {
+        this.callbackId = callbackId;
     }
 }

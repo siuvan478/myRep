@@ -119,4 +119,46 @@ public class Scale {
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
     }
+
+    public boolean validCycle(Integer cycle) {
+        boolean flag = false;
+        switch (cycle) {
+            case 1:
+                flag = oneMonthPrice.doubleValue() != 0;
+                break;
+            case 2:
+                flag = threeMonthPrice.doubleValue() != 0;
+                break;
+            case 3:
+                flag = sixMonthPrice.doubleValue() != 0;
+                break;
+            case 4:
+                flag = twelveMonthPrice.doubleValue() != 0;
+                break;
+            default:
+                break;
+        }
+        return flag;
+    }
+
+    public boolean validTotalPrice(Integer cycle, BigDecimal totalPrice) {
+        boolean flag = false;
+        switch (cycle) {
+            case 1:
+                flag = oneMonthPrice.doubleValue() == totalPrice.doubleValue();
+                break;
+            case 2:
+                flag = threeMonthPrice.multiply(new BigDecimal(3)).doubleValue() == totalPrice.doubleValue();
+                break;
+            case 3:
+                flag = sixMonthPrice.multiply(new BigDecimal(6)).doubleValue() == totalPrice.doubleValue();
+                break;
+            case 4:
+                flag = twelveMonthPrice.multiply(new BigDecimal(12)).doubleValue() == totalPrice.doubleValue();
+                break;
+            default:
+                break;
+        }
+        return flag;
+    }
 }

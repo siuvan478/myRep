@@ -9,7 +9,7 @@
     <nav class="navbar navbar-static-top ">
         <div class="container">
             <div class="navbar-header">
-                <a href="${ctx}/user" class="navbar-brand"><img style="width: 110px;height: 40px;margin-top: -6px;" src="${ctx}/static111/images/freeman-logo.jpg"></a>
+                <a href="${ctx}/user" class="navbar-brand"><img style="width: 110px;height: 40px;margin-top: -6px;" src="${ctx}/static111/images/help_logo.png"></a>
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
                     <i class="fa fa-bars"></i>
                 </button>

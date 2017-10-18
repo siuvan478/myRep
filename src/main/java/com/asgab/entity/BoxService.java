@@ -5,9 +5,10 @@ import java.util.Date;
 /**
  * 我的服务
  */
-public class Service {
+public class BoxService {
 
     private Long id;
+    private Long userId;
     private Long addressId;
     private Long productId;
     private Long scaleId;
@@ -17,7 +18,7 @@ public class Service {
     private Date updateTime;
     private Integer status;
 
-    public Service() {
+    public BoxService() {
     }
 
     public Long getId() {
@@ -26,6 +27,14 @@ public class Service {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public Long getAddressId() {

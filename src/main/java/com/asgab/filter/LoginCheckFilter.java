@@ -7,6 +7,7 @@ import com.alibaba.fastjson.JSON;
 import com.asgab.constants.CacheKey;
 import com.asgab.service.JedisService;
 import com.asgab.util.LoginUtil;
+import com.asgab.util.WafRequestWrapper;
 import com.asgab.web.api.ApiResponse;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.context.WebApplicationContext;
@@ -57,7 +58,8 @@ public class LoginCheckFilter implements Filter {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
-        LoginUtil.setHttpRequest(httpRequest);
+        WafRequestWrapper httpRequestWrapper = new WafRequestWrapper( httpRequest );
+        LoginUtil.setHttpRequest(httpRequestWrapper);
         HttpServletResponse httpResponse = (HttpServletResponse) response;
         LoginUtil.setHttpResponse(httpResponse);
         String token = httpRequest.getHeader("x-token");
