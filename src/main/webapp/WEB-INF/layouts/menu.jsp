@@ -9,7 +9,7 @@
     <nav class="navbar navbar-static-top ">
         <div class="container">
             <div class="navbar-header">
-                <a href="${ctx}/user" class="navbar-brand"><img style="width: 110px;height: 40px;margin-top: -6px;" src="${ctx}/static111/images/help_logo.png"></a>
+                <a href="${ctx}/user" class="navbar-brand"><img style="width: 40px; height: 40px; margin-top: -6px;" src="${ctx}/static111/images/help_logo.png"></a>
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
                     <i class="fa fa-bars"></i>
                 </button>
@@ -17,15 +17,15 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
                 <ul class="nav navbar-nav">
-                    <li><a href="${ctx}/user"><i class="fa fa-users fa-fw"></i><spring:message code="menu.user" /></a></li>
+                    <li><a href="${ctx}/user"><spring:message code="menu.user" /></a></li>
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-wrench fa-fw"></i>设置<span class="caret"></span></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">设置<span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
                             <li><a href="${ctx}/area"><spring:message code="menu.area" /></a></li>
                         </ul>
                     </li>
-                    <li><a href="${ctx}/address"><i class="fa fa-users fa-fw"></i>取货地址</a></li>
-                    <li><a href="${ctx}/product"><i class="fa fa-users fa-fw"></i>产品管理</a></li>
+                    <li><a href="${ctx}/address">取货地址</a></li>
+                    <li><a href="${ctx}/product">产品管理</a></li>
                 </ul>
             </div><!-- /.navbar-collapse -->
             <!-- Navbar Right Menu -->

@@ -95,7 +95,7 @@
 											</c:forEach>
 										</td>
 										<td>
-											<a href="${ctx}/area/update/${area.id}"><i class="fa fa-pencil fa-fw"></i></a>
+											<a href="${ctx}/area/update/${area.id}"><i class="fa fa-edit fa-fw"></i></a>
 											<a onclick="delcfm('${ctx}/area/delete/${area.id}');"><i class="fa fa-times fa-fw"></i></a>
 										</td>
 									</tr>

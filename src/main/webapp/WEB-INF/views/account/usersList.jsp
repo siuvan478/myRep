@@ -83,7 +83,7 @@
 										<td>${user.loginName}</td>
 										<td>${user.roles}</td>
 										<td>
-											<a href="${ctx}/user/update/${user.id}"><i class="fa fa-pencil fa-fw"></i></a>
+											<a href="${ctx}/user/update/${user.id}"><i class="fa fa-edit fa-fw"></i></a>
 											<a href="javascript:if(confirm('delete?'))window.location.href='${ctx}/user/delete/${user.id}'"><i class="fa fa-times fa-fw"></i></a>
 										</td>
 									</tr>

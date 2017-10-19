@@ -7,9 +7,10 @@ import java.util.Date;
 /**
  * 存/取记录
  */
-public class Record {
+public class BoxRecord {
 
     private Long id;
+    private Long userId;
     private Long serviceId;
     private Integer type;
     private Date appointmentTime;
@@ -17,7 +18,22 @@ public class Record {
     private Date createTime;
     private Integer status;
 
-    public Record() {
+    public BoxRecord() {
+    }
+
+    public BoxRecord(Long userId, Long serviceId, Integer type, Date appointmentTime) {
+        this.userId = userId;
+        this.serviceId = serviceId;
+        this.type = type;
+        this.appointmentTime = appointmentTime;
+    }
+
+    public BoxRecord(Long userId, Long serviceId, Integer type, Date appointmentTime, BigDecimal cost) {
+        this.userId = userId;
+        this.serviceId = serviceId;
+        this.type = type;
+        this.appointmentTime = appointmentTime;
+        this.cost = cost;
     }
 
     public Long getId() {
@@ -26,6 +42,14 @@ public class Record {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public Long getServiceId() {

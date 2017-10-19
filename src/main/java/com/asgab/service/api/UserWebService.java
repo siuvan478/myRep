@@ -115,6 +115,10 @@ public class UserWebService {
                 throw new ApiException("验证码错误");
             }
         }
+        User exists = accountService.findUserByLoginName(param.getLoginName());
+        if (exists != null) {
+            throw new ApiException("用户名已存在");
+        }
         //注册用户
         User user = new User();
         user.setLoginName(param.getLoginName());

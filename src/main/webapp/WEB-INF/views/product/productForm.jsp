@@ -70,7 +70,7 @@
 								</div>
 							</div>
 							<div class="box-footer">
-								<button type="submit" class="btn btn-success btn-70"><i class="fa fa fa-save"></i> <spring:message code="public.save" /></button>
+								<button type="submit" class="btn btn-success btn-70"><i class="fa fa-save"></i> <spring:message code="public.save" /></button>
 								<button type="button" class="btn btn-primary btn-70 disabled" onclick="window.location.href='${ctx}/product'">取消</button>
 							</div>
 						</div>
@@ -80,9 +80,13 @@
 		</section>
 	</form>
 
+	<c:if test="${action eq 'update'}">
 	<section class="content">
 		<div class="box" style="top: -20px">
 			<div class="box-body">
+				<div class="box-footer">
+					<button type="button" class="btn btn-primary btn-70" onclick="scaleForm('${ctx}/product/scale/create')" data-toggle="modal" data-target="#scaleFormModal"><i class="fa fa-plus"></i>新增</button>
+				</div>
 				<div class="table-responsive">
 				<table class="table table-striped table-hover dataTable" style="margin-bottom:0px;">
 					<thead>
@@ -106,8 +110,8 @@
 							<td>${scale.oneMonthPrice}</td>
 							<td>${scale.num}</td>
 							<td>
-								<a onclick="scaleEdit('${scale.id}')" data-toggle="modal" data-target="#scaleFormModal"><i class="fa fa-pencil fa-fw"></i></a>
-								<a onclick="delcfm('${ctx}/product/delete/${product.id}');"><i class="fa fa-times fa-fw"></i></a>
+								<a onclick="scaleForm('${ctx}/product/scale/update/${scale.id}')" data-toggle="modal" data-target="#scaleFormModal"><i class="fa fa-edit fa-fw"></i></a>
+								<a onclick="delcfm('${ctx}/product/delete/${scale.productId}/${scale.id}');"><i class="fa fa-times fa-fw"></i></a>
 							</td>
 						</tr>
 					</c:forEach>
@@ -117,6 +121,7 @@
 			</div>
 		</div>
 	</section>
+	</c:if>
 	<!-- upload modal -->
 	<jsp:include page="/WEB-INF/views/account/upload.jsp" flush="true">
 		<jsp:param name="upload_url" value="/file/upload" />
@@ -139,10 +144,10 @@
 			});
 		});
 
-		function scaleEdit(scaleId){
+		function scaleForm(url){
 			$.ajax({
 				type: 'GET',
-				url: '${ctx}/product/scale/update/'+ scaleId,
+				url: url,
 				dataType: 'html',
 				success : function(html){
 					console.log(html);

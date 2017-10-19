@@ -83,7 +83,7 @@
 										<td>${address.address}</td>
 										<td>${address.userId}</td>
 										<td>
-											<a href="${ctx}/address/update/${address.id}"><i class="fa fa-pencil fa-fw"></i></a>
+											<a href="${ctx}/address/update/${address.id}"><i class="fa fa-edit fa-fw"></i></a>
 											<a onclick="delcfm('${ctx}/address/delete/${address.id}');"><i class="fa fa-times fa-fw"></i></a>
 										</td>
 									</tr>

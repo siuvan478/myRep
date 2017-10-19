@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.ServletRequest;
+import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 @Controller
@@ -79,11 +80,19 @@ public class ProductController extends BaseController {
         }
     }
 
-    @ModelAttribute("scale")
-    public void getScale(@RequestParam(value = "id", defaultValue = "-1") Long id, Model model) {
-        if (id != -1) {
-            model.addAttribute("scale", scaleService.get(id));
-        }
+    /*===================================================Scale 部分===================================================*/
+    @RequestMapping(value = "scale/create", method = RequestMethod.GET)
+    public String toScaleCreate(Model model, HttpServletRequest request) {
+        model.addAttribute("scaleForm", new Scale());
+        model.addAttribute("action2", "create");
+        return "include/scaleForm";
+    }
+
+    @RequestMapping(value = "scale/create", method = RequestMethod.POST)
+    public String createScale(Scale scale, RedirectAttributes redirectAttributes) {
+        scaleService.save(scale);
+        redirectAttributes.addFlashAttribute("message", "save scale success");
+        return "redirect:/product";
     }
 
     @RequestMapping(value = "scale/update/{id}", method = RequestMethod.GET)
@@ -98,5 +107,19 @@ public class ProductController extends BaseController {
         scaleService.update(scale);
         redirectAttributes.addFlashAttribute("message", "update scale success");
         return "redirect:/product/update/" + scale.getProductId();
+    }
+
+    @RequestMapping(value = "scale/delete/{pId}/{id}", method = RequestMethod.GET)
+    public String deleteScale(@PathVariable("pId") Long pId, @PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
+        scaleService.delete(id);
+        redirectAttributes.addFlashAttribute("message", "delete scale success");
+        return "redirect:/product/update/" + pId;
+    }
+
+    @ModelAttribute("scale")
+    public void getScale(@RequestParam(value = "id", defaultValue = "-1") Long id, Model model) {
+        if (id != -1) {
+            model.addAttribute("scale", scaleService.get(id));
+        }
     }
 }

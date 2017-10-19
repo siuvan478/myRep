@@ -12,6 +12,8 @@ public class BoxService {
     private Long addressId;
     private Long productId;
     private Long scaleId;
+    private Integer cycle;
+    private Integer flag;
     private Date startTime;
     private Date endTime;
     private Date createTime;
@@ -59,6 +61,22 @@ public class BoxService {
 
     public void setScaleId(Long scaleId) {
         this.scaleId = scaleId;
+    }
+
+    public Integer getCycle() {
+        return cycle;
+    }
+
+    public void setCycle(Integer cycle) {
+        this.cycle = cycle;
+    }
+
+    public Integer getFlag() {
+        return flag;
+    }
+
+    public void setFlag(Integer flag) {
+        this.flag = flag;
     }
 
     public Date getStartTime() {

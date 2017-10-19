@@ -75,7 +75,7 @@
 										<td>${product.productName}</td>
 										<td>${product.productNo}</td>
 										<td>
-											<a href="${ctx}/product/update/${product.id}"><i class="fa fa-pencil fa-fw"></i></a>
+											<a href="${ctx}/product/update/${product.id}"><i class="fa fa-edit fa-fw"></i></a>
 											<a onclick="delcfm('${ctx}/product/delete/${product.id}');"><i class="fa fa-times fa-fw"></i></a>
 										</td>
 									</tr>

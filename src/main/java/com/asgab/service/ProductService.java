@@ -32,7 +32,8 @@ public class ProductService implements InitializingBean {
     private JedisService jedisService;
 
     public void save(Product product) {
-        productMapper.save(product);
+        Long id = productMapper.save(product);
+        refreshCache(id);
     }
 
     public List<Product> getAll() {
@@ -53,10 +54,12 @@ public class ProductService implements InitializingBean {
 
     public void update(Product product) {
         productMapper.update(product);
+        refreshCache(product.getId());
     }
 
     public void delete(Long id) {
         productMapper.delete(id);
+        refreshCache(id);
     }
 
     public List<Scale> getProductScales(Long productId) {
@@ -67,14 +70,7 @@ public class ProductService implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        jedisService.delete(CacheKey.PRODUCT_KEY);
-        List<Product> products = this.getAll();
-        if (products != null && products.size() > 0) {
-            jedisService.hashPut(CacheKey.PRODUCT_KEY, CacheKey.LIST, JSONObject.toJSONString(products));
-            for (Product product : products) {
-                jedisService.hashPut(CacheKey.PRODUCT_KEY, String.valueOf(product.getId()), JSONObject.toJSONString(product));
-            }
-        }
+        refreshCache(null);
     }
 
     public Product getProductFromCache(Long id) {
@@ -89,6 +85,29 @@ public class ProductService implements InitializingBean {
             }
         }
         return null;
+    }
+
+    /**
+     * 刷新product缓存
+     *
+     * @param id 为null刷新所有
+     */
+    private void refreshCache(Long id) {
+        if (id == null) {
+            jedisService.delete(CacheKey.PRODUCT_KEY);
+            List<Product> products = this.getAll();
+            if (products != null && products.size() > 0) {
+                jedisService.hashPut(CacheKey.PRODUCT_KEY, CacheKey.LIST, JSONObject.toJSONString(products));
+                for (Product product : products) {
+                    jedisService.hashPut(CacheKey.PRODUCT_KEY, String.valueOf(product.getId()), JSONObject.toJSONString(product));
+                }
+            }
+        } else {
+            Product product = productMapper.get(id);
+            if (product != null) {
+                jedisService.hashPut(CacheKey.PRODUCT_KEY, String.valueOf(id), JSONObject.toJSONString(product));
+            }
+        }
     }
 
 }

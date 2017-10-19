@@ -9,7 +9,10 @@
         <form action="${ctx}/product/scale/update" method="post" class="form-horizontal">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-            <h4 class="modal-title">编辑产品规格</h4>
+            <h4 class="modal-title">
+                <c:if test="${action2 eq 'create' }">新建产品规格</c:if>
+                <c:if test="${action2 eq 'update' }">编辑产品规格</c:if>
+            </h4>
         </div>
         <div class="modal-body">
                 <input type="hidden" name="id" value="${scaleForm.id}">

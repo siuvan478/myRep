@@ -1,6 +1,6 @@
 package com.asgab.repository;
 
-import com.asgab.entity.Scale;
+import com.asgab.entity.BoxRecord;
 import com.asgab.repository.mybatis.MyBatisRepository;
 import org.apache.ibatis.session.RowBounds;
 
@@ -14,19 +14,20 @@ import java.util.Map;
  * @author calvin
  */
 @MyBatisRepository
-public interface ScaleMapper {
+public interface BoxRecordMapper {
 
-    Scale get(Long id);
+	BoxRecord get(Long id);
 
-    int count(Map<String, Object> parameters);
+	List<BoxRecord> search(Map<String, Object> parameters);
 
-    List<Scale> search(Map<String, Object> parameters);
+	List<BoxRecord> search(Map<String, Object> parameters, RowBounds rowBounds);
 
-    List<Scale> search(Map<String, Object> parameters, RowBounds rowBounds);
+	Long save(BoxRecord boxRecord);
 
-    Long save(Scale scale);
+	void update(BoxRecord boxRecord);
 
-    void update(Scale scale);
+	void delete(Long id);
 
-    void delete(Long id);
+	int count(Map<String, Object> map);
+
 }

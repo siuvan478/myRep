@@ -3,6 +3,7 @@ package com.asgab.web.api.param;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Date;
 
 public class OrderBuyParam implements Serializable {
 
@@ -12,6 +13,7 @@ public class OrderBuyParam implements Serializable {
     private Long scaleId;
     private Integer cycle;
     private BigDecimal totalPrice;
+    private Date appointmentTime;
 
     public OrderBuyParam() {
     }
@@ -56,4 +58,11 @@ public class OrderBuyParam implements Serializable {
         this.totalPrice = totalPrice;
     }
 
+    public Date getAppointmentTime() {
+        return appointmentTime;
+    }
+
+    public void setAppointmentTime(Date appointmentTime) {
+        this.appointmentTime = appointmentTime;
+    }
 }

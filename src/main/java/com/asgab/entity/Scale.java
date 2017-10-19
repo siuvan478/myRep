@@ -141,20 +141,20 @@ public class Scale {
         return flag;
     }
 
-    public boolean validTotalPrice(Integer cycle, BigDecimal totalPrice) {
+    public boolean validTotalPrice(Integer cycle, BigDecimal totalPrice, BigDecimal additionFee) {
         boolean flag = false;
         switch (cycle) {
             case 1:
-                flag = oneMonthPrice.doubleValue() == totalPrice.doubleValue();
+                flag = oneMonthPrice.add(additionFee).doubleValue() == totalPrice.doubleValue();
                 break;
             case 2:
-                flag = threeMonthPrice.multiply(new BigDecimal(3)).doubleValue() == totalPrice.doubleValue();
+                flag = threeMonthPrice.multiply(new BigDecimal(3)).add(additionFee).doubleValue() == totalPrice.doubleValue();
                 break;
             case 3:
-                flag = sixMonthPrice.multiply(new BigDecimal(6)).doubleValue() == totalPrice.doubleValue();
+                flag = sixMonthPrice.multiply(new BigDecimal(6)).add(additionFee).doubleValue() == totalPrice.doubleValue();
                 break;
             case 4:
-                flag = twelveMonthPrice.multiply(new BigDecimal(12)).doubleValue() == totalPrice.doubleValue();
+                flag = twelveMonthPrice.multiply(new BigDecimal(12)).add(additionFee).doubleValue() == totalPrice.doubleValue();
                 break;
             default:
                 break;

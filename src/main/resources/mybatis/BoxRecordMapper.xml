@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="com.asgab.repository.BoxRecordMapper">
+
+	<sql id="box_record_columns">
+		user_id as userId, service_id as serviceId, `type`, appointment_time as appointmentTime, cost, create_time as createTime, status
+	</sql>
+
+	<select id="get" parameterType="long" resultType="BoxRecord">
+		select id, <include refid="box_record_columns"/>
+		from ss_box_record
+		where status = 1 and id = #{id}
+	</select>
+
+	<select id="search" parameterType="map" resultType="BoxRecord">
+		select id, <include refid="box_record_columns"/>
+		from ss_box_record where status = 1
+		<if test="sort != null and sort!=''">
+			order by ${sort}
+		</if>
+	</select>
+
+	<select id="count" parameterType="map" resultType="int">
+		select count(1)
+		from ss_box_record where status = 1
+	</select>
+
+	<insert id="save" parameterType="BoxRecord" useGeneratedKeys="true" keyProperty="id">
+		insert into ss_box_record (user_id, service_id, `type`, appointment_time, cost, create_time )
+		values (#{userId}, #{serviceId}, #{type}, #{appointmentTime}, #{cost}, now())
+	</insert>
+
+	<update id="update" parameterType="BoxRecord">
+		update ss_box_record set
+		user_id = #{userId},
+		service_id = #{serviceId},
+		`type` = #{type},
+		appointment_time = #{appointmentTime},
+		cost = #{cost},
+		status = #{status}
+		where id = #{id}
+	</update>
+
+	<delete id="delete" parameterType="long">
+		update ss_box_record set status = 0 where id = #{id}
+	</delete>
+
+</mapper> 
