@@ -42,7 +42,7 @@
 							<div class="col-lg-4">
 								<div class="form-group">
 									<label for="cityId">城市</label>
-									<tags:selectbox name="cityId" map="${cities}" value="${pages.searchMap['cityId']}"></tags:selectbox>
+									<tags:selectbox name="cityId" map="${cities}" value="${pages.searchMap['cityId']}" />
 								</div>
 							</div>
 						</div>

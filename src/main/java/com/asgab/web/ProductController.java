@@ -70,7 +70,7 @@ public class ProductController extends BaseController {
     public String delete(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
         productService.delete(id);
         redirectAttributes.addFlashAttribute("message", "delete success");
-        return "redirect:/area";
+        return "redirect:/product";
     }
 
     @ModelAttribute("product")

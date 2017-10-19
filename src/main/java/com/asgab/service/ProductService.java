@@ -87,6 +87,15 @@ public class ProductService implements InitializingBean {
         return null;
     }
 
+    public List<Product> getProductListFromCache() {
+        String jsonList = jedisService.hashGet(CacheKey.PRODUCT_KEY, CacheKey.LIST);
+        if (StringUtils.isNoneBlank(jsonList)) {
+            return JSONObject.parseArray(jsonList, Product.class);
+        } else {
+            return productMapper.search(null);
+        }
+    }
+
     /**
      * 刷新product缓存
      *

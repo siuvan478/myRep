@@ -26,6 +26,13 @@
                     </li>
                     <li><a href="${ctx}/address">取货地址</a></li>
                     <li><a href="${ctx}/product">产品管理</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">订单管理 <span class="badge">2</span><span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="${ctx}/order">订单管理</a></li>
+                            <li><a href="${ctx}/service">服务管理</a></li>
+                        </ul>
+                    </li>
                 </ul>
             </div><!-- /.navbar-collapse -->
             <!-- Navbar Right Menu -->

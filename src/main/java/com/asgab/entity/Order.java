@@ -24,6 +24,10 @@ public class Order implements Serializable {
     private Integer status;
     private Long callbackId;
 
+    //for app
+    private String productName;
+    private String scaleName;
+
     public Order() {
     }
 
@@ -129,5 +133,21 @@ public class Order implements Serializable {
 
     public void setCallbackId(Long callbackId) {
         this.callbackId = callbackId;
+    }
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
+
+    public String getScaleName() {
+        return scaleName;
+    }
+
+    public void setScaleName(String scaleName) {
+        this.scaleName = scaleName;
     }
 }

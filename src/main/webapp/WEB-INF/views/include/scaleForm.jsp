@@ -30,6 +30,7 @@
                         <div class="input-group col-md-9" style="padding: 0px 15px 0px 15px;">
                             <div class="input-group-addon">$</div>
                             <input type="text" class="form-control" id="twelveMonthPrice" placeholder="Amount" value="${scaleForm.twelveMonthPrice}">
+                            <div class="input-group-addon">HKD</div>
                         </div>
                     </div>
                 </div>
@@ -39,6 +40,7 @@
                         <div class="input-group col-md-9" style="padding: 0px 15px 0px 15px;">
                             <div class="input-group-addon">$</div>
                             <input type="text" class="form-control" id="sixMonthPrice" placeholder="Amount" value="${scaleForm.sixMonthPrice}">
+                            <div class="input-group-addon">HKD</div>
                         </div>
                     </div>
                 </div>
@@ -48,6 +50,7 @@
                         <div class="input-group col-md-9" style="padding: 0px 15px 0px 15px;">
                             <div class="input-group-addon">$</div>
                             <input type="text" class="form-control" id="threeMonthPrice" placeholder="Amount" value="${scaleForm.threeMonthPrice}">
+                            <div class="input-group-addon">HKD</div>
                         </div>
                     </div>
                 </div>
@@ -57,6 +60,7 @@
                         <div class="input-group col-md-9" style="padding: 0px 15px 0px 15px;">
                             <div class="input-group-addon">$</div>
                             <input type="text" class="form-control" id="oneMonthPrice" placeholder="Amount" value="${scaleForm.oneMonthPrice}">
+                            <div class="input-group-addon">HKD</div>
                         </div>
                     </div>
                 </div>

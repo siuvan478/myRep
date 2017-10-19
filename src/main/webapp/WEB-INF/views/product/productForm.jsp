@@ -61,11 +61,11 @@
 								<label class="col-md-3 control-label" data-toggle="modal" data-target="#myModal">產品示意图</label>
 								<div class="col-md-9">
 									<div id="product_image" style="padding: 5px 0px 5px 0px;">
-										<c:if test="${product.image != ''}">
+										<c:if test="${product.image != null}">
 											<img class="img-responsive" src="${ctx}/file/dumpImage?path=${product.image}"  />
 										</c:if>
 									</div>
-									<a class="btn btn-primary" data-toggle="modal" data-target="#myModal"><i class="fa fa-upload"></i> <spring:message code="public.upload" /></a>
+									<a class="btn btn-primary btn-70" data-toggle="modal" data-target="#myModal"><i class="fa fa-upload"></i> <spring:message code="public.upload" /></a>
 									<p class="help-block">图片上传后，需要点击保存生效.</p>
 								</div>
 							</div>
@@ -82,9 +82,9 @@
 
 	<c:if test="${action eq 'update'}">
 	<section class="content">
-		<div class="box" style="top: -20px">
+		<div class="box" style="top: -30px">
 			<div class="box-body">
-				<div class="box-footer">
+				<div class="box-header">
 					<button type="button" class="btn btn-primary btn-70" onclick="scaleForm('${ctx}/product/scale/create')" data-toggle="modal" data-target="#scaleFormModal"><i class="fa fa-plus"></i>新增</button>
 				</div>
 				<div class="table-responsive">

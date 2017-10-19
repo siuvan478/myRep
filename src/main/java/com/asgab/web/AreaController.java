@@ -40,9 +40,9 @@ public class AreaController extends BaseController {
     }
 
     private Map<String, String> getCityMapping() {
-        List<City> citys = cityService.findAll();
+        List<City> cities = cityService.findAll();
         final Map<String, String> cityMappings = new TreeMap<>();
-        for (City c : citys) {
+        for (City c : cities) {
             cityMappings.put(c.getId().toString(), c.getName());
         }
         return cityMappings;

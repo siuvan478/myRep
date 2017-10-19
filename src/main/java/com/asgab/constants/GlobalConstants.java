@@ -2,12 +2,16 @@ package com.asgab.constants;
 
 import org.apache.commons.lang3.EnumUtils;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 全局常量
  */
 public class GlobalConstants {
+
+    public static final Map<Character,String> STATUSES_ZH = new HashMap<Character,String>();
 
     /**
      * 状态 1=正常 0=失效/无用

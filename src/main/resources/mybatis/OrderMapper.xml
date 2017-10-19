@@ -26,9 +26,6 @@
 	<select id="count" parameterType="map" resultType="int">
 		select count(1)
 		from ss_order where status = 1
-		<if test="">
-
-		</if>
 	</select>
 
 	<insert id="save" parameterType="Order" useGeneratedKeys="true" keyProperty="id">
