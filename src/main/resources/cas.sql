@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50710
 File Encoding         : 65001
 
-Date: 2017-10-18 18:22:50
+Date: 2017-10-19 19:16:16
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -32,7 +32,7 @@ CREATE TABLE `ss_address` (
 -- ----------------------------
 -- Records of ss_address
 -- ----------------------------
-INSERT INTO `ss_address` VALUES ('1', '1', '1', 'XXXXXX', '2', '1');
+INSERT INTO `ss_address` VALUES ('1', '1', '1', '快手镇老铁村', '1', '1');
 
 -- ----------------------------
 -- Table structure for ss_area
@@ -148,6 +148,54 @@ INSERT INTO `ss_area` VALUES ('95', '烏溪沙', 'Wu Kai Sha', '3', '1');
 INSERT INTO `ss_area` VALUES ('96', '元朗', 'Yuen Long', '3', '1');
 
 -- ----------------------------
+-- Table structure for ss_box_record
+-- ----------------------------
+DROP TABLE IF EXISTS `ss_box_record`;
+CREATE TABLE `ss_box_record` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `user_id` bigint(20) NOT NULL COMMENT '用户ID',
+  `service_id` bigint(20) NOT NULL COMMENT '外键-服务ID',
+  `type` tinyint(4) NOT NULL COMMENT '类型 1=存 2=取',
+  `appointment_time` datetime NOT NULL COMMENT '预约时间',
+  `cost` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '费用 周日免费,其他收费',
+  `create_time` datetime NOT NULL COMMENT '创建时间',
+  `status` tinyint(4) NOT NULL DEFAULT '1' COMMENT '状态 1=预约成功 2=等待送货/取货 3=已收货/取货',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4;
+
+-- ----------------------------
+-- Records of ss_box_record
+-- ----------------------------
+INSERT INTO `ss_box_record` VALUES ('4', '0', '1', '1', '2017-10-20 16:00:00', '60.00', '2017-10-19 16:55:54', '1');
+INSERT INTO `ss_box_record` VALUES ('5', '0', '1', '1', '2017-10-20 16:00:00', '60.00', '2017-10-19 17:00:07', '1');
+
+-- ----------------------------
+-- Table structure for ss_box_service
+-- ----------------------------
+DROP TABLE IF EXISTS `ss_box_service`;
+CREATE TABLE `ss_box_service` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `user_id` bigint(20) NOT NULL COMMENT '用户ID',
+  `address_id` bigint(20) NOT NULL COMMENT '外键-地址',
+  `product_id` bigint(20) NOT NULL COMMENT '外键-产品类型',
+  `scale_id` bigint(20) NOT NULL COMMENT '外键-产品规格',
+  `cycle` tinyint(4) NOT NULL COMMENT '周期 1=1个月 2=3个月 4=6个月 4=12个月',
+  `flag` tinyint(4) NOT NULL DEFAULT '0' COMMENT '服务柜状态 0=闲置 1=正在使用',
+  `start_time` datetime NOT NULL COMMENT '服务开始时间',
+  `end_time` datetime NOT NULL COMMENT '服务截止时间',
+  `create_time` datetime NOT NULL COMMENT '创建时间',
+  `update_time` datetime NOT NULL COMMENT '更新时间',
+  `status` tinyint(4) NOT NULL DEFAULT '1' COMMENT '状态 0=删除 1=正常 2=失效/已到期',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4;
+
+-- ----------------------------
+-- Records of ss_box_service
+-- ----------------------------
+INSERT INTO `ss_box_service` VALUES ('4', '1', '1', '1', '1', '1', '0', '2017-10-20 16:00:00', '2017-11-20 16:00:00', '2017-10-19 16:55:54', '2017-10-19 16:55:54', '1');
+INSERT INTO `ss_box_service` VALUES ('5', '1', '1', '1', '1', '1', '0', '2017-10-20 16:00:00', '2017-11-20 16:00:00', '2017-10-19 17:00:07', '2017-10-19 17:00:07', '1');
+
+-- ----------------------------
 -- Table structure for ss_city
 -- ----------------------------
 DROP TABLE IF EXISTS `ss_city`;
@@ -185,11 +233,13 @@ CREATE TABLE `ss_order` (
   `status` tinyint(4) NOT NULL DEFAULT '1' COMMENT '订单状态 0=已取消 1=已下单 2=已生效(付款)',
   `callback_id` bigint(20) DEFAULT NULL COMMENT '回调ID',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of ss_order
 -- ----------------------------
+INSERT INTO `ss_order` VALUES ('1', '1', 'TODO-ORDER-NO-01', '1', '1', '1', '1', '1', '160.00', '2017-10-19 16:55:54', null, '1', '1');
+INSERT INTO `ss_order` VALUES ('2', '1', 'TODO-ORDER-NO-01', '1', '1', '1', '1', '1', '160.00', '2017-10-19 17:00:07', null, '1', '1');
 
 -- ----------------------------
 -- Table structure for ss_product
@@ -219,25 +269,6 @@ INSERT INTO `ss_product` VALUES ('5', 'FREEMAN 信箱', '', '- 專屬私人商�
 INSERT INTO `ss_product` VALUES ('6', 'FREEMAN 行李箱', '', '- 免費存取服務\r\n- 特定存取點無限次存取\r\n- 每月4日特定存取時間\r\n- 恆溫及濕度控制存放', '告别迷你倉！ FREEMAN教您要幾多用幾多！FREEMAN 幫您寄存行李箱，有需要時預約取回，就可以出發去玩啦。空間管理做得好，生活自然由我話事！\r\n', '1', '/usr/tmp/upload/79f3033e6cd4492c896513381caed075.png', '2017-10-10 14:55:47', '2017-10-18 09:53:56');
 INSERT INTO `ss_product` VALUES ('7', 'FREEMAN 文件箱', '', '- 免費送箱服務\r\n- 特定存取點無限次存取\r\n- 每月4日特定送箱時間\r\n- 恆溫及濕度控制存放', '告别迷你倉！ FREEMAN教您要幾多用幾多！FREEMAN 文件箱可以把文件分類儲存，記低入面放咗啲咩。空間管理做得好，生活自然由我話事！', '1', '/usr/tmp/upload/b8d9566291fa436f9c5d41a13f4a5bc8.png', '2017-10-10 14:58:31', '2017-10-18 09:54:06');
 INSERT INTO `ss_product` VALUES ('8', 'FREEMAN 大型物件', '', '', '', '1', '/usr/tmp/upload/22adea85ffd045db912b365e36c9c0d5.png', '2017-10-10 15:00:28', '2017-10-18 09:54:17');
-
--- ----------------------------
--- Table structure for ss_record
--- ----------------------------
-DROP TABLE IF EXISTS `ss_record`;
-CREATE TABLE `ss_record` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'ID',
-  `service_id` bigint(20) NOT NULL COMMENT '外键-服务ID',
-  `type` tinyint(4) NOT NULL COMMENT '类型 1=存 2=取',
-  `appointment_time` datetime NOT NULL COMMENT '预约时间',
-  `cost` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '费用 周日免费,其他收费',
-  `create_time` datetime NOT NULL COMMENT '创建时间',
-  `status` tinyint(4) NOT NULL DEFAULT '1' COMMENT '状态 1=预约成功 2=等待送货/取货 3=已收货/取货',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- ----------------------------
--- Records of ss_record
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for ss_scale
@@ -280,29 +311,6 @@ INSERT INTO `ss_scale` VALUES ('15', '8', '长+宽+高+不超过 175-200 cm\r\n�
 INSERT INTO `ss_scale` VALUES ('16', '8', '长+宽+高+超过 200cm\r\n净重不超过 25kg', '1', '0.00', '0.00', '0.00', '0.00', '1', '1', '2017-10-10 15:02:24', '2017-10-10 15:02:26');
 
 -- ----------------------------
--- Table structure for ss_service
--- ----------------------------
-DROP TABLE IF EXISTS `ss_service`;
-CREATE TABLE `ss_service` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'ID',
-  `user_id` bigint(20) NOT NULL COMMENT '用户ID',
-  `address_id` bigint(20) NOT NULL COMMENT '外键-地址',
-  `product_id` bigint(20) NOT NULL COMMENT '外键-产品类型',
-  `scale_id` bigint(20) NOT NULL COMMENT '外键-产品规格',
-  `cycle` tinyint(4) NOT NULL COMMENT '周期 1=1个月 2=3个月 4=6个月 4=12个月',
-  `start_time` datetime NOT NULL COMMENT '服务开始时间',
-  `end_time` datetime NOT NULL COMMENT '服务截止时间',
-  `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_time` datetime NOT NULL COMMENT '更新时间',
-  `status` tinyint(4) NOT NULL DEFAULT '1' COMMENT '状态 0=删除 1=正常 2=失效/已到期',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- ----------------------------
--- Records of ss_service
--- ----------------------------
-
--- ----------------------------
 -- Table structure for ss_user
 -- ----------------------------
 DROP TABLE IF EXISTS `ss_user`;
@@ -319,7 +327,7 @@ CREATE TABLE `ss_user` (
   `update_date` datetime DEFAULT NULL COMMENT '更新时间',
   `status` tinyint(4) DEFAULT '1' COMMENT '状态 1=正常 0=停用',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of ss_user
@@ -327,3 +335,4 @@ CREATE TABLE `ss_user` (
 INSERT INTO `ss_user` VALUES ('1', '295636011@qq.com', '夏红凡', '7d4b0bd4179443be783d1231a63f9162d8a2cc15', '842ea2ec22b2d20c', null, '295636011@qq.com', null, '2017-09-29 13:05:12', '2017-10-18 11:33:15', '1');
 INSERT INTO `ss_user` VALUES ('2', 'liuwenyang@qq.com', '刘文扬', '23f1d525150bde0e212c8b2be3fe0d08ccf678f8', 'aa605a2cdcb4cda7', null, 'liuwenyang@qq.com', null, '2017-09-29 13:45:50', '2017-10-16 08:32:23', '1');
 INSERT INTO `ss_user` VALUES ('3', '380612645@qq.com', null, '6f84864e81331ba171b04e7885ea00ffae7e0274', '167d7f6726f29eff', null, null, null, '2017-10-18 11:33:58', '2017-10-18 11:33:58', '1');
+INSERT INTO `ss_user` VALUES ('5', '160402281@qq.com', null, '771a276a34ded4b381872bfe6141c22c8088a09e', 'b96297af17ad4d03', null, null, null, '2017-10-19 18:39:39', '2017-10-19 18:39:39', '1');
