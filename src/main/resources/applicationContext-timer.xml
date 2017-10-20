@@ -11,30 +11,31 @@
 		http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa-1.3.xsd"
 	default-lazy-init="true">
 	
-	
 	<description>定时器</description>
 	<beans>
-		<!-- 定时任务 START-->
-		<bean id="emailTaskObject" class="com.asgab.task.EmailSendTask" /> 
-		
-		<bean id="emailObjDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">  
-	        <property name="targetObject" ref="emailTaskObject" />  
-	        <property name="targetMethod" value="run" />  
+		<!-- ======================== 定时任务执行方法 ======================== -->
+		<bean id="serviceExpireTask" class="com.asgab.task.ServiceExpireTask" />
+		<bean id="serviceExpireTaskDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+	        <property name="targetObject" ref="serviceExpireTask" />
+	        <property name="targetMethod" value="execute" />
 	        <property name="concurrent" value="false" /><!-- 不允许并发执行 -->  
 	    </bean>
-	    
-	    <bean id="emailTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">  
-	        <property name="jobDetail" ref="emailObjDetail" />  
+
+		<!-- ======================== 调度触发器 ======================== -->
+		<bean id="serviceExpireTaskTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+	        <property name="jobDetail" ref="serviceExpireTaskDetail" />
 		    <property name="cronExpression">  
 	    		<!-- 秒，分，时，日期，月份，周几 -->
 	        	<value>0/60 * * * * ?</value><!-- 每1分钟 -->  
 	    	</property> 
-	    </bean>    
-	    
-	    <bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">  
+	    </bean>
+
+		<!-- ======================== 调度工厂 ======================== -->
+		<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
 	        <property name="triggers">  
-	            <list>  
-	                <ref bean="emailTrigger" />
+	            <list>
+					<!--box服务到期-->
+	               <!-- <ref bean="serviceExpireTaskTrigger" />-->
 	            </list>  
 	        </property>  
 	    </bean>    

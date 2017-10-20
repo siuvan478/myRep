@@ -27,4 +27,6 @@ public interface BoxServiceMapper {
     Long save(BoxService boxService);
 
     void update(BoxService boxService);
+
+    List<BoxService> getExpireService();
 }

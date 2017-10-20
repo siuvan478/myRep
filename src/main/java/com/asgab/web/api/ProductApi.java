@@ -1,11 +1,10 @@
 package com.asgab.web.api;
 
 
-import com.asgab.entity.Product;
-import com.asgab.entity.Scale;
 import com.asgab.service.ApiException;
-import com.asgab.service.ProductService;
 import com.asgab.service.ScaleService;
+import com.asgab.service.api.ProductWebService;
+import com.asgab.web.api.param.ProductInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,20 +19,17 @@ import java.util.List;
 public class ProductApi {
 
     @Autowired
-    private ProductService productService;
-
-    @Autowired
-    private ScaleService scaleService;
+    private ProductWebService productWebService;
 
     /**
      * 获取产品类型
      */
     @RequestMapping(value = "/products", method = RequestMethod.GET)
     @ResponseBody
-    public ApiResponse<List<Product>> getProducts() {
-        ApiResponse<List<Product>> response = new ApiResponse<>();
+    public ApiResponse<List<ProductInfo>> getProductInfoList() {
+        ApiResponse<List<ProductInfo>> response = new ApiResponse<>();
         try {
-            response.setData(productService.getAll());
+            response.setData(productWebService.getProductInfoList());
         } catch (ApiException e) {
             response.setCode(e.getErrorCode());
             response.setMessage(e.getMessage());
@@ -49,10 +45,10 @@ public class ProductApi {
      */
     @RequestMapping(value = "/product/scales", method = RequestMethod.GET)
     @ResponseBody
-    public ApiResponse<List<Scale>> getProducts(@RequestParam Long productId) {
-        ApiResponse<List<Scale>> response = new ApiResponse<>();
+    public ApiResponse<ProductInfo> productDetail(@RequestParam Long productId) {
+        ApiResponse<ProductInfo> response = new ApiResponse<>();
         try {
-            response.setData(productService.getProductScales(productId));
+            response.setData(productWebService.getProductInfo(productId));
         } catch (ApiException e) {
             response.setCode(e.getErrorCode());
             response.setMessage(e.getMessage());
@@ -63,22 +59,4 @@ public class ProductApi {
         return response;
     }
 
-    /**
-     * 获取产品规格详情
-     */
-    @RequestMapping(value = "/product/scale", method = RequestMethod.GET)
-    @ResponseBody
-    public ApiResponse<Scale> getScaleDetail(@RequestParam Long scaleId) {
-        ApiResponse<Scale> response = new ApiResponse<>();
-        try {
-            response.setData(scaleService.get(scaleId));
-        } catch (ApiException e) {
-            response.setCode(e.getErrorCode());
-            response.setMessage(e.getMessage());
-        } catch (Exception e) {
-            response.setCode(500);
-            response.setMessage(e.getMessage());
-        }
-        return response;
-    }
 }

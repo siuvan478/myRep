@@ -1,11 +1,11 @@
 package com.asgab.web;
 
 import com.asgab.core.pagination.Page;
-import com.asgab.entity.City;
 import com.asgab.entity.Order;
 import com.asgab.entity.Product;
 import com.asgab.service.OrderService;
 import com.asgab.service.ProductService;
+import com.asgab.service.ServiceException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -60,6 +60,23 @@ public class OrderController extends BaseController {
     public String update(@ModelAttribute("order") Order order, RedirectAttributes redirectAttributes) {
         orderService.update(order);
         redirectAttributes.addFlashAttribute("message", "update success");
+        return "redirect:/order";
+    }
+
+    @RequestMapping(value = "audit/{id}", method = RequestMethod.GET)
+    public String toAudit(@PathVariable("id") Long id, Model model) {
+        model.addAttribute("orderForm", orderService.get(id));
+        return "include/auditOrderForm";
+    }
+
+    @RequestMapping(value = "audit", method = RequestMethod.POST)
+    public String audit(@ModelAttribute("order") Order order, RedirectAttributes redirectAttributes) {
+        try {
+            orderService.audit(order);
+            redirectAttributes.addFlashAttribute("message", "audit success");
+        } catch (ServiceException se) {
+            redirectAttributes.addFlashAttribute("error_message", se.getMessage());
+        }
         return "redirect:/order";
     }
 

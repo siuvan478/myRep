@@ -11,7 +11,7 @@ import java.util.Map;
  */
 public class GlobalConstants {
 
-    public static final Map<Character,String> STATUSES_ZH = new HashMap<Character,String>();
+    public static final Map<Character, String> STATUSES_ZH = new HashMap<Character, String>();
 
     /**
      * 状态 1=正常 0=失效/无用
@@ -36,6 +36,10 @@ public class GlobalConstants {
         public static final Integer CANCEL = 0;
         public static final Integer ORDER = 1;
         public static final Integer PAYMENT = 2;
+
+        public static boolean validAuditStatus(Integer status) {
+            return CANCEL.equals(status) || PAYMENT.equals(status);
+        }
     }
 
     /**
@@ -47,20 +51,22 @@ public class GlobalConstants {
     }
 
     /**
-     * 服务柜状态 0=已过期 1=等待收货 2=已收货 3=等待取货 4=已取货
+     * 服务柜状态 0=无效/删除 1=等待收货 2=已收货 3=等待取货 4=已取货
      */
     public static class ServiceStatus {
-        public static final Integer EXPIRY = 0;
+        public static final Integer INVALID = 0;
         public static final Integer WAIT_FOR_SAVE = 1;
         public static final Integer SAVED = 2;
         public static final Integer WAIT_FOR_TAKE = 3;
         public static final Integer TAKEN = 4;
+        public static final Integer EXPIRY = 9;
     }
 
     /**
-     * 记录状态 1=等待提货/收货 1=已收货/提货
+     * 记录状态 0=无效/删除 1=等待提货/收货 1=已收货/提货
      */
     public static class RecordStatus {
+        public static final Integer INVALID = 0;
         public static final Integer WAITING = 1;
         public static final Integer COMPLETED = 2;
     }

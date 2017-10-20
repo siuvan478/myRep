@@ -47,4 +47,8 @@
 		update ss_box_record set status = 0 where id = #{id}
 	</delete>
 
+	<delete id="deleteByServiceId" parameterType="long">
+		update ss_box_record set status = 0 where service_id = #{id}
+	</delete>
+
 </mapper> 

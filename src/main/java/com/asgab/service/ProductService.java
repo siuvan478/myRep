@@ -36,8 +36,8 @@ public class ProductService implements InitializingBean {
         refreshCache(id);
     }
 
-    public List<Product> getAll() {
-        return productMapper.search(null);
+    public List<Product> getAll(Map<String, Object> searchMap) {
+        return productMapper.search(searchMap);
     }
 
     public Page<Product> getAll(Page<Product> page) {
@@ -88,9 +88,15 @@ public class ProductService implements InitializingBean {
     }
 
     public List<Product> getProductListFromCache() {
+        long s1 = System.currentTimeMillis();
         String jsonList = jedisService.hashGet(CacheKey.PRODUCT_KEY, CacheKey.LIST);
+        long s2 = System.currentTimeMillis();
+        System.out.println("-------------------------------------" + (s2 - s1));
         if (StringUtils.isNoneBlank(jsonList)) {
-            return JSONObject.parseArray(jsonList, Product.class);
+            long s3 = System.currentTimeMillis();
+            List<Product> products = JSONObject.parseArray(jsonList, Product.class);
+            System.out.println("-------------------------------------" + (s3 - s2));
+            return products;
         } else {
             return productMapper.search(null);
         }
@@ -104,7 +110,7 @@ public class ProductService implements InitializingBean {
     private void refreshCache(Long id) {
         if (id == null) {
             jedisService.delete(CacheKey.PRODUCT_KEY);
-            List<Product> products = this.getAll();
+            List<Product> products = productMapper.search(null);
             if (products != null && products.size() > 0) {
                 jedisService.hashPut(CacheKey.PRODUCT_KEY, CacheKey.LIST, JSONObject.toJSONString(products));
                 for (Product product : products) {

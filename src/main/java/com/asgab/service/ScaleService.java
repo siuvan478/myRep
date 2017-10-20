@@ -2,8 +2,12 @@ package com.asgab.service;
 
 import com.alibaba.fastjson.JSONObject;
 import com.asgab.constants.CacheKey;
+import com.asgab.constants.GlobalConstants;
 import com.asgab.entity.Scale;
 import com.asgab.repository.ScaleMapper;
+import com.asgab.util.Collections3;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Component;
@@ -11,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Map;
 
 @Component
 @Transactional
@@ -58,6 +63,28 @@ public class ScaleService implements InitializingBean {
             }
         }
         return null;
+    }
+
+    public List<Scale> getScalesFromCacheByProductId(Long productId) {
+        String jsonList = jedisService.hashGet(CacheKey.SCALE_KEY, CacheKey.LIST);
+        if (StringUtils.isNotBlank(jsonList)) {
+            final List<Scale> finalList = Lists.newArrayList();
+            List<Scale> scales = JSONObject.parseArray(jsonList, Scale.class);
+            if (Collections3.isNotEmpty(scales)) {
+                for (Scale scale : scales) {
+                    if (scale.getStatus().equals(GlobalConstants.Status.NORMAL) &&
+                            scale.getProductId().equals(productId)) {
+                        finalList.add(scale);
+                    }
+                }
+            }
+            return finalList;
+        } else {
+            Map<String, Object> parameters = Maps.newHashMap();
+            parameters.put("productId", productId);
+            parameters.put("status", GlobalConstants.Status.NORMAL);
+            return scaleMapper.search(parameters);
+        }
     }
 
     /**

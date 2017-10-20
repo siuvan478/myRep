@@ -23,6 +23,7 @@ public class Order implements Serializable {
     private Date effectiveTime;
     private Integer status;
     private Long callbackId;
+    private String remark;
 
     //for app
     private String productName;
@@ -133,6 +134,14 @@ public class Order implements Serializable {
 
     public void setCallbackId(Long callbackId) {
         this.callbackId = callbackId;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
     }
 
     public String getProductName() {

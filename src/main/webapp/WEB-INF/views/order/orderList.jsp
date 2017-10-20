@@ -15,6 +15,10 @@
 		<div id="message" class="alert alert-success">
 			<button data-dismiss="alert" class="close">×</button>${message}</div>
 	</c:if>
+	<c:if test="${not empty error_message}">
+		<div id="message" class="alert alert-error">
+			<button data-dismiss="alert" class="close">×</button>${error_message}</div>
+	</c:if>
 	<form id="searchForm" action="${ctx}/order" method="get">
 		<div class="row">
 			<div class="col-lg-12">
@@ -99,8 +103,8 @@
 											<c:if test="${order.status eq 2}"><span class="label label-info ">已生效</span></c:if>
 										</td>
 										<td>
-											<a href="${ctx}/order/update/${order.id}"><i class="fa fa-edit fa-fw"></i></a>
-											<a onclick="delcfm('${ctx}/order/delete/${order.id}');"><i class="fa fa-times fa-fw"></i></a>
+											<a href="${ctx}/order/update/${order.id}" title="查看"><i class="fa fa-eye fa-fw"></i></a>
+											<a onclick="showAuditOrderForm('${order.id}');" class="disabled" title="审批" data-toggle="modal" data-target="#auditOrderForm"><i class="fa fa-pencil fa-fw"></i></a>
 										</td>
 									</tr>
 								</c:forEach>
@@ -117,7 +121,9 @@
 		</div>
 	</div>
 
-	<%@ include file="/WEB-INF/views/include/confirmDel.jsp"%>
+	<!-- audit order form modal -->
+	<div class="modal fade" id="auditOrderForm">
+	</div>
 	<script>
 		$(document).ready(function() {
 			$(".search-plus-minus").on("click", function() {
@@ -145,6 +151,18 @@
 				$("#searchForm>input[type='text']").val('');
 			});
 		});
+
+		function showAuditOrderForm(id){
+			$.ajax({
+				type: 'GET',
+				url: '${ctx}/order/audit/'+id,
+				dataType: 'html',
+				success : function(html){
+					console.log(html);
+					$("#auditOrderForm").html(html);
+				}
+			});
+		}
 	</script>
 </body>
 </html>

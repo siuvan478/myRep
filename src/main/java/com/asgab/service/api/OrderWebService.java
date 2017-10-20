@@ -12,6 +12,7 @@ import com.asgab.service.ProductService;
 import com.asgab.service.ScaleService;
 import com.asgab.util.BeanMapper;
 import com.asgab.util.DateUtils;
+import com.asgab.util.IdGenerator;
 import com.asgab.util.LoginUtil;
 import com.asgab.web.api.param.OrderBuyParam;
 import org.apache.log4j.Logger;
@@ -105,7 +106,7 @@ public class OrderWebService {
             //构建订单
             Order order = BeanMapper.map(param, Order.class);
             order.setUserId(userId);
-            order.setOrderNo("TODO-ORDER-NO-01");
+            order.setOrderNo(IdGenerator.INSTANCE.nextId());
             order.setCallbackId(serviceId);
             order.setQuantity(1);
             orderMapper.save(order);

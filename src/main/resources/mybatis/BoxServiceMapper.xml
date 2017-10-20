@@ -38,7 +38,7 @@
 	
 	<update id="update" parameterType="BoxService">
 		update ss_box_service set
-	  	user_id = #{userId}
+	  	user_id = #{userId},
 		address_id = #{addressId},
 		product_id = #{productId},
 		scale_id = #{scaleId},
@@ -51,5 +51,10 @@
 		status = #{status}
 		where id = #{id}
 	</update>
+
+	<select id="getExpireService" resultType="BoxService">
+		select id, <include refid="box_service_columns"/>
+		from ss_box_service where status = 1 and end_time &lt;= NOW()
+	</select>
 
 </mapper> 

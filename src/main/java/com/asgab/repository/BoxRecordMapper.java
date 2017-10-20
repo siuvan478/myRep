@@ -30,4 +30,5 @@ public interface BoxRecordMapper {
 
 	int count(Map<String, Object> map);
 
+	void deleteByServiceId(Long serviceId);
 }

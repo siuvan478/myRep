@@ -100,18 +100,17 @@ public class UserApi {
      */
     @RequestMapping(value = "/login", method = RequestMethod.POST, produces = "application/json")
     @ResponseBody
-    public ApiResponse<Boolean> login(@RequestBody UserRegParam param, HttpServletResponse httpServletResponse) {
-        ApiResponse<Boolean> response = new ApiResponse<>(Boolean.TRUE);
+    public ApiResponse<String> login(@RequestBody UserRegParam param, HttpServletResponse httpServletResponse) {
+        ApiResponse<String> response = new ApiResponse<>();
         String token = UUID.randomUUID().toString().replace("-", "");
         httpServletResponse.setHeader("x-token", token);
         try {
             userWebService.login(param.getLoginName(), param.getPassword(), token);
+            response.setData(token);
         } catch (ApiException e) {
-            response.setData(false);
             response.setCode(e.getErrorCode());
             response.setMessage(e.getMessage());
         } catch (Exception e) {
-            response.setData(false);
             response.setCode(500);
             response.setMessage(e.getMessage());
             e.printStackTrace();
