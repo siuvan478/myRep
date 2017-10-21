@@ -23,9 +23,6 @@ public class AreaController extends BaseController {
     @Resource
     private AreaService areaService;
 
-    @Resource
-    private CityService cityService;
-
     @RequestMapping(method = RequestMethod.GET)
     public String list(@RequestParam(value = "pageNumber", defaultValue = "1") int pageNumber,
                        @RequestParam(value = "pageSize", defaultValue = PAGE_SIZE) int pageSize,
@@ -35,24 +32,22 @@ public class AreaController extends BaseController {
         params.put("sort", sort);
         Page<Area> page = new Page<>(pageNumber, pageSize, sort, params);
         model.addAttribute("pages", areaService.pageQuery(page));
-        model.addAttribute("cities", getCityMapping());
         return "area/areaList";
     }
 
-    private Map<String, String> getCityMapping() {
-        List<City> cities = cityService.findAll();
-        final Map<String, String> cityMappings = new TreeMap<>();
-        for (City c : cities) {
-            cityMappings.put(c.getId().toString(), c.getName());
-        }
-        return cityMappings;
-    }
+//    private Map<String, String> getCityMapping() {
+//        List<City> cities = cityService.findAll();
+//        final Map<String, String> cityMappings = new TreeMap<>();
+//        for (City c : cities) {
+//            cityMappings.put(c.getId().toString(), c.getName());
+//        }
+//        return cityMappings;
+//    }
 
     @RequestMapping(value = "create", method = RequestMethod.GET)
     public String toCreate(Model model) {
         model.addAttribute("area", new Area());
         model.addAttribute("action", "create");
-        model.addAttribute("cities", getCityMapping());
         return "area/areaForm";
     }
 
@@ -67,7 +62,6 @@ public class AreaController extends BaseController {
     public String toUpdate(@PathVariable("id") Long id, Model model) {
         model.addAttribute("area", areaService.get(id));
         model.addAttribute("action", "update");
-        model.addAttribute("cities", getCityMapping());
         return "area/areaForm";
     }
 
@@ -75,7 +69,7 @@ public class AreaController extends BaseController {
     public String update(@ModelAttribute("area") Area area, RedirectAttributes redirectAttributes) {
         areaService.update(area);
         redirectAttributes.addFlashAttribute("message", "update success");
-        return "redirect:/area";
+        return "redirect:/area/update/" + area.getId();
     }
 
     @RequestMapping(value = "delete/{id}", method = RequestMethod.GET)

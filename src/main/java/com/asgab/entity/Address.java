@@ -12,6 +12,9 @@ public class Address {
     private Long userId;
     private Integer status;
 
+    //for app
+    private String contactName;
+
     public Address() {
     }
 
@@ -61,5 +64,13 @@ public class Address {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public String getContactName() {
+        return contactName;
+    }
+
+    public void setContactName(String contactName) {
+        this.contactName = contactName;
     }
 }

@@ -6,20 +6,19 @@
 
 <html>
 <head>
-<title>区域管理</title>
+	<title>取货地址管理</title>
 </head>
 
 <body>
-
 <!-- Content Header -->
 <section class="content-header">
 	<h1>
-		区域管理
+		取货地址管理
 	</h1>
 </section>
 
-<form role="form" id="inputForm" action="${ctx}/area/${action}" method="post" class="form-horizontal">
-	<input type="hidden" name="id" value="${area.id}" />
+<form role="form" id="inputForm" action="${ctx}/address/${action}" method="post" class="form-horizontal">
+	<input type="hidden" name="id" value="${address.id}" />
 	<section class="content">
 		<div class="box box-info">
 			<div class="box-body">
@@ -34,20 +33,26 @@
 					</div>
 					<div class="col-md-6">
 						<div class="form-group">
-							<label class="col-md-3 control-label">区域名称:</label>
+							<label class="col-md-3 control-label">联系人:</label>
 							<div class="col-md-9">
-								<input class="form-control" type="text" id="name" name="name" value="${area.name}">
+								<input class="form-control" type="text" value="${address.contactName}" readonly>
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-md-3 control-label">区域名称(英文):</label>
+							<label class="col-md-3 control-label">区域:</label>
 							<div class="col-md-9">
-								<input class="form-control" type="text" id="nameEN" name="nameEN" value="${area.nameEN}">
+								<tags:selectbox name="areaId" map="${areas}" value="${address.areaId}" empty="true"/>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-md-3 control-label">地址:</label>
+							<div class="col-md-9">
+								<input class="form-control" type="text" id="address" name="address" value="${address.address}">
 							</div>
 						</div>
 						<div class="box-footer">
 							<button type="submit" class="btn btn-success btn-70"><i class="fa fa-save"></i> <spring:message code="public.save" /></button>
-							<button type="button" class="btn btn-primary btn-70 disabled" onclick="window.location.href='${ctx}/area'">取消</button>
+							<button type="button" class="btn btn-primary btn-70 disabled" onclick="window.location.href='${ctx}/address'">取消</button>
 						</div>
 					</div>
 				</div>
@@ -56,19 +61,18 @@
 	</section>
 </form>
 
-	<script>
-		$(document).ready(function() {
-			$("#inputForm").validate({
-				rules : {
-					name : "required",
-					nameEN : "required",
+<script>
+	$(document).ready(function() {
+		$("#inputForm").validate({
+			rules : {
+				name : "required",
+				nameEN : "required",
+			},
+			messages: {
 
-				},
-				messages: {
-
-				}
-			});
+			}
 		});
-	</script>
+	});
+</script>
 </body>
 </html>

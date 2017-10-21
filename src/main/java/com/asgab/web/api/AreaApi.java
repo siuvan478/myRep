@@ -44,7 +44,7 @@ public class AreaApi {
      */
     @RequestMapping(value = "/areas", method = RequestMethod.GET)
     @ResponseBody
-    public ApiResponse<List<Area>> getAreas(@RequestParam Long cityId) {
+    public ApiResponse<List<Area>> getAreas(@RequestParam(required = false) Long cityId) {
         ApiResponse<List<Area>> response = new ApiResponse<>();
         try {
             response.setData(areaWebService.getAreasByCityId(cityId));

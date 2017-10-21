@@ -8,23 +8,31 @@
 		city_id as cityId, area_id as areaId, address, user_id as userId, status
 	</sql>
 
+	<sql id="address_columns_for_join">
+		a.city_id as cityId, a.area_id as areaId, a.address, a.user_id as userId, a.status
+	</sql>
+
 	<select id="search" parameterType="map" resultType="Address">
-		select id, <include refid="address_columns"/>
-		from ss_address where true
+		select a.id, <include refid="address_columns_for_join"/>, b.`name` as contactName
+		from ss_address a left join ss_user b on a.user_id = b.id
+		where a.status = 1
 		<if test="cityId != null">
-			and city_id = #{cityId}
+			and a.city_id = #{cityId}
 		</if>
 		<if test="areaId != null">
-			and area_id = #{areaId}
+			and a.area_id = #{areaId}
 		</if>
 		<if test="address != null">
-			and `address` like "%"#{address}"%"
+			and a.`address` like "%"#{address}"%"
 		</if>
 		<if test="userId != null">
-			and user_id = #{userId}
+			and a.user_id = #{userId}
 		</if>
 		<if test="status != null">
-			and status = #{status}
+			and a.status = #{status}
+		</if>
+		<if test="contactName != null">
+			and b.`name` like "%"#{contactName}"%"
 		</if>
 		<if test="sort != null and sort!=''">
 			order by ${sort}
@@ -33,31 +41,32 @@
 
 	<select id="count" parameterType="map" resultType="int">
 		select count(1)
-		from ss_address where true
+		from ss_address a left join ss_user b on a.user_id = b.id
+		where a.status = 1
 		<if test="cityId != null">
-			and city_id = #{cityId}
+			and a.city_id = #{cityId}
 		</if>
 		<if test="areaId != null">
-			and area_id = #{areaId}
+			and a.area_id = #{areaId}
 		</if>
 		<if test="address != null">
-			and `address` like "%"#{address}"%"
+			and a.`address` like "%"#{address}"%"
 		</if>
 		<if test="userId != null">
-			and user_id = #{userId}
+			and a.user_id = #{userId}
 		</if>
 		<if test="status != null">
-			and status = #{status}
+			and a.status = #{status}
 		</if>
-		<if test="status != null">
-			and status = #{status}
+		<if test="contactName != null">
+			and b.`name` like "%"#{contactName}"%"
 		</if>
 	</select>
 
 	<select id="get" parameterType="long" resultType="Address">
-		select id, <include refid="address_columns"/>
-		from ss_address
-		where status = 1 and id = #{id}
+		select a.id, <include refid="address_columns_for_join"/>, b.name as contactName
+		from ss_address a left join ss_user b on a.user_id = b.id
+		where a.status = 1 and a.id = #{id}
 	</select>
 
 	<insert id="save" parameterType="Address" useGeneratedKeys="true" keyProperty="id">

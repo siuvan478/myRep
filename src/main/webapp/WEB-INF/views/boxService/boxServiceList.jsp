@@ -6,7 +6,7 @@
 
 <html>
 <head>
-<title>产品列表</title>
+<title>文件柜服务列表</title>
 </head>
 <body>
 	<br />
@@ -19,7 +19,7 @@
 			<div class="col-lg-12">
 				<div class="panel panel-info">
 					<div class="panel-heading">
-						产品列表
+						文件柜服务列表
 						<small></small>
 						<button type="button" class="btn-mini btn-link pull-right search-plus-minus">
 							<i class="fa fa-search-minus"></i>
@@ -27,34 +27,23 @@
 					</div>
 					<div class="panel-body panel-body-search">
 						<div class="row">
-							<div class="col-lg-4">
-								<div class="form-group">
-									<label for="productName">產品名</label>
-									<input type="text" class="form-control" id="productName" name="productName" value="<c:out value="${pages.searchMap['productName']}"/>"
-										   placeholder="Enter Product name...">
-								</div>
-							</div>
-							<div class="col-lg-4">
-								<div class="form-group">
-									<label for="productName">編號</label>
-									<input type="text" class="form-control" id="productNo" name="productNo" value="<c:out value="${pages.searchMap['productNo']}"/>"
-										   placeholder="Enter Product number...">
-								</div>
-							</div>
+
 						</div>
 					</div>
 					<div class="panel-footer panel-footer-search">
 						<div class="btn-group" role="group" aria-label="...">
 							<button type="submit" class="btn  btn-info">
-								<i class="fa fa-search"></i> <spring:message code="public.search" />
+								<i class="fa fa-search"></i>
+								<spring:message code="public.search" />
 							</button>
 							<button id="resetButton" type="button" class="btn  btn-warning">
-								<i class="fa fa-repeat"></i> <spring:message code="public.reset" />
+								<i class="fa fa-repeat"></i>
+								<spring:message code="public.reset" />
 							</button>
 						</div>
 
-						<a class="btn  btn-primary pull-right" href="${ctx}/product/create">
-							<i class="fa fa-plus"></i> <spring:message code="public.create" /></a>
+						<a class="btn  btn-primary pull-right" href="${ctx}/product/create"><i
+							class="fa fa-edit"></i> <spring:message code="public.create" /></a>
 					</div>
 				</div>
 			</div>
@@ -70,18 +59,14 @@
 						<table class="table table-striped table-hover dataTable" style="margin-bottom:0px;">
 							<thead>
 								<tr>
-									<th <tags:sort column="productName" page="${pages}"/>>產品名</th>
-									<th <tags:sort column="productNo" page="${pages}"/>>編號</th>
 									<th <tags:sort column="status" page="${pages}"/>>状态</th>
 									<th><spring:message code="public.oper" /></th>
 								</tr>
 							</thead>
 							<tbody>
-								<c:forEach items="${pages.content}" var="product" varStatus="index">
+								<c:forEach items="${pages.content}" var="boxService" varStatus="index">
 									<tr class="${index.count%2==0?'odd':'even'}">
-										<td>${product.productName}</td>
-										<td>${product.productNo}</td>
-										<td>${product.status}</td>
+										<td>${boxService.status}</td>
 										<td>
 											<a href="${ctx}/product/update/${product.id}"><i class="fa fa-edit fa-fw"></i></a>
 											<a onclick="delcfm('${ctx}/product/delete/${product.id}');"><i class="fa fa-times fa-fw"></i></a>

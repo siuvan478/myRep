@@ -62,7 +62,7 @@
 								<div class="col-md-9">
 									<div id="product_image" style="padding: 5px 0px 5px 0px;">
 										<c:if test="${product.image != null}">
-											<img class="img-responsive" src="${ctx}/file/dumpImage?path=${product.image}"  />
+											<img class="col-md-12" src="${ctx}/file/dumpImage?path=${product.image}"  />
 										</c:if>
 									</div>
 									<a class="btn btn-primary btn-70" data-toggle="modal" data-target="#myModal"><i class="fa fa-upload"></i> <spring:message code="public.upload" /></a>
@@ -85,7 +85,7 @@
 		<div class="box" style="top: -30px">
 			<div class="box-body">
 				<div class="box-header">
-					<button type="button" class="btn btn-primary btn-70" onclick="scaleForm('${ctx}/product/scale/create')" data-toggle="modal" data-target="#scaleFormModal"><i class="fa fa-plus"></i>新增</button>
+					<button type="button" class="btn btn-primary btn-70" onclick="scaleForm('${ctx}/product/scale/create/${product.id}')" data-toggle="modal" data-target="#scaleFormModal"><i class="fa fa-plus"></i>新增</button>
 				</div>
 				<div class="table-responsive">
 				<table class="table table-striped table-hover dataTable" style="margin-bottom:0px;">
@@ -111,7 +111,7 @@
 							<td>${scale.num}</td>
 							<td>
 								<a onclick="scaleForm('${ctx}/product/scale/update/${scale.id}')" data-toggle="modal" data-target="#scaleFormModal"><i class="fa fa-edit fa-fw"></i></a>
-								<a onclick="delcfm('${ctx}/product/delete/${scale.productId}/${scale.id}');"><i class="fa fa-times fa-fw"></i></a>
+								<a onclick="delcfm('${ctx}/product/scale/delete/${scale.productId}/${scale.id}');"><i class="fa fa-times fa-fw"></i></a>
 							</td>
 						</tr>
 					</c:forEach>
@@ -130,6 +130,7 @@
 	<div class="modal fade" id="scaleFormModal">
 
 	</div>
+	<%@ include file="/WEB-INF/views/include/confirmDel.jsp"%>
 	<script>
 		$(document).ready(function() {
 			$("#inputForm").validate({

@@ -17,20 +17,27 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
                 <ul class="nav navbar-nav">
-                    <li><a href="${ctx}/user"><spring:message code="menu.user" /></a></li>
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">设置<span class="caret"></span></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">会员管理 <span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
-                            <li><a href="${ctx}/area"><spring:message code="menu.area" /></a></li>
+                            <li><a href="${ctx}/user">会员列表</a></li>
+                            <li><a href="${ctx}/address">取货地址列表</a></li>
                         </ul>
                     </li>
-                    <li><a href="${ctx}/address">取货地址</a></li>
+
                     <li><a href="${ctx}/product">产品管理</a></li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">订单管理 <span class="badge">2</span><span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
-                            <li><a href="${ctx}/order">订单管理</a></li>
-                            <li><a href="${ctx}/service">服务管理</a></li>
+                            <li><a href="${ctx}/order">订单列表</a></li>
+                            <li><a href="${ctx}/boxService">服务列表</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">设置 <span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="${ctx}/area"><spring:message code="menu.area" /></a></li>
                         </ul>
                     </li>
                 </ul>

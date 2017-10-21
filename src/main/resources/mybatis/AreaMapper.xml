@@ -10,7 +10,7 @@
 
 	<select id="search" parameterType="map" resultType="Area">
 		select id, <include refid="area_columns"/>
-		from ss_area where true
+		from ss_area where status = 1
 		<if test="name != null">
 			and `name` like "%"#{name}"%"
 		</if>
@@ -30,7 +30,7 @@
 
 	<select id="count" parameterType="map" resultType="int">
 		select count(1)
-		from ss_area where true
+		from ss_area where status = 1
 		<if test="name != null">
 			and `name` like "%"#{name}"%"
 		</if>

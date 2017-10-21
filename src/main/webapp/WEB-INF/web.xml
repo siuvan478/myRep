@@ -8,8 +8,8 @@
         <param-value>
             classpath*:/applicationContext.xml,
             classpath*:/applicationContext-shiro.xml,
-            classpath*:/applicationContext-jedis.xml,
-            classpath*:/applicationContext-timer.xml
+            classpath*:/applicationContext-jedis.xml
+            <!--classpath*:/applicationContext-timer.xml-->
         </param-value>
     </context-param>
     <context-param>

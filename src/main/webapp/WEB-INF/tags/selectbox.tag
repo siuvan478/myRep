@@ -5,9 +5,17 @@
 <%@ attribute name="name" type="java.lang.String" required="true"%>
 <%@ attribute name="value" type="java.lang.String" %>
 <%@ attribute name="map" type="java.util.Map" required="true"%>
+<%@ attribute name="empty" type="java.lang.Boolean"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <select name="<%=name%>" class="form-control <%=name%>" id="<%=name%>">
+	<%
+		if(empty != null && empty){
+	%>
+			<option value></option>
+	<%
+		}
+	%>
 	<%
 		Iterator iterator = map.entrySet().iterator();
 		while(iterator.hasNext()){

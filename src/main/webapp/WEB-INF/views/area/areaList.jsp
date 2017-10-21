@@ -39,12 +39,6 @@
 									<input type="text" class="form-control" id="nameEN" name="nameEN" value="<c:out value="${pages.searchMap['nameEN']}"/>" placeholder="请输入区域英文名称...">
 								</div>
 							</div>
-							<div class="col-lg-4">
-								<div class="form-group">
-									<label for="cityId">城市</label>
-									<tags:selectbox name="cityId" map="${cities}" value="${pages.searchMap['cityId']}" />
-								</div>
-							</div>
 						</div>
 					</div>
 					<div class="panel-footer panel-footer-search">
@@ -78,7 +72,6 @@
 								<tr>
 									<th <tags:sort column="name" page="${pages}"/>>区域名称</th>
 									<th <tags:sort column="nameEN" page="${pages}"/>>区域名称(英文)</th>
-									<th>城市名称</th>
 									<th><spring:message code="public.oper" /></th>
 								</tr>
 							</thead>
@@ -87,13 +80,6 @@
 									<tr class="${index.count%2==0?'odd':'even'}">
 										<td>${area.name}</td>
 										<td>${area.nameEN}</td>
-										<td>
-											<c:forEach var="city" items="${cities}">
-												<c:if test="${city.key == area.cityId}">
-													${city.value}
-												</c:if>
-											</c:forEach>
-										</td>
 										<td>
 											<a href="${ctx}/area/update/${area.id}"><i class="fa fa-edit fa-fw"></i></a>
 											<a onclick="delcfm('${ctx}/area/delete/${area.id}');"><i class="fa fa-times fa-fw"></i></a>

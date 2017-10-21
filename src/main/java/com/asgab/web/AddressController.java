@@ -3,7 +3,7 @@ package com.asgab.web;
 import com.asgab.core.pagination.Page;
 import com.asgab.entity.Address;
 import com.asgab.service.AddressService;
-import com.asgab.service.CityService;
+import com.asgab.service.AreaService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -21,18 +21,18 @@ public class AddressController extends BaseController {
     private AddressService addressService;
 
     @Resource
-    private CityService cityService;
+    private AreaService areaService;
 
     @RequestMapping(method = RequestMethod.GET)
     public String list(@RequestParam(value = "pageNumber", defaultValue = PAGE_NUMBER) int pageNumber,
                        @RequestParam(value = "pageSize", defaultValue = PAGE_SIZE) int pageSize,
                        @RequestParam(value = "sort", defaultValue = "") String sort, ServletRequest request, Model model) {
         //处理搜索条件
-        Map<String, Object> params = dealSearchCondition(request, model, "cityId", "areaId", "address", "status");
+        Map<String, Object> params = dealSearchCondition(request, model, "areaId", "address", "contactName");
         params.put("sort", sort);
         Page<Address> page = new Page<>(pageNumber, pageSize, sort, params);
         model.addAttribute("pages", addressService.pageQuery(page));
-        model.addAttribute("cities", cityService.getCitiesMapping());
+        model.addAttribute("areas", areaService.getListMapping());
         return "address/addressList";
     }
 
@@ -54,14 +54,15 @@ public class AddressController extends BaseController {
     public String toUpdate(@PathVariable("id") Long id, Model model) {
         model.addAttribute("address", addressService.get(id));
         model.addAttribute("action", "update");
+        model.addAttribute("areas", areaService.getListMapping());
         return "address/addressForm";
     }
 
     @RequestMapping(value = "update", method = RequestMethod.POST)
-    public String update(@ModelAttribute("address") Address address, RedirectAttributes redirectAttributes) {
+    public String update(@ModelAttribute("addressModel") Address address, RedirectAttributes redirectAttributes) {
         addressService.update(address);
         redirectAttributes.addFlashAttribute("message", "update success");
-        return "redirect:/address";
+        return "redirect:/address/update/" + address.getId();
     }
 
     @RequestMapping(value = "delete/{id}", method = RequestMethod.GET)
@@ -74,7 +75,7 @@ public class AddressController extends BaseController {
     @ModelAttribute
     public void getAddress(@RequestParam(value = "id", defaultValue = "-1") Long id, Model model) {
         if (id != -1) {
-            model.addAttribute("address", addressService.get(id));
+            model.addAttribute("addressModel", addressService.get(id));
         }
     }
 }

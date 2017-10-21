@@ -42,7 +42,18 @@
 							<div class="col-lg-4">
 								<div class="form-group">
 									<label for="productId">产品类型</label>
-									<tags:selectbox name="productId" map="${products}" value="${pages.searchMap['productId']}" />
+									<tags:selectbox name="productId" map="${products}" value="${pages.searchMap['productId']}" empty="true" />
+								</div>
+							</div>
+							<div class="col-lg-4">
+								<div class="form-group">
+									<label for="status">订单状态</label>
+									<select name="status" class="status form-control" id="status">
+										<option value>请选择</option>
+										<c:forEach var="status" items="${statuses}">
+											<option value="${status.key}" <c:if test="${pages.searchMap['status'] eq status.key}">selected</c:if>>${status.value}</option>
+										</c:forEach>
+									</select>
 								</div>
 							</div>
 						</div>
@@ -53,7 +64,7 @@
 								<i class="fa fa-search"></i>
 								<spring:message code="public.search" />
 							</button>
-							<button id="resetButton" type="button" class="btn  btn-warning">
+							<button id="resetButton" type="button" class="btn btn-warning" onclick="searchFormReset();">
 								<i class="fa fa-repeat"></i>
 								<spring:message code="public.reset" />
 							</button>
@@ -98,12 +109,14 @@
 										<td>$ ${order.totalPrice}HKD</td>
 										<td><fmt:formatDate value="${order.orderTime}" pattern="yyyy-MM-dd HH:ss" /></td>
 										<td>
-											<c:if test="${order.status eq 0}"><span class="label label-default">已取消</span></c:if>
-											<c:if test="${order.status eq 1}"><span class="label label-success">新订单</span></td></c:if>
-											<c:if test="${order.status eq 2}"><span class="label label-info ">已生效</span></c:if>
+											<c:forEach var="status" items="${statuses}">
+												<c:if test="${status.key eq order.status}">
+													<span class="label ${order.labelClass}">${status.value}</span>
+												</c:if>
+											</c:forEach>
 										</td>
 										<td>
-											<a href="${ctx}/order/update/${order.id}" title="查看"><i class="fa fa-eye fa-fw"></i></a>
+											<a href="${ctx}/order/view/${order.id}" title="查看"><i class="fa fa-eye fa-fw"></i></a>
 											<a onclick="showAuditOrderForm('${order.id}');" class="disabled" title="审批" data-toggle="modal" data-target="#auditOrderForm"><i class="fa fa-pencil fa-fw"></i></a>
 										</td>
 									</tr>
@@ -143,13 +156,11 @@
 			});
 
 			$("#productId").select2({
-				placeholder: "Please enter product name...",
+				placeholder: "Please select...",
 				allowClear: true,
 				language: lang_options(1)
 			});
-			$("#resetButton").on("click", function() {
-				$("#searchForm>input[type='text']").val('');
-			});
+			$("#status").select2();
 		});
 
 		function showAuditOrderForm(id){

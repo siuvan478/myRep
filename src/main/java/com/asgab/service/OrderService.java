@@ -56,7 +56,18 @@ public class OrderService {
     }
 
     public Order get(Long id) {
-        return orderMapper.get(id);
+        Order order = orderMapper.get(id);
+        if (order != null) {
+            Product product = productService.getProductFromCache(order.getProductId());
+            if (product != null) {
+                order.setProductName(product.getProductName());
+            }
+            Scale scale = scaleService.getScaleFromCache(order.getScaleId());
+            if (scale != null) {
+                order.setScaleName(scale.getScale());
+            }
+        }
+        return order;
     }
 
     public void update(Order product) {
@@ -67,7 +78,7 @@ public class OrderService {
         if (order.getId() == null) {
             throw new ServiceException("审核失败，订单ID不能为空");
         }
-        if (order.getStatus() == null || GlobalConstants.OrderStatus.validAuditStatus(order.getStatus())) {
+        if (order.getStatus() == null || !GlobalConstants.OrderStatus.validAuditStatus(order.getStatus())) {
             throw new ServiceException("审核失败，订单ID不能为空");
         }
         Order orderInfo = orderMapper.get(order.getId());

@@ -81,9 +81,12 @@ public class ProductController extends BaseController {
     }
 
     /*===================================================Scale 部分===================================================*/
-    @RequestMapping(value = "scale/create", method = RequestMethod.GET)
-    public String toScaleCreate(Model model, HttpServletRequest request) {
-        model.addAttribute("scaleForm", new Scale());
+    @RequestMapping(value = "scale/create/{pid}", method = RequestMethod.GET)
+    public String toScaleCreate(@PathVariable(value = "pid") Long productId, Model model) {
+        Scale scaleForm = new Scale();
+        scaleForm.setProductId(productId);
+        scaleForm.setNeedQuote(0);
+        model.addAttribute("scaleForm", scaleForm);
         model.addAttribute("action2", "create");
         return "include/scaleForm";
     }
@@ -92,7 +95,7 @@ public class ProductController extends BaseController {
     public String createScale(Scale scale, RedirectAttributes redirectAttributes) {
         scaleService.save(scale);
         redirectAttributes.addFlashAttribute("message", "save scale success");
-        return "redirect:/product";
+        return "redirect:/product/update/" + scale.getProductId();
     }
 
     @RequestMapping(value = "scale/update/{id}", method = RequestMethod.GET)

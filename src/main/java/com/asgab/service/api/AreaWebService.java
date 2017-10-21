@@ -3,6 +3,7 @@ package com.asgab.service.api;
 
 import com.alibaba.fastjson.JSONObject;
 import com.asgab.constants.CacheKey;
+import com.asgab.constants.GlobalConstants;
 import com.asgab.entity.Area;
 import com.asgab.entity.City;
 import com.asgab.service.AreaService;
@@ -45,7 +46,8 @@ public class AreaWebService {
             final List<Area> areas = JSONObject.parseArray(jsonArray, Area.class);
             if (areas != null && areas.size() > 0) {
                 for (Area a : areas) {
-                    if (a.getCityId().equals(cityId)) {
+                    if ((cityId == null || a.getCityId().equals(cityId)) &&
+                            a.getStatus().equals(GlobalConstants.Status.NORMAL)) {
                         finalList.add(a);
                     }
                 }

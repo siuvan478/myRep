@@ -5,18 +5,16 @@
 
 <html>
 <head>
-<title><spring:message code="user.title" /></title>
+<title>会员管理</title>
 </head>
-
-
 
 <body>
 
 	<!-- Content Header -->
 	<section class="content-header">
 		<h1>
-			<c:if test="${action eq 'create' }">新建用户</c:if>
-			<c:if test="${action eq 'update' }">编辑用户</c:if>
+			<c:if test="${action eq 'create' }">新建会员</c:if>
+			<c:if test="${action eq 'update' }">编辑会员</c:if>
 		</h1>
 	</section>
 
@@ -61,19 +59,19 @@
 							<div class="form-group">
 								<label class="col-md-3 control-label"><spring:message code="user.email" />:</label>
 								<div class="col-md-9">
-									<input class="form-control" type="email" id="email" name="email" value="${user.email }" />
+									<input class="form-control" type="email" id="email" name="email" value="${user.email }" placeholder="@"/>
 								</div>
 							</div>
 							<div class="form-group">
 								<label class="col-md-3 control-label">手机号:</label>
 								<div class="col-md-9">
-									<input class="form-control" type="text" id="phone" name="phone" value="${user.phone }" />
+									<input class="form-control" type="text" id="phone" name="phone" value="${user.phone }" placeholder=""/>
 								</div>
 							</div>
 
 							<div class="box-footer">
-								<button type="submit" class="btn btn-success btn-65"><spring:message code="public.save" /></button>
-								<button type="button" class="btn btn-primary btn-65 disabled" onclick="window.location.href='${ctx}/user'">取消</button>
+								<button type="submit" class="btn btn-success btn-70"><i class="fa fa-save"></i> <spring:message code="public.save" /></button></button>
+								<button type="button" class="btn btn-primary btn-70 disabled" onclick="window.location.href='${ctx}/user'">取消</button>
 							</div>
 						</div>
 					</div>
@@ -127,36 +125,6 @@
 					}
 				}
 			});
-
-			$('#roles').change(function() {
-				var role = $(this).val();
-				if (role != 'admin') {
-					$("#emailauditDiv").show();
-					$("#financeEmailDiv").hide();
-					if (role == 'finance') {
-						$("#financeEmailDiv").show();
-					}
-
-				} else {
-					$("#emailauditDiv").hide();
-					$("#financeEmailDiv").hide();
-					$("#emailaudit").val("N");
-				}
-			});
-
-			var role = $("#roles").val();
-			if (role != 'admin') {
-				$("#emailauditDiv").show();
-				$("#financeEmailDiv").hide();
-				if (role == 'finance') {
-					$("#financeEmailDiv").show();
-				}
-			} else {
-				$("#emailauditDiv").hide();
-				$("#financeEmailDiv").hide();
-				$("#emailaudit").val("N");
-			}
-
 		});
 	</script>
 </body>

@@ -209,7 +209,6 @@ public class UserWebService {
         UserInfo userInfo = JSONObject.parseObject(userJson, UserInfo.class);
         Address addressInfo = addressService.getUniqueAddressByUserId(userInfo.getId());
         if (addressInfo != null) {
-            userInfo.setCityId(addressInfo.getCityId());
             userInfo.setAreaId(addressInfo.getAreaId());
             userInfo.setAddress(addressInfo.getAddress());
         }
@@ -218,7 +217,6 @@ public class UserWebService {
 
     public void updateUserInfo(UserInfo userInfo) {
         if (userInfo.getId() == null) throw new ApiException("非法参数");
-        if (userInfo.getCityId() == null) throw new ApiException("大区地址不能为空");
         if (userInfo.getAreaId() == null) throw new ApiException("小区地址不能为空");
         User user = accountService.getUser(userInfo.getId());
         if (user == null) throw new ApiException("用户信息不存在");
@@ -230,12 +228,10 @@ public class UserWebService {
         if (addressInfo == null) {
             addressInfo = new Address();
             addressInfo.setUserId(userInfo.getId());
-            addressInfo.setCityId(userInfo.getCityId());
             addressInfo.setAreaId(userInfo.getAreaId());
             addressInfo.setAddress(userInfo.getAddress());
             addressService.save(addressInfo);
         } else {
-            addressInfo.setCityId(userInfo.getCityId());
             addressInfo.setAreaId(userInfo.getAreaId());
             addressInfo.setAddress(userInfo.getAddress());
             addressService.update(addressInfo);

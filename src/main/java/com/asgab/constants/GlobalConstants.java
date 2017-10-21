@@ -5,13 +5,34 @@ import org.apache.commons.lang3.EnumUtils;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * 全局常量
  */
 public class GlobalConstants {
 
-    public static final Map<Character, String> STATUSES_ZH = new HashMap<Character, String>();
+    /**
+     * 订单状态
+     */
+    public static final Map<String, String> ORDER_STATUS_ZH = new TreeMap<>();
+
+    /**
+     * 购买周期
+     */
+    public static final Map<String, String> PRODUCT_CYCLE_ZH = new TreeMap<>();
+
+    static {
+        //===
+        ORDER_STATUS_ZH.put("0", "已取消");
+        ORDER_STATUS_ZH.put("1", "新订单");
+        ORDER_STATUS_ZH.put("2", "已生效");
+        //===
+        PRODUCT_CYCLE_ZH.put("1", "1个月");
+        PRODUCT_CYCLE_ZH.put("2", "3个月");
+        PRODUCT_CYCLE_ZH.put("3", "6个月");
+        PRODUCT_CYCLE_ZH.put("4", "12个月");
+    }
 
     /**
      * 状态 1=正常 0=失效/无用
@@ -39,6 +60,13 @@ public class GlobalConstants {
 
         public static boolean validAuditStatus(Integer status) {
             return CANCEL.equals(status) || PAYMENT.equals(status);
+        }
+
+        public static String getLabelClass(Integer status) {
+            if (CANCEL.equals(status)) return "label-default";
+            else if (ORDER.equals(status)) return "label-info";
+            else if (PAYMENT.equals(status)) return "label-success";
+            return "";
         }
     }
 

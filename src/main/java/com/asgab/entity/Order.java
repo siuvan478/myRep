@@ -1,5 +1,7 @@
 package com.asgab.entity;
 
+import com.asgab.constants.GlobalConstants;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -158,5 +160,9 @@ public class Order implements Serializable {
 
     public void setScaleName(String scaleName) {
         this.scaleName = scaleName;
+    }
+
+    public String getLabelClass() {
+        return GlobalConstants.OrderStatus.getLabelClass(this.getStatus());
     }
 }

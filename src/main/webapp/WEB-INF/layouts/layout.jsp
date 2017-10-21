@@ -185,7 +185,7 @@
             <div class="pull-right hidden-xs">
                 <b>Version</b> 1.0
             </div>
-            <strong>Copyright &copy; 2017 XXXXXX</a>.</strong> All rights reserved.
+            <strong>Copyright &copy; 2017-2020 FREEMAN</a>.</strong> All rights reserved.
         </div><!-- /.container -->
     </footer>
 </div><!-- ./wrapper -->
@@ -274,6 +274,11 @@
     function urlSubmit(){
         var url=$.trim($("#url").val());//获取会话中的隐藏属性URL
         window.location.href=url;
+    }
+
+    function searchFormReset() {
+        $("#searchForm input[type='text']").val('');
+        $("#searchForm select").val(null).change();
     }
 </script>
 </body>

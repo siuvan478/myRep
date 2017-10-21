@@ -1,5 +1,6 @@
 package com.asgab.web;
 
+import com.asgab.constants.GlobalConstants;
 import com.asgab.core.pagination.Page;
 import com.asgab.entity.Order;
 import com.asgab.entity.Product;
@@ -32,11 +33,13 @@ public class OrderController extends BaseController {
                        @RequestParam(value = "pageSize", defaultValue = PAGE_SIZE) int pageSize,
                        @RequestParam(value = "sort", defaultValue = "") String sort, ServletRequest request, Model model) {
         //处理搜索条件
-        Map<String, Object> params = dealSearchCondition(request, model, "productId");
+        Map<String, Object> params = dealSearchCondition(request, model, "orderNo", "productId", "status");
         params.put("sort", sort);
         Page<Order> page = new Page<>(pageNumber, pageSize, sort, params);
         model.addAttribute("pages", orderService.pageQuery(page));
         model.addAttribute("products", getProducts());
+        model.addAttribute("statuses", GlobalConstants.ORDER_STATUS_ZH);
+        model.addAttribute("cycles", GlobalConstants.PRODUCT_CYCLE_ZH);
         return "order/orderList";
     }
 
@@ -49,18 +52,13 @@ public class OrderController extends BaseController {
         return cityMappings;
     }
 
-    @RequestMapping(value = "update/{id}", method = RequestMethod.GET)
-    public String toUpdate(@PathVariable("id") Long id, Model model) {
-        model.addAttribute("order", orderService.get(id));
-        model.addAttribute("action", "update");
-        return "order/orderForm";
-    }
-
-    @RequestMapping(value = "update", method = RequestMethod.POST)
-    public String update(@ModelAttribute("order") Order order, RedirectAttributes redirectAttributes) {
-        orderService.update(order);
-        redirectAttributes.addFlashAttribute("message", "update success");
-        return "redirect:/order";
+    @RequestMapping(value = "view/{id}", method = RequestMethod.GET)
+    public String view(@PathVariable("id") Long id, Model model) {
+        model.addAttribute("orderForm", orderService.get(id));
+        model.addAttribute("action", "view");
+        model.addAttribute("statuses", GlobalConstants.ORDER_STATUS_ZH);
+        model.addAttribute("cycles", GlobalConstants.PRODUCT_CYCLE_ZH);
+        return "order/orderView";
     }
 
     @RequestMapping(value = "audit/{id}", method = RequestMethod.GET)
@@ -70,7 +68,7 @@ public class OrderController extends BaseController {
     }
 
     @RequestMapping(value = "audit", method = RequestMethod.POST)
-    public String audit(@ModelAttribute("order") Order order, RedirectAttributes redirectAttributes) {
+    public String audit(Order order, RedirectAttributes redirectAttributes) {
         try {
             orderService.audit(order);
             redirectAttributes.addFlashAttribute("message", "audit success");

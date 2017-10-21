@@ -12,23 +12,20 @@
 	<select id="get" parameterType="long" resultType="BoxService">
 		select id, <include refid="box_service_columns"/>
 		from ss_box_service
-		where status = 1 and id = #{id}
+		where id = #{id}
 	</select>
 
 	<select id="search" parameterType="map" resultType="BoxService">
 		select id, <include refid="box_service_columns"/>
-		from ss_box_service where status = 1
-		<if test="sort != null and sort!=''">
+		from ss_box_service where status in(1,2)
+		<if test="sort != null and sort != ''">
 			order by ${sort}
 		</if>
 	</select>
 	
 	<select id="count" parameterType="map" resultType="int">
 		select count(1)
-		from ss_box_service where status = 1
-		<if test="">
-
-		</if>
+		from ss_box_service where status in(1,2)
 	</select>
 
 	<insert id="save" parameterType="BoxService" useGeneratedKeys="true" keyProperty="id">

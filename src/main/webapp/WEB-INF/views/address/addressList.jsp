@@ -11,9 +11,12 @@
 <body>
 	<br />
 	<c:if test="${not empty message}">
-		<div id="message" class="alert alert-success">
-			<button data-dismiss="alert" class="close">×</button>${message}</div>
+		<div id="message" class="alert alert-success" role="alert">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			<strong>${message}</strong>
+		</div>
 	</c:if>
+
 	<form id="searchForm" action="${ctx}/address" method="get">
 		<div class="row">
 			<div class="col-lg-12">
@@ -29,14 +32,22 @@
 						<div class="row">
 							<div class="col-lg-4">
 								<div class="form-group">
-									<label for="cityId">城市</label>
-									<tags:selectbox name="cityId" map="${cities}" value="${pages.searchMap['cityId']}"></tags:selectbox>
+									<label for="areaId">联系人姓名</label>
+									<input type="text" class="form-control" id="contactName" name="contactName" value="<c:out value="${pages.searchMap['contactName']}"/>"
+										   placeholder="输入关键字...">
 								</div>
 							</div>
 							<div class="col-lg-4">
 								<div class="form-group">
-									<label for="cityId">城市</label>
-									<tags:selectbox name="cityId111" map="${cities}" value="${pages.searchMap['cityId']}"></tags:selectbox>
+									<label for="areaId">区域</label>
+									<tags:selectbox name="areaId" map="${areas}" value="${pages.searchMap['areaId']}" empty="true"/>
+								</div>
+							</div>
+							<div class="col-lg-4">
+								<div class="form-group">
+									<label for="address">地址</label>
+									<input type="text" class="form-control" id="address" name="address" value="<c:out value="${pages.searchMap['address']}"/>"
+										   placeholder="输入关键字...">
 								</div>
 							</div>
 						</div>
@@ -44,12 +55,10 @@
 					<div class="panel-footer panel-footer-search">
 						<div class="btn-group" role="group" aria-label="...">
 							<button type="submit" class="btn  btn-info">
-								<i class="fa fa-search"></i>
-								<spring:message code="public.search" />
+								<i class="fa fa-search"></i> <spring:message code="public.search" />
 							</button>
-							<button id="resetButton" type="button" class="btn  btn-warning">
-								<i class="fa fa-repeat"></i>
-								<spring:message code="public.reset" />
+							<button id="resetButton" type="button" class="btn btn-warning" onclick="searchFormReset();">
+								<i class="fa fa-repeat"></i> <spring:message code="public.reset" />
 							</button>
 						</div>
 
@@ -68,20 +77,24 @@
 						<table class="table table-striped table-hover dataTable" style="margin-bottom:0px;">
 							<thead>
 								<tr>
-									<th <tags:sort column="name" page="${pages}"/>>城市</th>
-									<th <tags:sort column="nameEN" page="${pages}"/>>区域</th>
-									<th>地址</th>
 									<th>联系人</th>
+									<th <tags:sort column="areaId" page="${pages}"/>>区域</th>
+									<th>地址</th>
 									<th><spring:message code="public.oper" /></th>
 								</tr>
 							</thead>
 							<tbody>
 								<c:forEach items="${pages.content}" var="address" varStatus="index">
 									<tr class="${index.count%2==0?'odd':'even'}">
-										<td>${address.cityId}</td>
-										<td>${address.areaId}</td>
+										<td>${address.contactName}</td>
+										<td>
+											<c:forEach var="area" items="${areas}">
+												<c:if test="${area.key eq address.areaId}">
+													${area.value}
+												</c:if>
+											</c:forEach>
+										</td>
 										<td>${address.address}</td>
-										<td>${address.userId}</td>
 										<td>
 											<a href="${ctx}/address/update/${address.id}"><i class="fa fa-edit fa-fw"></i></a>
 											<a onclick="delcfm('${ctx}/address/delete/${address.id}');"><i class="fa fa-times fa-fw"></i></a>
@@ -104,8 +117,7 @@
 	<%@ include file="/WEB-INF/views/include/confirmDel.jsp"%>
 	<script>
 		$(document).ready(function() {
-			$("#cityId").select2();
-//			$("#areaId").select2();
+
 			$(".search-plus-minus").on("click", function() {
 				var i = $(this).children(":first");
 				if (i.attr("class").indexOf("fa-search-minus") > 0) {
@@ -122,10 +134,11 @@
 				}
 			});
 
-			$("#resetButton").on("click", function() {
-				$("#searchForm>input[type='text']").val('');
+			$("#areaId").select2({
+				placeholder: "Please select...",
+				allowClear: true,
+				language: lang_options(1)
 			});
-			
 		});
 	</script>
 </body>
