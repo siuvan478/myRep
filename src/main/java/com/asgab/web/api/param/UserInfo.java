@@ -12,8 +12,10 @@ public class UserInfo implements Serializable {
     private String name;
     private String email;
     private String phone;
+    private Long addressId;
     private Long areaId;
     private String address;
+    private String areaName;
 
     public UserInfo() {
     }
@@ -50,6 +52,14 @@ public class UserInfo implements Serializable {
         this.phone = phone;
     }
 
+    public Long getAddressId() {
+        return addressId;
+    }
+
+    public void setAddressId(Long addressId) {
+        this.addressId = addressId;
+    }
+
     public Long getAreaId() {
         return areaId;
     }
@@ -64,5 +74,13 @@ public class UserInfo implements Serializable {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public String getAreaName() {
+        return areaName;
+    }
+
+    public void setAreaName(String areaName) {
+        this.areaName = areaName;
     }
 }

@@ -18,7 +18,7 @@ public interface AreaMapper {
 
     Area get(Long id);
 
-    Long save(Area area);
+    void save(Area area);
 
     void update(Area area);
 

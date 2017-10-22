@@ -37,19 +37,10 @@ public class OrderController extends BaseController {
         params.put("sort", sort);
         Page<Order> page = new Page<>(pageNumber, pageSize, sort, params);
         model.addAttribute("pages", orderService.pageQuery(page));
-        model.addAttribute("products", getProducts());
+        model.addAttribute("products", productService.getProducts());
         model.addAttribute("statuses", GlobalConstants.ORDER_STATUS_ZH);
         model.addAttribute("cycles", GlobalConstants.PRODUCT_CYCLE_ZH);
         return "order/orderList";
-    }
-
-    private Map<String, String> getProducts() {
-        List<Product> products = productService.getProductListFromCache();
-        final Map<String, String> cityMappings = new TreeMap<>();
-        for (Product p : products) {
-            cityMappings.put(p.getId().toString(), p.getProductName());
-        }
-        return cityMappings;
     }
 
     @RequestMapping(value = "view/{id}", method = RequestMethod.GET)

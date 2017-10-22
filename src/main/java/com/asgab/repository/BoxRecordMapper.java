@@ -22,7 +22,7 @@ public interface BoxRecordMapper {
 
 	List<BoxRecord> search(Map<String, Object> parameters, RowBounds rowBounds);
 
-	Long save(BoxRecord boxRecord);
+	void save(BoxRecord boxRecord);
 
 	void update(BoxRecord boxRecord);
 

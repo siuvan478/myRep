@@ -17,13 +17,14 @@
             <input type="hidden" name="id" value="${orderForm.id}">
             <div class="col-md-12">
                 <div class="form-group">
-                    <label class="col-md-3 control-label">备注:</label>
+                    <label class="col-md-3 control-label"></label>
                     <div class="col-md-9">
-                        <select name="status" class="form-control" >
-                            <option value="">请选择</option>
-                            <option value="0">取消订单</option>
-                            <option value="2">已收款</option>
-                        </select>
+                        <label class="radio-inline">
+                            <input type="radio" name="status" id="status1" value="0"> 取消订单
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="status" checked id="status2" value="2"> 已收款
+                        </label>
                     </div>
                 </div>
                 <div class="form-group">

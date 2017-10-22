@@ -24,7 +24,7 @@ public interface ScaleMapper {
 
     List<Scale> search(Map<String, Object> parameters, RowBounds rowBounds);
 
-    Long save(Scale scale);
+    void save(Scale scale);
 
     void update(Scale scale);
 

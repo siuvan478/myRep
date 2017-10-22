@@ -5,7 +5,8 @@
 <mapper namespace="com.asgab.repository.BoxRecordMapper">
 
 	<sql id="box_record_columns">
-		user_id as userId, service_id as serviceId, `type`, appointment_time as appointmentTime, cost, create_time as createTime, status
+		user_id as userId, service_id as serviceId, `type`, appointment_time as appointmentTime, cost, create_time as createTime, status,
+		picture1, picture2, picture3, picture4
 	</sql>
 
 	<select id="get" parameterType="long" resultType="BoxRecord">
@@ -16,7 +17,10 @@
 
 	<select id="search" parameterType="map" resultType="BoxRecord">
 		select id, <include refid="box_record_columns"/>
-		from ss_box_record where status = 1
+		from ss_box_record where status in(1,2)
+		<if test="serviceId != null and serviceId != ''">
+			and service_id = #{serviceId}
+		</if>
 		<if test="sort != null and sort!=''">
 			order by ${sort}
 		</if>
@@ -24,11 +28,14 @@
 
 	<select id="count" parameterType="map" resultType="int">
 		select count(1)
-		from ss_box_record where status = 1
+		from ss_box_record where status in(1,2)
+		<if test="serviceId != null and serviceId != ''">
+			and service_id = #{serviceId}
+		</if>
 	</select>
 
 	<insert id="save" parameterType="BoxRecord" useGeneratedKeys="true" keyProperty="id">
-		insert into ss_box_record (user_id, service_id, `type`, appointment_time, cost, create_time )
+		insert into ss_box_record (user_id, service_id, `type`, appointment_time, cost, create_time)
 		values (#{userId}, #{serviceId}, #{type}, #{appointmentTime}, #{cost}, now())
 	</insert>
 
@@ -39,7 +46,11 @@
 		`type` = #{type},
 		appointment_time = #{appointmentTime},
 		cost = #{cost},
-		status = #{status}
+		status = #{status},
+		picture1 = #{picture1},
+		picture2 = #{picture2},
+		picture3 = #{picture3},
+		picture4 = #{picture4}
 		where id = #{id}
 	</update>
 

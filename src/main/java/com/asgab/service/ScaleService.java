@@ -28,8 +28,8 @@ public class ScaleService implements InitializingBean {
     private JedisService jedisService;
 
     public void save(Scale scale) {
-        Long id = scaleMapper.save(scale);
-        refreshCache(id);
+        scaleMapper.save(scale);
+        refreshCache(scale.getId());
     }
 
     public Scale get(Long id) {

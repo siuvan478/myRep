@@ -32,8 +32,8 @@ public class CityService implements InitializingBean {
         return cityMapper.get(id);
     }
 
-    public Long save(City city) {
-        return cityMapper.save(city);
+    public void save(City city) {
+        cityMapper.save(city);
     }
 
     public void update(City city) {

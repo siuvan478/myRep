@@ -22,6 +22,16 @@ public class GlobalConstants {
      */
     public static final Map<String, String> PRODUCT_CYCLE_ZH = new TreeMap<>();
 
+    /**
+     * 文件柜服务开关
+     */
+    public static final Map<String, String> BOX_SERVICE_FLAG_ZH = new TreeMap<>();
+
+    /**
+     * 文件柜服务状态
+     */
+    public static final Map<String, String> BOX_SERVICE_STATUS_ZH = new TreeMap<>();
+
     static {
         //===
         ORDER_STATUS_ZH.put("0", "已取消");
@@ -32,6 +42,15 @@ public class GlobalConstants {
         PRODUCT_CYCLE_ZH.put("2", "3个月");
         PRODUCT_CYCLE_ZH.put("3", "6个月");
         PRODUCT_CYCLE_ZH.put("4", "12个月");
+        //===
+        BOX_SERVICE_FLAG_ZH.put("0", "闲置");
+        BOX_SERVICE_FLAG_ZH.put("1", "使用中");
+        //==
+        BOX_SERVICE_STATUS_ZH.put(ServiceStatus.WAIT_FOR_SAVE.toString(), "等待收货");
+        BOX_SERVICE_STATUS_ZH.put(ServiceStatus.SAVED.toString(), "已收货");
+        BOX_SERVICE_STATUS_ZH.put(ServiceStatus.WAIT_FOR_TAKE.toString(), "等待提货");
+        BOX_SERVICE_STATUS_ZH.put(ServiceStatus.TAKEN.toString(), "已提货");
+        BOX_SERVICE_STATUS_ZH.put(ServiceStatus.EXPIRY.toString(), "已过期");
     }
 
     /**
@@ -48,6 +67,10 @@ public class GlobalConstants {
     public static class RecordType {
         public static final Integer SAVE = 1;
         public static final Integer TAKE = 2;
+
+        public static boolean valid(Integer type) {
+            return SAVE.equals(type) || TAKE.equals(type);
+        }
     }
 
     /**
@@ -91,7 +114,7 @@ public class GlobalConstants {
     }
 
     /**
-     * 记录状态 0=无效/删除 1=等待提货/收货 1=已收货/提货
+     * 记录状态 0=无效/删除 1=等待提货/收货 2=已收货/提货
      */
     public static class RecordStatus {
         public static final Integer INVALID = 0;

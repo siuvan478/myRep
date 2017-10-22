@@ -4,12 +4,10 @@ import com.alibaba.fastjson.JSONObject;
 import com.asgab.constants.CacheKey;
 import com.asgab.core.mail.MailTemplateEnum;
 import com.asgab.entity.Address;
+import com.asgab.entity.Area;
 import com.asgab.entity.User;
 import com.asgab.entity.UserEntity;
-import com.asgab.service.AddressService;
-import com.asgab.service.ApiException;
-import com.asgab.service.JedisService;
-import com.asgab.service.MailService;
+import com.asgab.service.*;
 import com.asgab.service.account.AccountService;
 import com.asgab.util.BeanMapper;
 import com.asgab.util.RandomNumUtil;
@@ -53,6 +51,9 @@ public class UserWebService {
 
     @Resource
     private AddressService addressService;
+
+    @Resource
+    private AreaService areaService;
 
     /**
      * 找回密码
@@ -209,8 +210,13 @@ public class UserWebService {
         UserInfo userInfo = JSONObject.parseObject(userJson, UserInfo.class);
         Address addressInfo = addressService.getUniqueAddressByUserId(userInfo.getId());
         if (addressInfo != null) {
+            userInfo.setAddressId(addressInfo.getId());
             userInfo.setAreaId(addressInfo.getAreaId());
             userInfo.setAddress(addressInfo.getAddress());
+            Area area = areaService.getAreaFromCache(addressInfo.getAreaId());
+            if (area != null) {
+                userInfo.setAreaName(area.getName());
+            }
         }
         return userInfo;
     }
@@ -224,7 +230,7 @@ public class UserWebService {
         BeanMapper.copy(userInfo, user);
         accountService.updateUser(user);
         //更新地址信息
-        Address addressInfo = addressService.getUniqueAddressByUserId(userInfo.getId());
+        Address addressInfo = addressService.get(userInfo.getAddressId());
         if (addressInfo == null) {
             addressInfo = new Address();
             addressInfo.setUserId(userInfo.getId());

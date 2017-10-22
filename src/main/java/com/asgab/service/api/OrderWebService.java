@@ -98,16 +98,16 @@ public class OrderWebService {
             service.setEndTime(DateUtils.plusMonths(param.getAppointmentTime(), cycleEnum.getValue()));
             service.setFlag(GlobalConstants.BoxFlag.USE);
             service.setStatus(GlobalConstants.ServiceStatus.WAIT_FOR_SAVE);//等待收货
-            Long serviceId = boxServiceMapper.save(service);
+            boxServiceMapper.save(service);
             //服务记录
-            BoxRecord record = new BoxRecord(userId, serviceId, GlobalConstants.RecordType.SAVE, param.getAppointmentTime(), additionFee);
+            BoxRecord record = new BoxRecord(userId, service.getId(), GlobalConstants.RecordType.SAVE, param.getAppointmentTime(), additionFee);
             record.setStatus(GlobalConstants.RecordStatus.WAITING);
             boxRecordMapper.save(record);
             //构建订单
             Order order = BeanMapper.map(param, Order.class);
             order.setUserId(userId);
             order.setOrderNo(IdGenerator.INSTANCE.nextId());
-            order.setCallbackId(serviceId);
+            order.setCallbackId(service.getId());
             order.setQuantity(1);
             orderMapper.save(order);
         } catch (ApiException e) {
@@ -115,7 +115,7 @@ public class OrderWebService {
         } catch (Exception e) {
             logger.error(e.getMessage());
             e.printStackTrace();
-            throw new ApiException("提交订单失败");
+            throw new ApiException("购买提交失败，请联系客服");
         }
     }
 

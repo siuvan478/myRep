@@ -101,10 +101,11 @@
 										<td>${order.productName}</td>
 										<td>${order.scaleName}</td>
 										<td>
-											<c:if test="${order.cycle eq 1}">1个月</c:if>
-											<c:if test="${order.cycle eq 2}">3个月</c:if>
-											<c:if test="${order.cycle eq 3}">6个月</c:if>
-											<c:if test="${order.cycle eq 4}">12个月</c:if>
+											<c:forEach var="cycle" items="${cycles}">
+												<c:if test="${cycle.key eq order.cycle}">
+													${cycle.value}
+												</c:if>
+											</c:forEach>
 										</td>
 										<td>$ ${order.totalPrice}HKD</td>
 										<td><fmt:formatDate value="${order.orderTime}" pattern="yyyy-MM-dd HH:ss" /></td>

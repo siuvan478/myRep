@@ -24,7 +24,7 @@ public interface ProductMapper {
 
     List<Product> search(Map<String, Object> parameters, RowBounds rowBounds);
 
-    Long save(Product product);
+    void save(Product product);
 
     void update(Product product);
 

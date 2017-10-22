@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 
 @Component
@@ -32,8 +33,8 @@ public class ProductService implements InitializingBean {
     private JedisService jedisService;
 
     public void save(Product product) {
-        Long id = productMapper.save(product);
-        refreshCache(id);
+        productMapper.save(product);
+        refreshCache(product.getId());
     }
 
     public List<Product> getAll(Map<String, Object> searchMap) {
@@ -100,6 +101,15 @@ public class ProductService implements InitializingBean {
         } else {
             return productMapper.search(null);
         }
+    }
+
+    public Map<String, String> getProducts() {
+        List<Product> products = this.getProductListFromCache();
+        final Map<String, String> cityMappings = new TreeMap<>();
+        for (Product p : products) {
+            cityMappings.put(p.getId().toString(), p.getProductName());
+        }
+        return cityMappings;
     }
 
     /**

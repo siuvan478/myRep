@@ -9,15 +9,29 @@
 		start_time as startTime, end_time as endTime, create_time as createTime, update_time as updateTime, status
 	</sql>
 
+	<sql id="box_service_columns_for_join">
+		a.user_id as userId, a.address_id as addressId, a.product_id as productId, a.scale_id as scaleId, a.cycle, a.flag,
+		a.start_time as startTime, a.end_time as endTime, a.create_time as createTime, a.update_time as updateTime, a.status
+	</sql>
+
 	<select id="get" parameterType="long" resultType="BoxService">
-		select id, <include refid="box_service_columns"/>
-		from ss_box_service
-		where id = #{id}
+		select a.id, <include refid="box_service_columns_for_join"/>,
+				b.name as contactName, b.phone as contactPhone, b.email as contactEmail,
+		        c.address as address, c.area_id as areaId
+		from ss_box_service a left join ss_user b on a.user_id = b.id left join ss_address c on a.address_id = c.id
+		where a.id = #{id}
 	</select>
 
 	<select id="search" parameterType="map" resultType="BoxService">
-		select id, <include refid="box_service_columns"/>
-		from ss_box_service where status in(1,2)
+		select a.id, <include refid="box_service_columns_for_join"/>, b.name as contactName
+		from ss_box_service a left join ss_user b on a.user_id = b.id
+		where a.status in(1,2)
+		<if test="productId != null and productId != ''">
+			and a.product_id = #{productId}
+		</if>
+		<if test="contactName != null and contactName != ''">
+			and b.`name` like "%"#{contactName}"%"
+		</if>
 		<if test="sort != null and sort != ''">
 			order by ${sort}
 		</if>
@@ -25,7 +39,14 @@
 	
 	<select id="count" parameterType="map" resultType="int">
 		select count(1)
-		from ss_box_service where status in(1,2)
+		from ss_box_service a left join ss_user b on a.user_id = b.id
+		where a.status in(1,2)
+		<if test="productId != null and productId != ''">
+			and a.product_id = #{productId}
+		</if>
+		<if test="contactName != null and contactName != ''">
+			and b.`name` like "%"#{contactName}"%"
+		</if>
 	</select>
 
 	<insert id="save" parameterType="BoxService" useGeneratedKeys="true" keyProperty="id">

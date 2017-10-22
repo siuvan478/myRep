@@ -46,6 +46,19 @@ public class LoginUtil {
         return null;
     }
 
+    /**
+     * 获取token
+     *
+     * @return
+     */
+    public static String getToken() {
+        UserEntity userEntity = getUser();
+        if (userEntity != null) {
+            return userEntity.getToken();
+        }
+        return null;
+    }
+
     public static UserEntity getUser() {
         String userJson = userThreadLocal.get();
         if (userJson != null) {

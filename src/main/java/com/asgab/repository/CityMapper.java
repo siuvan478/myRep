@@ -18,7 +18,7 @@ public interface CityMapper {
 
     City get(Long id);
 
-    Long save(City city);
+    void save(City city);
 
     void update(City city);
 

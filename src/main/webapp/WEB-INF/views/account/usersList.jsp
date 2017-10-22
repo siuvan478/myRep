@@ -85,6 +85,7 @@
 									<th>邮箱</th>
 									<th>手机号</th>
 									<th><spring:message code="user.role" /></th>
+									<th>注册时间</th>
 									<th><spring:message code="public.oper" /></th>
 								</tr>
 							</thead>
@@ -96,6 +97,7 @@
 										<td>${user.email}</td>
 										<td>${user.phone}</td>
 										<td>${user.roles}</td>
+										<td>${user.registerDate}</td>
 										<td>
 											<a href="${ctx}/user/update/${user.id}"><i class="fa fa-edit fa-fw"></i></a>
 											<a href="javascript:if(confirm('delete?'))window.location.href='${ctx}/user/delete/${user.id}'"><i class="fa fa-times fa-fw"></i></a>

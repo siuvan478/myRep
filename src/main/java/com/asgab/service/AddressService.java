@@ -32,8 +32,8 @@ public class AddressService {
         return addressMapper.get(id);
     }
 
-    public Long save(Address address) {
-        return addressMapper.save(address);
+    public void save(Address address) {
+        addressMapper.save(address);
     }
 
     public void update(Address address) {

@@ -43,8 +43,8 @@ public class AreaService implements InitializingBean {
         return areaMapper.get(id);
     }
 
-    public Long save(Area area) {
-        return areaMapper.save(area);
+    public void save(Area area) {
+        areaMapper.save(area);
     }
 
     public void update(Area area) {
@@ -72,6 +72,15 @@ public class AreaService implements InitializingBean {
             Map<String, Object> params = Maps.newHashMap();
             params.put("status", GlobalConstants.Status.NORMAL);
             return areaMapper.search(params);
+        }
+    }
+
+    public Area getAreaFromCache(Long areaId) {
+        String jsonObject = jedisService.hashGet(CacheKey.AREA_KEY, areaId.toString());
+        if (StringUtils.isNotBlank(jsonObject)) {
+            return JSONObject.parseObject(jsonObject, Area.class);
+        } else {
+            return areaMapper.get(areaId);
         }
     }
 

@@ -24,7 +24,7 @@ public interface OrderMapper {
 
     Order get(Long id);
 
-    Long save(Order order);
+    void save(Order order);
 
     void update(Order order);
 }

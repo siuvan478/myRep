@@ -18,7 +18,7 @@ public interface AddressMapper {
 
     Address get(Long id);
 
-    Long save(Address area);
+    void save(Address area);
 
     void update(Address area);
 
