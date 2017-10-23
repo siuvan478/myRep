@@ -8,6 +8,7 @@ import com.asgab.repository.BoxRecordMapper;
 import com.asgab.repository.BoxServiceMapper;
 import com.asgab.repository.OrderMapper;
 import com.asgab.service.ApiException;
+import com.asgab.service.ConfigService;
 import com.asgab.service.ProductService;
 import com.asgab.service.ScaleService;
 import com.asgab.util.BeanMapper;
@@ -22,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.text.MessageFormat;
+import java.util.Date;
 
 @Component
 @Transactional
@@ -29,7 +31,10 @@ public class OrderWebService {
 
     private static Logger logger = Logger.getLogger(OrderWebService.class);
 
-    private static final BigDecimal addition_fee = new BigDecimal(60.00);
+    /**
+     * 默认预约费用 $80HKD
+     */
+    private static final BigDecimal DEFAULT_APPOINT_FEE = new BigDecimal(80.00);
 
     @Resource
     private OrderMapper orderMapper;
@@ -45,6 +50,9 @@ public class OrderWebService {
 
     @Resource
     private ScaleService scaleService;
+
+    @Resource
+    private ConfigService configService;
 
     public void submitOrder(OrderBuyParam param) {
         try {
@@ -80,11 +88,8 @@ public class OrderWebService {
                 throw new ApiException("不支持当前租用时间");
             }
             //非周末收取额外费用
-            BigDecimal additionFee = new BigDecimal(0);
-            if (!DateUtils.isSunday(param.getAppointmentTime())) {
-                additionFee = additionFee.add(addition_fee);
-            }
-            if (!scaleInfo.validTotalPrice(param.getCycle(), param.getTotalPrice(), additionFee)) {
+            BigDecimal appointFee = this.getAppointFee(param.getAppointmentTime(), userId);
+            if (!scaleInfo.validTotalPrice(param.getCycle(), param.getTotalPrice(), appointFee)) {
                 logger.error(MessageFormat.format("购买的服务已下架, cycle={0}, totalPrice={1}, productInfo=[\r\n{2}\r\n]",
                         param.getCycle(), param.getTotalPrice(), JSONObject.toJSONString(scaleInfo)));
                 throw new ApiException("购买的服务已下架");
@@ -100,8 +105,9 @@ public class OrderWebService {
             service.setStatus(GlobalConstants.ServiceStatus.WAIT_FOR_SAVE);//等待收货
             boxServiceMapper.save(service);
             //服务记录
-            BoxRecord record = new BoxRecord(userId, service.getId(), GlobalConstants.RecordType.SAVE, param.getAppointmentTime(), additionFee);
+            BoxRecord record = new BoxRecord(userId, service.getId(), GlobalConstants.RecordType.SAVE, param.getAppointmentTime(), appointFee);
             record.setStatus(GlobalConstants.RecordStatus.WAITING);
+            record.setFullCost(configService.isFullCost(appointFee));
             boxRecordMapper.save(record);
             //构建订单
             Order order = BeanMapper.map(param, Order.class);
@@ -117,6 +123,37 @@ public class OrderWebService {
             e.printStackTrace();
             throw new ApiException("购买提交失败，请联系客服");
         }
+    }
+
+    /*
+    CREATE TABLE `ss_config` (
+  `number` int(11) NOT NULL DEFAULT '0' COMMENT '全价次数',
+  `common_fee` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '预约费用(全价)',
+  `discount_fee` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '优惠后费用'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+    ALTER TABLE `ss_box_record`
+    ADD COLUMN `full_cost`  tinyint(2) NOT NULL DEFAULT 0 COMMENT '是否未全价 0=否 1=是' AFTER `cost`;
+    */
+
+    /**
+     * 获取用户预约的价格
+     *
+     * @param appointmentTime 预约时间
+     * @param userId          用户ID
+     * @return
+     */
+    public BigDecimal getAppointFee(Date appointmentTime, Long userId) {
+        //周日免费
+        if (DateUtils.isSunday(appointmentTime)) {
+            return new BigDecimal(0);
+        }
+        int countFullAppointFee = boxRecordMapper.countFullAppointFee(userId);
+        Config config = configService.getConfigFromCache();
+        if (config != null) {
+            return countFullAppointFee >= config.getNumber() ? config.getDiscountFee() : config.getCommonFee();
+        }
+        return DEFAULT_APPOINT_FEE;
     }
 
 }

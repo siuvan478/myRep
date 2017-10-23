@@ -37,7 +37,8 @@
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">设置 <span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
-                            <li><a href="${ctx}/area"><spring:message code="menu.area" /></a></li>
+                            <li><a href="${ctx}/area">区域</a></li>
+                            <li><a href="${ctx}/config">配置</a></li>
                         </ul>
                     </li>
                 </ul>

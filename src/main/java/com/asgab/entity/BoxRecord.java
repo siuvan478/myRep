@@ -15,6 +15,7 @@ public class BoxRecord {
     private Integer type;
     private Date appointmentTime;
     private BigDecimal cost;
+    private Integer fullCost;
     private Date createTime;
     private Integer status;
     private String picture1;
@@ -83,6 +84,14 @@ public class BoxRecord {
 
     public void setCost(BigDecimal cost) {
         this.cost = cost;
+    }
+
+    public Integer getFullCost() {
+        return fullCost;
+    }
+
+    public void setFullCost(Integer fullCost) {
+        this.fullCost = fullCost;
     }
 
     public Date getCreateTime() {

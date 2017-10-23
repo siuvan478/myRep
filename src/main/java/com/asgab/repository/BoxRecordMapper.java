@@ -10,25 +10,27 @@ import java.util.Map;
 /**
  * 通过@MapperScannerConfigurer扫描目录中的所有接口, 动态在Spring Context中生成实现.
  * 方法名称必须与Mapper.xml中保持一致.
- * 
+ *
  * @author calvin
  */
 @MyBatisRepository
 public interface BoxRecordMapper {
 
-	BoxRecord get(Long id);
+    BoxRecord get(Long id);
 
-	List<BoxRecord> search(Map<String, Object> parameters);
+    List<BoxRecord> search(Map<String, Object> parameters);
 
-	List<BoxRecord> search(Map<String, Object> parameters, RowBounds rowBounds);
+    List<BoxRecord> search(Map<String, Object> parameters, RowBounds rowBounds);
 
-	void save(BoxRecord boxRecord);
+    void save(BoxRecord boxRecord);
 
-	void update(BoxRecord boxRecord);
+    void update(BoxRecord boxRecord);
 
-	void delete(Long id);
+    void delete(Long id);
 
-	int count(Map<String, Object> map);
+    int count(Map<String, Object> map);
 
-	void deleteByServiceId(Long serviceId);
+    void deleteByServiceId(Long serviceId);
+
+    int countFullAppointFee(Long userId);
 }

@@ -54,6 +54,14 @@ public class GlobalConstants {
     }
 
     /**
+     * 是/否
+     */
+    public static class YesOrNo {
+        public static final Integer NO = 0;
+        public static final Integer YES = 1;
+    }
+
+    /**
      * 状态 1=正常 0=失效/无用
      */
     public static class Status {

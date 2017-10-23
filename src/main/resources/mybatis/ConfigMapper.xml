@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="com.asgab.repository.ConfigMapper">
+
+	<select id="get" resultType="Config">
+		select common_fee as commonFee, discount_fee discountFee, `number`
+		from ss_config limit 1
+	</select>
+
+	<update id="update" parameterType="Config">
+		update ss_config set
+		`number` = #{number},
+		common_fee = #{commonFee},
+		discount_fee = #{discountFee}
+	</update>
+
+</mapper> 

@@ -15,4 +15,6 @@ public class CacheKey {
     public static final String AREA_KEY = "data:area";
     public static final String PRODUCT_KEY = "data:product";
     public static final String SCALE_KEY = "data:scale";
+
+    public static final String APPOINT_FEE_KEY = "data:appointFeeConfig";
 }
