@@ -54,6 +54,12 @@ public class BoxServiceController extends BaseController {
         return "boxService/boxServiceView";
     }
 
+    @RequestMapping(value = "record/done/{id}", method = RequestMethod.GET)
+    public String toScaleUpdate(@PathVariable("id") Long recordId, Model model) {
+        model.addAttribute("recordForm", boxRecordService.get(recordId));
+        return "include/boxRecordForm";
+    }
+
     @ModelAttribute
     public void getBoxService(@RequestParam(value = "id", defaultValue = "-1") Long id, Model model) {
         if (id != -1) {

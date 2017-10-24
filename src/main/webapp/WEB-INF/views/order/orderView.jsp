@@ -20,75 +20,70 @@
 
 <body>
 
-<%--<style>--%>
-	<%--.box{}--%>
-	<%--.box-noborder{border-top: 0}--%>
-	<%--.btn-100{width: 100px;line-height: 1.1}--%>
-	<%--.products{padding: 0 15px 0 15px;}--%>
-	<%--.content{padding-bottom: 0;min-height:0}--%>
-<%--</style>--%>
-
 	<!-- Content Header -->
 	<section class="content-header">
 		<h1>订单详情</h1>
 	</section>
 
-	<div class="form-horizontal">
-		 <!-- part3 -->
+	<div role="form"class="form-horizontal">
 		 <section class="content">
-				<div class="box box-noborder">
-					<div class="box-body">
-						<dl class="dl-horizontal">
-							<dt>订单编号</dt>
-							<dd>${orderForm.orderNo}</dd>
-						</dl>
-						<dl class="dl-horizontal">
-							<dt>产品类型</dt>
-							<dd>${orderForm.productName}</dd>
-						</dl>
-						<dl class="dl-horizontal">
-							<dt>产品规格</dt>
-							<dd>${orderForm.scaleName}</dd>
-						</dl>
-						<dl class="dl-horizontal">
-							<dt>期限</dt>
-							<dd>
-								<c:forEach var="cycle" items="${cycles}">
-									<c:if test="${cycle.key eq orderForm.cycle}">
-										${cycle.value}
-									</c:if>
-								</c:forEach>
-							</dd>
-						</dl>
-						<dl class="dl-horizontal">
-							<dt>金额</dt>
-							<dd>$ ${orderForm.totalPrice}HKD</dd>
-						</dl>
-						<dl class="dl-horizontal">
-							<dt>下单时间</dt>
-							<dd>${orderForm.orderTime}</dd>
-						</dl>
-						<dl class="dl-horizontal">
-							<dt>订单状态</dt>
-							<dd>
-								<c:forEach var="status" items="${statuses}">
-									<c:if test="${status.key eq orderForm.status}">
-										<span class="label ${orderForm.labelClass}">${status.value}</span>
-										<c:if test="${orderForm.status eq 2}">
-											(${orderForm.effectiveTime})
+			 <div class="box box-info">
+				<div class="box-body">
+					<div class="row">
+						<div class="col-md-6">
+							<dl class="dl-horizontal">
+								<dt>订单编号</dt>
+								<dd>${orderForm.orderNo}</dd>
+							</dl>
+							<dl class="dl-horizontal">
+								<dt>产品类型</dt>
+								<dd>${orderForm.productName}</dd>
+							</dl>
+							<dl class="dl-horizontal">
+								<dt>产品规格</dt>
+								<dd>${orderForm.scaleName}</dd>
+							</dl>
+							<dl class="dl-horizontal">
+								<dt>期限</dt>
+								<dd>
+									<c:forEach var="cycle" items="${cycles}">
+										<c:if test="${cycle.key eq orderForm.cycle}">
+											${cycle.value}
 										</c:if>
-									</c:if>
-								</c:forEach>
-							</dd>
-						</dl>
+									</c:forEach>
+								</dd>
+							</dl>
+							<dl class="dl-horizontal">
+								<dt>金额</dt>
+								<dd>$ ${orderForm.totalPrice}HKD</dd>
+							</dl>
+							<dl class="dl-horizontal">
+								<dt>下单时间</dt>
+								<dd>${orderForm.orderTime}</dd>
+							</dl>
+							<dl class="dl-horizontal">
+								<dt>订单状态</dt>
+								<dd>
+									<c:forEach var="status" items="${statuses}">
+										<c:if test="${status.key eq orderForm.status}">
+											<span class="label ${orderForm.labelClass}">${status.value}</span>
+											<c:if test="${orderForm.status eq 2}">
+												(${orderForm.effectiveTime})
+											</c:if>
+										</c:if>
+									</c:forEach>
+								</dd>
+							</dl>
+						</div>
 					</div><!-- /.box-body -->
 					<div class="box-footer">
-						<button class="btn btn-primary btn-sm disabled btn-70" onclick="window.location.href='${ctx}/order'">
+						<button class="btn btn-primary disabled btn-70" onclick="window.location.href='${ctx}/order'">
 							返回
 						</button>
 					</div>
-				</div><!-- /.box -->
-		 </section><!-- /part3 -->
+				</div>
+			</div>
+		 </section>
 	</div>
 
 	<script type="text/javascript">

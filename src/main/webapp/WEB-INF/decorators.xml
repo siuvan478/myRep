@@ -8,6 +8,7 @@
 		<pattern>/product/scale/update/*</pattern>
 		<pattern>/product/scale/create/*</pattern>
 		<pattern>/order/audit/*</pattern>
+		<pattern>/boxService/record/done/*</pattern>
 	</excludes>
 	
 	<decorator name="layout" page="layout.jsp">

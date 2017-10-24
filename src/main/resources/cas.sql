@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50710
 File Encoding         : 65001
 
-Date: 2017-10-19 19:16:16
+Date: 2017-10-24 09:03:40
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -33,6 +33,22 @@ CREATE TABLE `ss_address` (
 -- Records of ss_address
 -- ----------------------------
 INSERT INTO `ss_address` VALUES ('1', '1', '1', '快手镇老铁村', '1', '1');
+
+-- ----------------------------
+-- Table structure for ss_appoint_fee
+-- ----------------------------
+DROP TABLE IF EXISTS `ss_appoint_fee`;
+CREATE TABLE `ss_appoint_fee` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `addition` int(11) NOT NULL COMMENT '用户ID',
+  `discount` decimal(10,2) NOT NULL COMMENT '优惠后费用',
+  `common` decimal(10,2) NOT NULL COMMENT '正常费用',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- ----------------------------
+-- Records of ss_appoint_fee
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for ss_area
@@ -158,16 +174,23 @@ CREATE TABLE `ss_box_record` (
   `type` tinyint(4) NOT NULL COMMENT '类型 1=存 2=取',
   `appointment_time` datetime NOT NULL COMMENT '预约时间',
   `cost` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '费用 周日免费,其他收费',
+  `full_cost` tinyint(2) NOT NULL DEFAULT '0' COMMENT '是否未全价 0=否 1=是',
   `create_time` datetime NOT NULL COMMENT '创建时间',
-  `status` tinyint(4) NOT NULL DEFAULT '1' COMMENT '状态 1=预约成功 2=等待送货/取货 3=已收货/取货',
+  `status` tinyint(4) NOT NULL DEFAULT '1' COMMENT '记录状态 0=无效/删除 1=等待提货/收货 1=已收货/提货',
+  `picture1` varchar(255) DEFAULT NULL COMMENT '图1',
+  `picture2` varchar(255) DEFAULT NULL COMMENT '图2',
+  `picture3` varchar(255) DEFAULT NULL COMMENT '图3',
+  `picture4` varchar(255) DEFAULT NULL COMMENT '图4',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of ss_box_record
 -- ----------------------------
-INSERT INTO `ss_box_record` VALUES ('4', '0', '1', '1', '2017-10-20 16:00:00', '60.00', '2017-10-19 16:55:54', '1');
-INSERT INTO `ss_box_record` VALUES ('5', '0', '1', '1', '2017-10-20 16:00:00', '60.00', '2017-10-19 17:00:07', '1');
+INSERT INTO `ss_box_record` VALUES ('4', '0', '1', '1', '2017-10-20 16:00:00', '60.00', '0', '2017-10-19 16:55:54', '1', null, null, null, null);
+INSERT INTO `ss_box_record` VALUES ('5', '0', '1', '1', '2017-10-20 16:00:00', '60.00', '0', '2017-10-19 17:00:07', '1', null, null, null, null);
+INSERT INTO `ss_box_record` VALUES ('6', '1', '1', '1', '2017-10-20 16:00:00', '60.00', '0', '2017-10-20 09:50:55', '1', null, null, null, null);
+INSERT INTO `ss_box_record` VALUES ('7', '1', '7', '1', '2017-10-29 09:00:00', '0.00', '0', '2017-10-24 07:39:07', '1', null, null, null, null);
 
 -- ----------------------------
 -- Table structure for ss_box_service
@@ -185,15 +208,17 @@ CREATE TABLE `ss_box_service` (
   `end_time` datetime NOT NULL COMMENT '服务截止时间',
   `create_time` datetime NOT NULL COMMENT '创建时间',
   `update_time` datetime NOT NULL COMMENT '更新时间',
-  `status` tinyint(4) NOT NULL DEFAULT '1' COMMENT '状态 0=删除 1=正常 2=失效/已到期',
+  `status` tinyint(4) NOT NULL DEFAULT '1' COMMENT '服务柜状态 0=无效/删除 1=等待收货 2=已收货 3=等待取货 4=已取货',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of ss_box_service
 -- ----------------------------
-INSERT INTO `ss_box_service` VALUES ('4', '1', '1', '1', '1', '1', '0', '2017-10-20 16:00:00', '2017-11-20 16:00:00', '2017-10-19 16:55:54', '2017-10-19 16:55:54', '1');
-INSERT INTO `ss_box_service` VALUES ('5', '1', '1', '1', '1', '1', '0', '2017-10-20 16:00:00', '2017-11-20 16:00:00', '2017-10-19 17:00:07', '2017-10-19 17:00:07', '1');
+INSERT INTO `ss_box_service` VALUES ('4', '1', '1', '1', '1', '1', '1', '2017-10-19 16:00:00', '2017-10-20 10:00:00', '2017-10-19 16:55:54', '2017-10-19 16:55:54', '0');
+INSERT INTO `ss_box_service` VALUES ('5', '1', '1', '1', '1', '1', '1', '2017-10-20 16:00:00', '2017-11-20 16:00:00', '2017-10-19 17:00:07', '2017-10-19 17:00:07', '1');
+INSERT INTO `ss_box_service` VALUES ('6', '1', '1', '1', '1', '1', '1', '2017-10-20 16:00:00', '2017-11-20 16:00:00', '2017-10-20 09:50:54', '2017-10-20 09:50:54', '1');
+INSERT INTO `ss_box_service` VALUES ('7', '1', '1', '5', '8', '4', '1', '2017-10-29 09:00:00', '2018-10-29 09:00:00', '2017-10-24 07:39:07', '2017-10-24 07:39:07', '1');
 
 -- ----------------------------
 -- Table structure for ss_city
@@ -215,6 +240,21 @@ INSERT INTO `ss_city` VALUES ('2', '九龍', '九龍', '1');
 INSERT INTO `ss_city` VALUES ('3', '新界', '新界', '1');
 
 -- ----------------------------
+-- Table structure for ss_config
+-- ----------------------------
+DROP TABLE IF EXISTS `ss_config`;
+CREATE TABLE `ss_config` (
+  `number` int(11) NOT NULL DEFAULT '0' COMMENT '全价次数',
+  `common_fee` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '预约费用(全价)',
+  `discount_fee` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '优惠后费用'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- ----------------------------
+-- Records of ss_config
+-- ----------------------------
+INSERT INTO `ss_config` VALUES ('5', '80.00', '20.00');
+
+-- ----------------------------
 -- Table structure for ss_order
 -- ----------------------------
 DROP TABLE IF EXISTS `ss_order`;
@@ -232,14 +272,17 @@ CREATE TABLE `ss_order` (
   `effective_time` datetime DEFAULT NULL COMMENT '订单生效时间',
   `status` tinyint(4) NOT NULL DEFAULT '1' COMMENT '订单状态 0=已取消 1=已下单 2=已生效(付款)',
   `callback_id` bigint(20) DEFAULT NULL COMMENT '回调ID',
+  `remark` varchar(200) DEFAULT NULL COMMENT '订单审核备注',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of ss_order
 -- ----------------------------
-INSERT INTO `ss_order` VALUES ('1', '1', 'TODO-ORDER-NO-01', '1', '1', '1', '1', '1', '160.00', '2017-10-19 16:55:54', null, '1', '1');
-INSERT INTO `ss_order` VALUES ('2', '1', 'TODO-ORDER-NO-01', '1', '1', '1', '1', '1', '160.00', '2017-10-19 17:00:07', null, '1', '1');
+INSERT INTO `ss_order` VALUES ('1', '1', 'TODO-ORDER-NO-01', '1', '1', '1', '1', '1', '160.00', '2017-10-19 16:55:54', null, '1', '1', null);
+INSERT INTO `ss_order` VALUES ('2', '1', 'TODO-ORDER-NO-01', '1', '1', '1', '1', '1', '160.00', '2017-10-19 17:00:07', null, '1', '1', null);
+INSERT INTO `ss_order` VALUES ('3', '1', '20171020095055260794624', '1', '1', '1', '1', '1', '160.00', '2017-10-20 09:50:55', null, '1', '1', null);
+INSERT INTO `ss_order` VALUES ('4', '1', '20171024073907545794624', '1', '5', '8', '4', '1', '600.00', '2017-10-24 07:39:07', '2017-10-24 07:39:29', '2', '7', '');
 
 -- ----------------------------
 -- Table structure for ss_product
@@ -261,14 +304,14 @@ CREATE TABLE `ss_product` (
 -- ----------------------------
 -- Records of ss_product
 -- ----------------------------
-INSERT INTO `ss_product` VALUES ('1', 'FREEMAN 衣服', 'FM-0001', '- 免費送收服務\r\n- 特定存取點無限次存取\r\n- 每月4日特定送收時間\r\n- 恆溫及濕度控制存放', '換季啲衫點算好？ FREEMAN教您要幾多用幾多！FREEMAN衣櫥特有恆溫及濕度控制存放，存取點可無限次存放，想著邊件衫話咁易！空間管理做得好，生活自然由我話事！', '1', '/usr/tmp/upload/aefb636da24f4d61b3be96a5346e5b0b.png', '2017-10-10 14:45:59', '2017-10-18 09:52:41');
-INSERT INTO `ss_product` VALUES ('2', 'FREEMAN 單車儲存', '', '- 免費送收服務\r\n- 特定存取點無限次存取\r\n- 每月4日特定送收時間\r\n- 恆溫及濕度控制存放', '告别迷你倉！ FREEMAN教您要幾多用幾多！FREEMAN 單車儲存，無限次存取服務，唔怕有入無出，幫您省卻家中空間，想踩車先嚟拎。空間管理做得好，生活自然由我話事！', '1', '/usr/tmp/upload/97bffefb5148451893e3d89bf0ca977a.png', '2017-10-10 14:48:33', '2017-10-18 09:52:51');
-INSERT INTO `ss_product` VALUES ('3', 'FreeBOX自由箱', '', '- 免費送箱服務\r\n- 特定存取點無限次存取\r\n- 每月4日特定送箱時間\r\n- 恆溫及濕度控制存放', '告别迷你倉！ FREEMAN教您要幾多用幾多！FreeBOX自由箱可以填滿每吋空間，每個箱分類儲存，記低入面放咗啲咩。空間管理做得好，生活自然由我話事！', '1', '/usr/tmp/upload/2ca3defa9c234958876ff66f20b9b495.png', '2017-10-10 14:50:13', '2017-10-18 09:53:03');
-INSERT INTO `ss_product` VALUES ('4', 'FREEMAN 儲物櫃', '', '- 每個儲物櫃獨立指紋鎖\r\n- 最大尺寸儲物櫃可記錄兩組指紋，供二人共用\r\n- 租用者可親身無限次存取\r\n- 全天候360監察系統，高度保安\r\n- 獨立VIP空間，恆溫及濕度控制環境', '告别迷你倉！ FREEMAN教您要幾多用幾多！FREEMAN 儲物櫃備有指紋鎖，保安度極高，而且裝有360監察系統，只有租用者可開啟。儲物櫃有3個尺寸，最大尺寸儲物櫃可二人共用，足夠儲存滑浪板或高爾夫球桿套裝等運動用品。空間管理做得好，生活自然由我話事！', '1', '/usr/tmp/upload/0c28b711dc4646afacb9eb7bbdabd094.png', '2017-10-10 14:52:17', '2017-10-18 09:53:33');
-INSERT INTO `ss_product` VALUES ('5', 'FREEMAN 信箱', '', '- 專屬私人商業地址\r\n- 收信通知服務\r\n- 尊貴VIP空間，恆溫及濕度控制環境', '告别迷你倉！ FREEMAN教您要幾多用幾多！FREEMAN 信箱為客戶提供專屬商業地址，讓中小企或營運獨立生意人士更加方便。空間管理做得好，生活自然由我話事！\r\n', '1', '/usr/tmp/upload/f82c9c78c6be431e8f8bf99aa1657d4b.png', '2017-10-10 14:54:34', '2017-10-18 09:53:44');
-INSERT INTO `ss_product` VALUES ('6', 'FREEMAN 行李箱', '', '- 免費存取服務\r\n- 特定存取點無限次存取\r\n- 每月4日特定存取時間\r\n- 恆溫及濕度控制存放', '告别迷你倉！ FREEMAN教您要幾多用幾多！FREEMAN 幫您寄存行李箱，有需要時預約取回，就可以出發去玩啦。空間管理做得好，生活自然由我話事！\r\n', '1', '/usr/tmp/upload/79f3033e6cd4492c896513381caed075.png', '2017-10-10 14:55:47', '2017-10-18 09:53:56');
-INSERT INTO `ss_product` VALUES ('7', 'FREEMAN 文件箱', '', '- 免費送箱服務\r\n- 特定存取點無限次存取\r\n- 每月4日特定送箱時間\r\n- 恆溫及濕度控制存放', '告别迷你倉！ FREEMAN教您要幾多用幾多！FREEMAN 文件箱可以把文件分類儲存，記低入面放咗啲咩。空間管理做得好，生活自然由我話事！', '1', '/usr/tmp/upload/b8d9566291fa436f9c5d41a13f4a5bc8.png', '2017-10-10 14:58:31', '2017-10-18 09:54:06');
-INSERT INTO `ss_product` VALUES ('8', 'FREEMAN 大型物件', '', '', '', '1', '/usr/tmp/upload/22adea85ffd045db912b365e36c9c0d5.png', '2017-10-10 15:00:28', '2017-10-18 09:54:17');
+INSERT INTO `ss_product` VALUES ('1', '衣服', 'FM-0001', '- 免費送收服務\r\n- 特定存取點無限次存取\r\n- 每月4日特定送收時間\r\n- 恆溫及濕度控制存放', '換季啲衫點算好？ FREEMAN教您要幾多用幾多！FREEMAN衣櫥特有恆溫及濕度控制存放，存取點可無限次存放，想著邊件衫話咁易！空間管理做得好，生活自然由我話事！', '1', '/usr/tmp/upload/aefb636da24f4d61b3be96a5346e5b0b.png', '2017-10-10 14:45:59', '2017-10-18 09:52:41');
+INSERT INTO `ss_product` VALUES ('2', '單車儲存', 'FM-0002', '- 免費送收服務\r\n- 特定存取點無限次存取\r\n- 每月4日特定送收時間\r\n- 恆溫及濕度控制存放', '告别迷你倉！ FREEMAN教您要幾多用幾多！FREEMAN 單車儲存，無限次存取服務，唔怕有入無出，幫您省卻家中空間，想踩車先嚟拎。空間管理做得好，生活自然由我話事！', '1', '/usr/tmp/upload/97bffefb5148451893e3d89bf0ca977a.png', '2017-10-10 14:48:33', '2017-10-18 09:52:51');
+INSERT INTO `ss_product` VALUES ('3', '自由箱', 'FM-0003', '- 免費送箱服務\r\n- 特定存取點無限次存取\r\n- 每月4日特定送箱時間\r\n- 恆溫及濕度控制存放', '告别迷你倉！ FREEMAN教您要幾多用幾多！FreeBOX自由箱可以填滿每吋空間，每個箱分類儲存，記低入面放咗啲咩。空間管理做得好，生活自然由我話事！', '1', '/usr/tmp/upload/2ca3defa9c234958876ff66f20b9b495.png', '2017-10-10 14:50:13', '2017-10-18 09:53:03');
+INSERT INTO `ss_product` VALUES ('4', '儲物櫃', 'FM-0004', '- 每個儲物櫃獨立指紋鎖\r\n- 最大尺寸儲物櫃可記錄兩組指紋，供二人共用\r\n- 租用者可親身無限次存取\r\n- 全天候360監察系統，高度保安\r\n- 獨立VIP空間，恆溫及濕度控制環境', '告别迷你倉！ FREEMAN教您要幾多用幾多！FREEMAN 儲物櫃備有指紋鎖，保安度極高，而且裝有360監察系統，只有租用者可開啟。儲物櫃有3個尺寸，最大尺寸儲物櫃可二人共用，足夠儲存滑浪板或高爾夫球桿套裝等運動用品。空間管理做得好，生活自然由我話事！', '1', '/usr/tmp/upload/0c28b711dc4646afacb9eb7bbdabd094.png', '2017-10-10 14:52:17', '2017-10-18 09:53:33');
+INSERT INTO `ss_product` VALUES ('5', '信箱', 'FM-0005', '- 專屬私人商業地址\r\n- 收信通知服務\r\n- 尊貴VIP空間，恆溫及濕度控制環境', '告别迷你倉！ FREEMAN教您要幾多用幾多！FREEMAN 信箱為客戶提供專屬商業地址，讓中小企或營運獨立生意人士更加方便。空間管理做得好，生活自然由我話事！\r\n', '1', '/usr/tmp/upload/f82c9c78c6be431e8f8bf99aa1657d4b.png', '2017-10-10 14:54:34', '2017-10-18 09:53:44');
+INSERT INTO `ss_product` VALUES ('6', '行李箱', 'FM-0006', '- 免費存取服務\r\n- 特定存取點無限次存取\r\n- 每月4日特定存取時間\r\n- 恆溫及濕度控制存放', '告别迷你倉！ FREEMAN教您要幾多用幾多！FREEMAN 幫您寄存行李箱，有需要時預約取回，就可以出發去玩啦。空間管理做得好，生活自然由我話事！\r\n', '1', '/usr/tmp/upload/79f3033e6cd4492c896513381caed075.png', '2017-10-10 14:55:47', '2017-10-18 09:53:56');
+INSERT INTO `ss_product` VALUES ('7', '文件箱', 'FM-0007', '- 免費送箱服務\r\n- 特定存取點無限次存取\r\n- 每月4日特定送箱時間\r\n- 恆溫及濕度控制存放', '告别迷你倉！ FREEMAN教您要幾多用幾多！FREEMAN 文件箱可以把文件分類儲存，記低入面放咗啲咩。空間管理做得好，生活自然由我話事！', '1', '/usr/tmp/upload/b8d9566291fa436f9c5d41a13f4a5bc8.png', '2017-10-10 14:58:31', '2017-10-18 09:54:06');
+INSERT INTO `ss_product` VALUES ('8', '大型物件', 'FM-0008', '无', '无', '1', '/usr/tmp/upload/22adea85ffd045db912b365e36c9c0d5.png', '2017-10-10 15:00:28', '2017-10-18 09:54:17');
 
 -- ----------------------------
 -- Table structure for ss_scale
@@ -327,7 +370,7 @@ CREATE TABLE `ss_user` (
   `update_date` datetime DEFAULT NULL COMMENT '更新时间',
   `status` tinyint(4) DEFAULT '1' COMMENT '状态 1=正常 0=停用',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of ss_user
@@ -336,3 +379,4 @@ INSERT INTO `ss_user` VALUES ('1', '295636011@qq.com', '夏红凡', '7d4b0bd4179
 INSERT INTO `ss_user` VALUES ('2', 'liuwenyang@qq.com', '刘文扬', '23f1d525150bde0e212c8b2be3fe0d08ccf678f8', 'aa605a2cdcb4cda7', null, 'liuwenyang@qq.com', null, '2017-09-29 13:45:50', '2017-10-16 08:32:23', '1');
 INSERT INTO `ss_user` VALUES ('3', '380612645@qq.com', null, '6f84864e81331ba171b04e7885ea00ffae7e0274', '167d7f6726f29eff', null, null, null, '2017-10-18 11:33:58', '2017-10-18 11:33:58', '1');
 INSERT INTO `ss_user` VALUES ('5', '160402281@qq.com', null, '771a276a34ded4b381872bfe6141c22c8088a09e', 'b96297af17ad4d03', null, null, null, '2017-10-19 18:39:39', '2017-10-19 18:39:39', '1');
+INSERT INTO `ss_user` VALUES ('6', '470508081@qq.com', null, 'df478645bd3538d264a30e91875d8a67a37e8782', 'aa9ef7bb5cfae4e3', null, null, null, '2017-10-19 22:33:01', '2017-10-19 22:33:01', '1');

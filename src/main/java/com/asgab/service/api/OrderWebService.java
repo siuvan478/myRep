@@ -125,17 +125,6 @@ public class OrderWebService {
         }
     }
 
-    /*
-    CREATE TABLE `ss_config` (
-  `number` int(11) NOT NULL DEFAULT '0' COMMENT '全价次数',
-  `common_fee` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '预约费用(全价)',
-  `discount_fee` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '优惠后费用'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-    ALTER TABLE `ss_box_record`
-    ADD COLUMN `full_cost`  tinyint(2) NOT NULL DEFAULT 0 COMMENT '是否未全价 0=否 1=是' AFTER `cost`;
-    */
-
     /**
      * 获取用户预约的价格
      *

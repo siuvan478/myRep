@@ -85,7 +85,7 @@
 		<div class="box" style="top: -30px">
 			<div class="box-body">
 				<div class="box-header">
-					<button type="button" class="btn btn-primary btn-70" onclick="scaleForm('${ctx}/product/scale/create/${product.id}')" data-toggle="modal" data-target="#scaleFormModal"><i class="fa fa-plus"></i>新增</button>
+					<button type="button" class="btn btn-primary btn-70" onclick="scaleForm('${ctx}/product/scale/create/${product.id}')" data-toggle="modal" data-target="#scaleFormModal"><i class="fa fa-plus"></i> 新增</button>
 				</div>
 				<div class="table-responsive">
 				<table class="table table-striped table-hover dataTable" style="margin-bottom:0px;">

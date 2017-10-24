@@ -16,6 +16,7 @@
     <title>
         文件柜服务详情
     </title>
+
 </head>
 
 <body>
@@ -25,88 +26,97 @@
 		<h1>文件柜服务详情</h1>
 	</section>
 
-	<div class="form-horizontal">
-		 <!-- part3 -->
+	<div role="form"class="form-horizontal">
 		 <section class="content">
-				<div class="box box-noborder">
-					<div class="box-body">
-						<dl class="dl-horizontal">
-							<dt>联络人姓名</dt>
-							<dd>${boxServiceForm.contactName}</dd>
-						</dl>
-						<dl class="dl-horizontal">
-							<dt>联络人电话</dt>
-							<dd>${boxServiceForm.contactPhone}</dd>
-						</dl>
-						<dl class="dl-horizontal">
-							<dt>联络人邮箱</dt>
-							<dd>${boxServiceForm.contactEmail}</dd>
-						</dl>
-						<dl class="dl-horizontal">
-							<dt>联络地址</dt>
-							<dd>${boxServiceForm.areaName}${boxServiceForm.address}</dd>
-						</dl>
-						<dl class="dl-horizontal">
-							<dt>产品类型</dt>
-							<dd>${boxServiceForm.productName}</dd>
-						</dl>
-						<dl class="dl-horizontal">
-							<dt>产品规格</dt>
-							<dd>${boxServiceForm.scaleName}</dd>
-						</dl>
-						<dl class="dl-horizontal">
-							<dt>期限</dt>
-							<dd>
-								<c:forEach var="cycle" items="${cycles}">
-									<c:if test="${cycle.key eq boxServiceForm.cycle}">
-										${cycle.value}
+			<div class="box box-info">
+				<div class="box-body">
+					<div class="row">
+						<div class="col-md-6">
+							<dl class="dl-horizontal">
+								<dt>联络人姓名</dt>
+								<dd>${boxServiceForm.contactName}</dd>
+							</dl>
+							<dl class="dl-horizontal">
+								<dt>联络人电话</dt>
+								<dd>${boxServiceForm.contactPhone}</dd>
+							</dl>
+							<dl class="dl-horizontal">
+								<dt>联络人邮箱</dt>
+								<dd>${boxServiceForm.contactEmail}</dd>
+							</dl>
+							<dl class="dl-horizontal">
+								<dt>联络地址</dt>
+								<dd>${boxServiceForm.areaName}${boxServiceForm.address}</dd>
+							</dl>
+							<dl class="dl-horizontal">
+								<dt>产品类型</dt>
+								<dd>${boxServiceForm.productName}</dd>
+							</dl>
+							<dl class="dl-horizontal">
+								<dt>产品规格</dt>
+								<dd>${boxServiceForm.scaleName}</dd>
+							</dl>
+							<dl class="dl-horizontal">
+								<dt>期限</dt>
+								<dd>
+									<c:forEach var="cycle" items="${cycles}">
+										<c:if test="${cycle.key eq boxServiceForm.cycle}">
+											${cycle.value}
+										</c:if>
+									</c:forEach>
+								</dd>
+							</dl>
+							<dl class="dl-horizontal">
+								<dt>服务柜状态</dt>
+								<dd>
+									<c:forEach var="flag" items="${flags}">
+									<c:if test="${flag.key eq boxServiceForm.flag}">
+										${flag.value}
 									</c:if>
 								</c:forEach>
-							</dd>
-						</dl>
-						<dl class="dl-horizontal">
-							<dt>服务柜状态</dt>
-							<dd>
-								<c:forEach var="flag" items="${flags}">
-								<c:if test="${flag.key eq boxServiceForm.flag}">
-									${flag.value}
-								</c:if>
-							</c:forEach>
-							</dd>
-						</dl>
-						<dl class="dl-horizontal">
-							<dt>服务期间</dt>
-							<dd>${boxServiceForm.startTime} - ${boxServiceForm.endTime}</dd>
-						</dl>
-						<dl class="dl-horizontal">
-							<dt>服务状态</dt>
-							<dd>
-								<c:forEach var="status" items="${statuses}">
-									<c:if test="${status.key eq boxServiceForm.status}">
-										${status.value}
-									</c:if>
-								</c:forEach>
-							</dd>
-						</dl>
-					</div><!-- /.box-body -->
-					<div class="box-footer">
-						<button class="btn btn-primary btn-sm disabled btn-70" onclick="window.location.href='${ctx}/boxService'">
-							返回
-						</button>
+								</dd>
+							</dl>
+							<dl class="dl-horizontal">
+								<dt>服务期间</dt>
+								<dd>${boxServiceForm.startTime} - ${boxServiceForm.endTime}</dd>
+							</dl>
+							<dl class="dl-horizontal">
+								<dt>服务状态</dt>
+								<dd>
+									<c:forEach var="status" items="${statuses}">
+										<c:if test="${status.key eq boxServiceForm.status}">
+											${status.value}
+										</c:if>
+									</c:forEach>
+								</dd>
+							</dl>
+							<div class="box-footer">
+								<button class="btn btn-primary disabled btn-70" onclick="window.location.href='${ctx}/boxService'">
+									返回
+								</button>
+							</div>
+						</div>
 					</div>
-				</div><!-- /.box -->
+				</div>
+			</div><!-- /.box -->
 		 </section><!-- /part3 -->
 	</div>
 
 	<section class="content">
 		<div class="box" style="top: -30px">
 			<div class="box-body">
+				<c:if test="${fn:length(records) > 0}">
+					<div class="box-header">
+						<button type="button" class="btn btn-primary btn-70" onclick="done('${records[0].id}');;"
+								data-toggle="modal" data-target="#doneBoxServiceModal">上传</button>
+					</div>
+				</c:if>
 				<div class="table-responsive">
 					<table class="table table-striped table-hover dataTable" style="margin-bottom:0px;">
 						<thead>
 						<tr>
 							<th>预约时间</th>
-							<th>额外费用</th>
+							<th>预约费用</th>
 							<th>申请时间</th>
 							<th>状态</th>
 						</tr>
@@ -117,7 +127,24 @@
 								<td>${record.appointmentTime}</td>
 								<td>${record.cost}</td>
 								<td>${record.createTime}</td>
-								<td>${record.status}</td>
+								<td>
+									<c:if test="${record.status eq 1}">
+										<c:if test="${record.type eq 1}">
+											等待收件
+										</c:if>
+										<c:if test="${record.type eq 2}">
+											等待提货
+										</c:if>
+									</c:if>
+									<c:if test="${record.status eq 2}">
+										<c:if test="${record.type eq 1}">
+											已收件
+										</c:if>
+										<c:if test="${record.type eq 2}">
+											已提货
+										</c:if>
+									</c:if>
+								</td>
 							</tr>
 						</c:forEach>
 						<c:if test="${fn:length(records) == 0}">
@@ -132,10 +159,27 @@
 		</div>
 	</section>
 
+	<!-- scale form modal -->
+	<div class="modal fade" id="doneBoxServiceModal">
+
+	</div>
 	<script type="text/javascript">
 		$(function() {
 			$("#menu_client").addClass("active");
+
+
 		});
+		function done(recordId){
+			$.ajax({
+				type: 'GET',
+				url: '${ctx}/boxService/record/done/' + recordId,
+				dataType: 'html',
+				success : function(html){
+					console.log(html);
+					$("#doneBoxServiceModal").html(html);
+				}
+			});
+		}
 	</script>
 </body>
 </html>

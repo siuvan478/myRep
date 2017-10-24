@@ -85,7 +85,7 @@
 							<thead>
 								<tr>
 									<th <tags:sort column="orderNo" page="${pages}"/>>订单编号</th>
-									<th <tags:sort column="productId" page="${pages}"/>>产品类型</th>.
+									<th <tags:sort column="productId" page="${pages}"/>>产品类型</th>
 									<th <tags:sort column="scaleId" page="${pages}"/>>产品规格</th>
 									<th <tags:sort column="cycle" page="${pages}"/>>周期</th>
 									<th <tags:sort column="totalPrice" page="${pages}"/>>金额</th>
@@ -125,7 +125,6 @@
 							</tbody>
 						</table>
 					</div>
-					<!-- /.table-responsive -->
 					
 					<tags:pagination page="${pages}" paginationSize="5" />
 				</div>
