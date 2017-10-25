@@ -9,47 +9,50 @@
 </head>
 
 <body>
-	<div class="row">
-	    <div class="col-lg-12">
-	        <h3 class="page-header"><spring:message code="header.userprofile"/></h3>
-	    </div>
-	    <!-- /.col-lg-12 -->
-	</div>
-	<!-- /.row -->
-	<div class="row">
-	    <div class="col-lg-12">
-	        <div class="panel panel-default">
-	            <div class="panel-body">
-	                <div class="row">
-	                    <div class="col-lg-6">
-	                        <form role="form" id="inputForm" action="${ctx}/profile/update" method="post">
-	                        	<input type="hidden" name="id" value="${user.id}"/>
-	                        	<c:if test="${not empty success }">
-	                        		<div class="alert alert-success alert-dismissable">
-	                                	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-	                                	${ success }
-	                            	</div>
-	                            </c:if>
-	                            <div class="form-group">
-	                                <label><spring:message code="user.name" />:</label>
-                       				<input class="form-control" type="text" id="name" name="name" value="${user.name}">
-	                            </div>
-	                            <div class="form-group">
-	                                <label><spring:message code="index.password" />:</label>
-                       				<input class="form-control" type="password" id="plainPassword" name="plainPassword" />
-	                            </div>
-	                            <div class="form-group">
-	                            	<label><spring:message code="user.confirmpassword" />:</label>
-                       				<input class="form-control" type="password" id="confirmPassword" name="confirmPassword" />
-	                            </div>
-	                            <button id="submit_btn" type="submit" class="btn btn-success"><spring:message code="public.commit" /></button>
-                            </form>
-                        </div>
-                   </div>
-               </div>
-           </div>
-       </div>
-   </div>
+<form role="form" id="inputForm" action="${ctx}/profile/update" method="post" class="form-horizontal">
+	<input type="hidden" name="id" value="${user.id}"/>
+	<section class="content">
+		<div class="box box-info">
+			<div class="box-header"><h3 class="box-title">个人信息</h3></div>
+			<div class="box-body">
+				<div class="row">
+					<div class="col-md-12">
+						<c:if test="${not empty message}">
+							<div id="message" class="alert alert-success alert-dismissable" role="alert">
+								<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+								<strong>${message}</strong>
+							</div>
+						</c:if>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label class="col-md-3 control-label"><spring:message code="user.name" />:</label>
+							<div class="col-md-9">
+								<input class="form-control" type="text" id="name" name="name" value="${user.name}">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-md-3 control-label">密码:</label>
+							<div class="col-md-9">
+								<input class="form-control" type="password" id="plainPassword" name="plainPassword" value="">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-md-3 control-label">确认密码:</label>
+							<div class="col-md-9">
+								<input class="form-control" type="password" id="confirmPassword" name="confirmPassword" value="">
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="box-footer">
+				<button type="submit" class="btn btn-success btn-70"><i class="fa fa-save"></i> <spring:message code="public.save" /></button>
+				<button type="button" class="btn btn-primary btn-70 disabled" onclick="window.location.href='${ctx}/area'">取消</button>
+			</div>
+		</div>
+	</section>
+</form>
 	<script>
 		$(document).ready(function() {
 			$("#inputForm").validate({

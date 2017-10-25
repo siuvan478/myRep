@@ -7,7 +7,7 @@
 
 <div class="modal-dialog">
     <div class="modal-content message_align">
-        <form action="${ctx}/product/scale/${action2}" method="post" class="form-horizontal">
+        <form id="scaleForm" action="${ctx}/product/scale/${action2}" method="post" class="form-horizontal">
         <input type="hidden" name="id" value="${scaleForm.id}" />
         <input type="hidden" name="productId" value="${scaleForm.productId}" />
         <input type="hidden" name="needQuote" value="${scaleForm.needQuote}" />
@@ -88,3 +88,40 @@
         </form>
     </div>
 </div>
+
+<script type="text/javascript">
+    $("#scaleForm").validate({
+        rules : {
+            scale : "required",
+            twelveMonthPrice : {
+                required:false,
+                number:true,
+                min:0
+            },
+            sixMonthPrice : {
+                required:false,
+                number:true,
+                min:0
+            },
+            threeMonthPrice : {
+                required:false,
+                number:true,
+                min:0
+            },
+            oneMonthPrice : {
+                required:false,
+                number:true,
+                min:0
+            },
+            num : {
+                required:false,
+                number:true,
+                min:0
+            },
+            description : "required"
+        },
+        messages: {
+
+        }
+    });
+</script>

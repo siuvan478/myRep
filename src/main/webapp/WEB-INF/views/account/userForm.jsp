@@ -10,18 +10,12 @@
 
 <body>
 
-	<!-- Content Header -->
-	<section class="content-header">
-		<h1>
-			<c:if test="${action eq 'create' }">新建会员</c:if>
-			<c:if test="${action eq 'update' }">编辑会员</c:if>
-		</h1>
-	</section>
-
 	<form role="form" id="inputForm" action="${ctx}/user/${action}" method="post" class="form-horizontal">
 		<input type="hidden" name="id" value="${user.id}" />
 		<section class="content">
-			<div class="box box-info">
+			<div class="box box-">
+				<div class="box-header"><h3 class="box-title"><c:if test="${action eq 'create' }">新建会员</c:if>
+					<c:if test="${action eq 'update' }">编辑会员</c:if></h3></div>
 				<div class="box-body">
 					<div class="row">
 						<div class="col-md-8">
@@ -68,19 +62,27 @@
 									<input class="form-control" type="text" id="phone" name="phone" value="${user.phone }" placeholder=""/>
 								</div>
 							</div>
-
-							<div class="box-footer">
-								<button type="submit" class="btn btn-success btn-70"><i class="fa fa-save"></i> <spring:message code="public.save" /></button></button>
-								<button type="button" class="btn btn-primary btn-70 disabled" onclick="window.location.href='${ctx}/user'">取消</button>
-							</div>
 						</div>
 					</div>
+				</div>
+				<div class="box-footer">
+					<button type="submit" class="btn btn-success btn-70"><i class="fa fa-save"></i> <spring:message code="public.save" /></button></button>
+					<button type="button" class="btn btn-primary btn-70 disabled" onclick="window.location.href='${ctx}/user'">取消</button>
 				</div>
 			</div>
 		</section>
 	</form>
 	<script>
 		$(document).ready(function() {
+
+			// 手机号码验证
+			jQuery.validator.addMethod("isMobileOrPhone", function(value, element) {
+				var length = value.length;
+				var mobile = /^(13[0-9]{9})|(18[0-9]{9})|(14[0-9]{9})|(17[0-9]{9})|(15[0-9]{9})$/;
+				var phone = /^((\(\d{2,3}\))|(\d{3}\-))?(\(0\d{2,3}\)|0\d{2,3}-)?[1-9]\d{6,7}(\-\d{1,4})?$/;
+				return this.optional(element) || ((length == 11 && mobile.test(value) || (length != 11 && phone.test(value)) ) );
+			}, "请输入有效的手机号");
+
 			$("#inputForm").validate({
 				rules : {
 					name : "required",
@@ -117,6 +119,10 @@
 						required : true,
 						minlength : 6,
 						equalTo : "#plainPassword"
+					},
+					phone:{
+						required : false,
+						isMobileOrPhone : true
 					}
 				},
 				messages: {

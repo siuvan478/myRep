@@ -20,17 +20,13 @@
 
 <body>
 
-	<!-- Content Header -->
-	<section class="content-header">
-		<h1>订单详情</h1>
-	</section>
-
 	<div role="form"class="form-horizontal">
 		 <section class="content">
 			 <div class="box box-info">
-				<div class="box-body">
+				 <div class="box-header"><h3 class="box-title">订单详情</h3></div>
+				 <div class="box-body">
 					<div class="row">
-						<div class="col-md-6">
+						<div class="col-md-8">
 							<dl class="dl-horizontal">
 								<dt>订单编号</dt>
 								<dd>${orderForm.orderNo}</dd>
@@ -76,12 +72,12 @@
 							</dl>
 						</div>
 					</div><!-- /.box-body -->
-					<div class="box-footer">
-						<button class="btn btn-primary disabled btn-70" onclick="window.location.href='${ctx}/order'">
-							返回
-						</button>
-					</div>
-				</div>
+				 </div>
+				 <div class="box-footer">
+					 <button class="btn btn-primary disabled btn-70" onclick="window.location.href='${ctx}/order'">
+						 返回
+					 </button>
+				 </div>
 			</div>
 		 </section>
 	</div>

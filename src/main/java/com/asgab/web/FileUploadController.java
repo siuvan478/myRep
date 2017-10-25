@@ -42,6 +42,73 @@ public class FileUploadController {
     @Resource
     private CustMasterService custMasterService;
 
+    //文件记录图片地址
+    private static final String BOX_RECORD_IMAGE_FOLDER = "/usr/temp/upload/BoxRecord/";
+
+    //文件记录图片大小 5MB
+    private static final long BOX_RECORD_IMAGE_SIZE = 5;
+
+    /**
+     * 上传图片
+     *
+     * @param request
+     * @param response
+     * @return
+     * @throws IllegalStateException
+     * @throws IOException
+     */
+    @RequestMapping("/image/upload")
+    public void imageUpload(HttpServletRequest request, HttpServletResponse response)
+            throws IllegalStateException, IOException {
+        // 将当前上下文初始化给 CommonsMutipartResolver （多部分解析器）
+        CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver(
+                request.getSession().getServletContext());
+        String success = "true";
+        String message = CommonUtil.i18nStr(request, "文件上传成功", "file upload success");
+        String fileUrl = "";
+        if (multipartResolver.isMultipart(request)) {
+            MultipartHttpServletRequest multiRequest = (MultipartHttpServletRequest) request;
+            Iterator<String> iter = multiRequest.getFileNames();
+            while (iter.hasNext()) {
+                MultipartFile file = multiRequest.getFile(iter.next().toString());
+                String prefix = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".") + 1);
+                // 文件超大，不保存文件，给出提示
+                if (file != null && file.getSize() > (BOX_RECORD_IMAGE_SIZE * 1048576)) {
+                    // message = "请上传不超过"+UPLOAD_MAX_SIZE+"M的文件";
+                    message = CommonUtil.i18nStr(request, "请上传不超过" + UPLOAD_MAX_SIZE + "M的文件",
+                            "check the file size,it must be less than" + UPLOAD_MAX_SIZE + "M.");
+                    success = "false";
+                    break;
+                }
+                try {
+                    if (file != null) {
+                        File imageFile = new File(BOX_RECORD_IMAGE_FOLDER);
+                        if (!imageFile.exists()) {
+                            imageFile.mkdirs();
+                        }
+                        String path = BOX_RECORD_IMAGE_FOLDER + Identities.uuid2() + "." + prefix;
+                        file.transferTo(new File(path));
+                        fileUrl = path;
+                        break;
+                    }
+                } catch (Exception e) {
+                    message = CommonUtil.i18nStr(request, "上传失败!请检查文件", "upload  failure, please check file");
+                    success = "false";
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("success", success);
+        map.put("message", message);
+        map.put("fileUrl", fileUrl);
+        JsonMapper mapper = JsonMapper.nonDefaultMapper();
+        response.getWriter().print(mapper.toJson(map));
+        response.getWriter().flush();
+        response.getWriter().close();
+    }
+
     /***
      * 上传文件 用@RequestParam注解来指定表单上的file为MultipartFile
      *

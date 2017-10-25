@@ -8,19 +8,13 @@
 <head>
 	<title>取货地址管理</title>
 </head>
-
 <body>
-<!-- Content Header -->
-<section class="content-header">
-	<h1>
-		取货地址管理
-	</h1>
-</section>
 
 <form role="form" id="inputForm" action="${ctx}/address/${action}" method="post" class="form-horizontal">
 	<input type="hidden" name="id" value="${address.id}" />
 	<section class="content">
 		<div class="box box-info">
+			<div class="box-header"><h3 class="box-title">取货地址管理</div>
 			<div class="box-body">
 				<div class="row">
 					<div class="col-md-12">
@@ -50,12 +44,12 @@
 								<input class="form-control" type="text" id="address" name="address" value="${address.address}">
 							</div>
 						</div>
-						<div class="box-footer">
-							<button type="submit" class="btn btn-success btn-70"><i class="fa fa-save"></i> <spring:message code="public.save" /></button>
-							<button type="button" class="btn btn-primary btn-70 disabled" onclick="window.location.href='${ctx}/address'">取消</button>
-						</div>
 					</div>
 				</div>
+			</div>
+			<div class="box-footer">
+				<button type="submit" class="btn btn-success btn-70"><i class="fa fa-save"></i> <spring:message code="public.save" /></button>
+				<button type="button" class="btn btn-primary btn-70 disabled" onclick="window.location.href='${ctx}/address'">取消</button>
 			</div>
 		</div>
 	</section>
@@ -66,7 +60,8 @@
 		$("#inputForm").validate({
 			rules : {
 				name : "required",
-				nameEN : "required",
+				areaId : "required",
+				address : "required"
 			},
 			messages: {
 

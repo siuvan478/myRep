@@ -44,7 +44,7 @@ public class ProfileController {
 	public String update(@Valid @ModelAttribute("user") User user,RedirectAttributes redirectAttributes) {
 		accountService.updateUser(user);
 		updateCurrentUserName(user.getName());
-		redirectAttributes.addFlashAttribute("success", "success");
+		redirectAttributes.addFlashAttribute("message", "update success");
 		return "redirect:/profile?id="+user.getId();
 	}
 

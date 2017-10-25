@@ -2,6 +2,7 @@ package com.asgab.web;
 
 import com.asgab.constants.GlobalConstants;
 import com.asgab.core.pagination.Page;
+import com.asgab.entity.BoxRecord;
 import com.asgab.entity.BoxService;
 import com.asgab.service.BoxRecordService;
 import com.asgab.service.BoxServiceService;
@@ -9,6 +10,7 @@ import com.asgab.service.ProductService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.annotation.Resource;
 import javax.servlet.ServletRequest;
@@ -54,16 +56,24 @@ public class BoxServiceController extends BaseController {
         return "boxService/boxServiceView";
     }
 
-    @RequestMapping(value = "record/done/{id}", method = RequestMethod.GET)
-    public String toScaleUpdate(@PathVariable("id") Long recordId, Model model) {
-        model.addAttribute("recordForm", boxRecordService.get(recordId));
-        return "include/boxRecordForm";
+    @RequestMapping(value = "record/done", method = RequestMethod.POST)
+    public String recordDone(@ModelAttribute("boxRecord") BoxRecord boxRecord, RedirectAttributes redirectAttributes) {
+        boxRecordService.boxServiceDone(boxRecord);
+        redirectAttributes.addFlashAttribute("message", "update success");
+        return "redirect:/boxService/view/" + boxRecord.getServiceId();
     }
 
-    @ModelAttribute
+    @ModelAttribute("boxService")
     public void getBoxService(@RequestParam(value = "id", defaultValue = "-1") Long id, Model model) {
         if (id != -1) {
             model.addAttribute("boxService", boxServiceService.get(id));
+        }
+    }
+
+    @ModelAttribute("boxRecord")
+    public void getBoxRecord(@RequestParam(value = "id", defaultValue = "-1") Long id, Model model) {
+        if (id != -1) {
+            model.addAttribute("boxRecord", boxRecordService.get(id));
         }
     }
 }

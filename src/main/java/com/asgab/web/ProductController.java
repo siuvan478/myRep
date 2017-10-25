@@ -13,6 +13,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
+import java.math.BigDecimal;
 import java.util.Map;
 
 @Controller
@@ -86,6 +87,11 @@ public class ProductController extends BaseController {
         Scale scaleForm = new Scale();
         scaleForm.setProductId(productId);
         scaleForm.setNeedQuote(0);
+        scaleForm.setOneMonthPrice(new BigDecimal(0));
+        scaleForm.setThreeMonthPrice(new BigDecimal(0));
+        scaleForm.setSixMonthPrice(new BigDecimal(0));
+        scaleForm.setTwelveMonthPrice(new BigDecimal(0));
+        scaleForm.setNum(100);
         model.addAttribute("scaleForm", scaleForm);
         model.addAttribute("action2", "create");
         return "include/scaleForm";

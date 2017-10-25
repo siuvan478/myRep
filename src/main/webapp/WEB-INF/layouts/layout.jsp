@@ -106,6 +106,10 @@
     <!-- ajaxUpload -->
     <script type="text/javascript" src="${ctx}/static/ajaxupload/ajaxupload.3.6.js"></script>
 
+    <!-- zyupload -->
+    <link rel="stylesheet" href="${ctx}/static/zyupload/skins/zyupload-1.0.0.min.css " type="text/css">
+    <script type="text/javascript" src="${ctx}/static/zyupload/zyupload.basic-1.0.0.min.js"></script>
+
     <!-- x-edittable -->
     <link rel="stylesheet" href="${ctx}/static/x-editable/bootstrap-editable.css" type="text/css">
     <script type="text/javascript" src="${ctx}/static/x-editable/bootstrap-editable.min.js"></script>
@@ -136,6 +140,8 @@
             z-index: 10000;
         }
 
+        .upload_preview { width: 100%;}
+
         .btn-60 { width: 60px; line-height: 1.1 }
         .btn-65 { width: 65px; line-height: 1.1 }
         .btn-70 { width: 70px; line-height: 1.1 }
@@ -143,6 +149,7 @@
         .btn-80 { width: 80px; line-height: 1.1 }
         .btn-85 { width: 85px; line-height: 1.1 }
         .btn-90 { width: 90px; line-height: 1.1 }
+        .btn-100 { width: 90px; line-height: 1.1 }
 
         /* select2 placeholder font */
         .select2-selection__placeholder{

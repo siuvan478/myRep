@@ -5,14 +5,14 @@
 <mapper namespace="com.asgab.repository.BoxRecordMapper">
 
 	<sql id="box_record_columns">
-		user_id as userId, service_id as serviceId, `type`, appointment_time as appointmentTime, cost, full_cost, create_time as createTime, status,
+		user_id as userId, service_id as serviceId, `type`, appointment_time as appointmentTime, cost, full_cost as fullCost, create_time as createTime, status,
 		picture1, picture2, picture3, picture4
 	</sql>
 
 	<select id="get" parameterType="long" resultType="BoxRecord">
 		select id, <include refid="box_record_columns"/>
 		from ss_box_record
-		where status = 1 and id = #{id}
+		where id = #{id}
 	</select>
 
 	<select id="search" parameterType="map" resultType="BoxRecord">

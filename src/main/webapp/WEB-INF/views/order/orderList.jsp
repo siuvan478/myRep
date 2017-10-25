@@ -118,7 +118,9 @@
 										</td>
 										<td>
 											<a href="${ctx}/order/view/${order.id}" title="查看"><i class="fa fa-eye fa-fw"></i></a>
-											<a onclick="showAuditOrderForm('${order.id}');" class="disabled" title="审批" data-toggle="modal" data-target="#auditOrderForm"><i class="fa fa-pencil fa-fw"></i></a>
+											<c:if test="${order.status eq 1}">
+												<a onclick="showAuditOrderForm('${order.id}');" class="disabled" title="审批" data-toggle="modal" data-target="#auditOrderForm"><i class="fa fa-pencil fa-fw"></i></a>
+											</c:if>
 										</td>
 									</tr>
 								</c:forEach>

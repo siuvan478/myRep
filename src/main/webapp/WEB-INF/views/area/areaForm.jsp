@@ -11,17 +11,11 @@
 
 <body>
 
-<!-- Content Header -->
-<section class="content-header">
-	<h1>
-		区域管理
-	</h1>
-</section>
-
 <form role="form" id="inputForm" action="${ctx}/area/${action}" method="post" class="form-horizontal">
 	<input type="hidden" name="id" value="${area.id}" />
 	<section class="content">
 		<div class="box box-info">
+			<div class="box-header"><h3 class="box-title">区域管理</h3></div>
 			<div class="box-body">
 				<div class="row">
 					<div class="col-md-12">
@@ -45,12 +39,12 @@
 								<input class="form-control" type="text" id="nameEN" name="nameEN" value="${area.nameEN}">
 							</div>
 						</div>
-						<div class="box-footer">
-							<button type="submit" class="btn btn-success btn-70"><i class="fa fa-save"></i> <spring:message code="public.save" /></button>
-							<button type="button" class="btn btn-primary btn-70 disabled" onclick="window.location.href='${ctx}/area'">取消</button>
-						</div>
 					</div>
 				</div>
+			</div>
+			<div class="box-footer">
+				<button type="submit" class="btn btn-success btn-70"><i class="fa fa-save"></i> <spring:message code="public.save" /></button>
+				<button type="button" class="btn btn-primary btn-70 disabled" onclick="window.location.href='${ctx}/area'">取消</button>
 			</div>
 		</div>
 	</section>
@@ -61,8 +55,7 @@
 			$("#inputForm").validate({
 				rules : {
 					name : "required",
-					nameEN : "required",
-
+					nameEN : "required"
 				},
 				messages: {
 

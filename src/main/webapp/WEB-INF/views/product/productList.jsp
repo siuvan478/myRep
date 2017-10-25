@@ -81,7 +81,14 @@
 									<tr class="${index.count%2==0?'odd':'even'}">
 										<td>${product.productName}</td>
 										<td>${product.productNo}</td>
-										<td>${product.status}</td>
+										<td>
+											<c:if test="${product.status eq 1}">
+												有效
+											</c:if>
+											<c:if test="${product.status ne 1}">
+												无效
+											</c:if>
+										</td>
 										<td>
 											<a href="${ctx}/product/update/${product.id}"><i class="fa fa-edit fa-fw"></i></a>
 											<a onclick="delcfm('${ctx}/product/delete/${product.id}');"><i class="fa fa-times fa-fw"></i></a>

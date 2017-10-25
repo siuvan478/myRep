@@ -10,19 +10,15 @@
 </head>
 
 <body>
-	<!-- Content Header -->
-	<section class="content-header">
-		<h1>
-			<c:if test="${action eq 'create' }">新建产品</c:if>
-			<c:if test="${action eq 'update' }">编辑产品</c:if>
-		</h1>
-	</section>
 
 	<form role="form" id="inputForm" action="${ctx}/product/${action}" method="post" class="form-horizontal">
 		<input type="hidden" name="id" value="${product.id}" />
 		<input type="hidden" name="image" id="product_image_value" value="${product.image}" />
 		<section class="content">
 			<div class="box box-info">
+				<div class="box-header"><h3 class="box-title">
+					<c:if test="${action eq 'create' }">新建产品</c:if>
+					<c:if test="${action eq 'update' }">编辑产品</c:if></h3></div>
 				<div class="box-body">
 					<div class="row">
 						<div class="col-md-12">
@@ -66,15 +62,15 @@
 										</c:if>
 									</div>
 									<a class="btn btn-primary btn-70" data-toggle="modal" data-target="#myModal"><i class="fa fa-upload"></i> <spring:message code="public.upload" /></a>
-									<p class="help-block">图片上传后，需要点击保存生效.</p>
+									<p class="help-block"><i class="fa fa-fw fa-commenting"></i>图片上传后，需要点击保存生效.</p>
 								</div>
-							</div>
-							<div class="box-footer">
-								<button type="submit" class="btn btn-success btn-70"><i class="fa fa-save"></i> <spring:message code="public.save" /></button>
-								<button type="button" class="btn btn-primary btn-70 disabled" onclick="window.location.href='${ctx}/product'">取消</button>
 							</div>
 						</div>
 					</div>
+				</div>
+				<div class="box-footer">
+					<button type="submit" class="btn btn-success btn-70"><i class="fa fa-save"></i> <spring:message code="public.save" /></button>
+					<button type="button" class="btn btn-primary btn-70 disabled" onclick="window.location.href='${ctx}/product'">取消</button>
 				</div>
 			</div>
 		</section>
@@ -83,10 +79,10 @@
 	<c:if test="${action eq 'update'}">
 	<section class="content">
 		<div class="box" style="top: -30px">
+			<div class="box-header">
+				<button type="button" class="btn btn-primary btn-70" onclick="scaleForm('${ctx}/product/scale/create/${product.id}')" data-toggle="modal" data-target="#scaleFormModal"><i class="fa fa-plus"></i> 新增</button>
+			</div>
 			<div class="box-body">
-				<div class="box-header">
-					<button type="button" class="btn btn-primary btn-70" onclick="scaleForm('${ctx}/product/scale/create/${product.id}')" data-toggle="modal" data-target="#scaleFormModal"><i class="fa fa-plus"></i> 新增</button>
-				</div>
 				<div class="table-responsive">
 				<table class="table table-striped table-hover dataTable" style="margin-bottom:0px;">
 					<thead>
@@ -135,9 +131,10 @@
 		$(document).ready(function() {
 			$("#inputForm").validate({
 				rules : {
-					name : "required",
-					nameEN : "required",
-
+					productName : "required",
+					productNo : "required",
+					feature : "required",
+					description : "required"
 				},
 				messages: {
 
