@@ -13,29 +13,29 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <link rel="shortcut icon" href="${ctx}/static111/images/favicon.ico">
+    <link rel="shortcut icon" href="${ctx}/static/images/favicon.ico">
     <title>登录 | Box</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.5 -->
-    <link rel="stylesheet" href="${ctx}/static111/AdminLTE-2.3.3/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="${ctx}/static/AdminLTE-2.3.3/bootstrap/css/bootstrap.min.css">
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="${ctx}/static111/styles//font-awesome.min.css">
+    <link rel="stylesheet" href="${ctx}/static/styles//font-awesome.min.css">
     <!-- Ionicons -->
-    <link rel="stylesheet" href="${ctx}/static111/styles//ionicons.min.css">
+    <link rel="stylesheet" href="${ctx}/static/styles//ionicons.min.css">
     <!-- Theme style -->
-    <link rel="stylesheet" href="${ctx}/static111/AdminLTE-2.3.3/dist/css/AdminLTE.min.css">
+    <link rel="stylesheet" href="${ctx}/static/AdminLTE-2.3.3/dist/css/AdminLTE.min.css">
     <!-- custom style -->
-    <link rel="stylesheet" href="${ctx}/static111/styles/custom.css">
+    <link rel="stylesheet" href="${ctx}/static/styles/custom.css">
     <!-- Override default font -->
     <style type="text/css">
         body,button, input, select, textarea,h1 ,h2, h3, h4, h5, h6 { font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;}
     </style>
 
     <!-- iCheck -->
-    <link rel="stylesheet" href="${ctx}/static111/AdminLTE-2.3.3/plugins/iCheck/square/blue.css">
+    <link rel="stylesheet" href="${ctx}/static/AdminLTE-2.3.3/plugins/iCheck/square/blue.css">
     <!-- validate -->
-    <link href="${ctx}/static111/jquery-validation/1.11.1/validate.css" type="text/css" rel="stylesheet" />
+    <link href="${ctx}/static/jquery-validation/1.11.1/validate.css" type="text/css" rel="stylesheet" />
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -49,7 +49,7 @@
     %>
 
     <style type="text/css">
-        .loginbg{ background-image: url( ${ctx}/static111/images/maxresdefault.jpg);background-size: cover;}
+        .loginbg{ background-image: url( ${ctx}/static/images/maxresdefault.jpg);background-size: cover;}
     </style>
 </head>
 <body class="hold-transition login-page">
@@ -143,19 +143,19 @@
 </div><!-- /.login-box -->
 
 <!-- jQuery 2.1.4 -->
-<script src="${ctx}/static111/AdminLTE-2.3.3/plugins/jQuery/jQuery-2.2.0.min.js"></script>
+<script src="${ctx}/static/AdminLTE-2.3.3/plugins/jQuery/jQuery-2.2.0.min.js"></script>
 <!-- Bootstrap 3.3.5 -->
-<script src="${ctx}/static111/AdminLTE-2.3.3/bootstrap/js/bootstrap.min.js"></script>
+<script src="${ctx}/static/AdminLTE-2.3.3/bootstrap/js/bootstrap.min.js"></script>
 <!-- iCheck -->
-<script src="${ctx}/static111/AdminLTE-2.3.3/plugins/iCheck/icheck.min.js"></script>
+<script src="${ctx}/static/AdminLTE-2.3.3/plugins/iCheck/icheck.min.js"></script>
 
 <!-- validate -->
-<script src="${ctx}/static111/jquery-validation/1.14.0/dist/jquery.validate.js" type="text/javascript"></script>
-<script src="${ctx}/static111/jquery-validation/1.14.0/dist/jquey.validate.override.js" type="text/javascript"></script>
+<script src="${ctx}/static/jquery-validation/1.14.0/dist/jquery.validate.js" type="text/javascript"></script>
+<script src="${ctx}/static/jquery-validation/1.14.0/dist/jquey.validate.override.js" type="text/javascript"></script>
 <%
     if(lang.equals("zh")){
 %>
-    <script src="${ctx}/static111/jquery-validation/1.14.0/dist/localization/messages_zh.js" type="text/javascript"></script>
+    <script src="${ctx}/static/jquery-validation/1.14.0/dist/localization/messages_zh.js" type="text/javascript"></script>
 <%
     }
 %>

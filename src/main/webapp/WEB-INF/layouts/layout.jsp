@@ -10,7 +10,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <link rel="shortcut icon" href="${ctx}/static111/images/favicon.ico">
+    <link rel="shortcut icon" href="${ctx}/static/images/favicon.ico">
     <title>Box | <sitemesh:title/></title>
 
     <style type="text/css">
@@ -20,37 +20,37 @@
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.6 -->
-    <link rel="stylesheet" href="${ctx}/static111/AdminLTE-2.3.3/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="${ctx}/static/AdminLTE-2.3.3/bootstrap/css/bootstrap.min.css">
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="${ctx}/static111/styles/font-awesome.min.css">
+    <link rel="stylesheet" href="${ctx}/static/styles/font-awesome.min.css">
 
     <!-- Ion Slider -->
-    <link rel="stylesheet" href="${ctx}/static111/AdminLTE-2.3.3/plugins/ionslider/css/ion.rangeSlider.css">
-    <link rel="stylesheet" href="${ctx}/static111/AdminLTE-2.3.3/plugins/ionslider/css/ion.rangeSlider.skinHTML5.css">
+    <link rel="stylesheet" href="${ctx}/static/AdminLTE-2.3.3/plugins/ionslider/css/ion.rangeSlider.css">
+    <link rel="stylesheet" href="${ctx}/static/AdminLTE-2.3.3/plugins/ionslider/css/ion.rangeSlider.skinHTML5.css">
 
     <!-- daterange picker -->
-    <link rel="stylesheet" href="${ctx}/static111/AdminLTE-2.3.3/plugins/daterangepicker/daterangepicker-bs3.css">
+    <link rel="stylesheet" href="${ctx}/static/AdminLTE-2.3.3/plugins/daterangepicker/daterangepicker-bs3.css">
     <!-- iCheck for checkboxes and radio inputs -->
-    <link rel="stylesheet" href="${ctx}/static111/AdminLTE-2.3.3/plugins/iCheck/all.css">
+    <link rel="stylesheet" href="${ctx}/static/AdminLTE-2.3.3/plugins/iCheck/all.css">
     <!-- Bootstrap Color Picker -->
-    <link rel="stylesheet" href="${ctx}/static111/AdminLTE-2.3.3/plugins/colorpicker/bootstrap-colorpicker.min.css">
+    <link rel="stylesheet" href="${ctx}/static/AdminLTE-2.3.3/plugins/colorpicker/bootstrap-colorpicker.min.css">
     <!-- Bootstrap time Picker -->
-    <link rel="stylesheet" href="${ctx}/static111/AdminLTE-2.3.3/plugins/timepicker/bootstrap-timepicker.min.css">
+    <link rel="stylesheet" href="${ctx}/static/AdminLTE-2.3.3/plugins/timepicker/bootstrap-timepicker.min.css">
     <!-- Select2 -->
-    <link rel="stylesheet" href="${ctx}/static111/AdminLTE-2.3.3/plugins/select2/select2.min.css">
+    <link rel="stylesheet" href="${ctx}/static/AdminLTE-2.3.3/plugins/select2/select2.min.css">
 
     <!-- Theme style -->
-    <link rel="stylesheet" href="${ctx}/static111/AdminLTE-2.3.3/dist/css/AdminLTE.css">
-    <link rel="stylesheet" href="${ctx}/static111/AdminLTE-2.3.3/dist/css/skins/_all-skins.css">
+    <link rel="stylesheet" href="${ctx}/static/AdminLTE-2.3.3/dist/css/AdminLTE.css">
+    <link rel="stylesheet" href="${ctx}/static/AdminLTE-2.3.3/dist/css/skins/_all-skins.css">
 
     <!-- daterangepicker -->
-    <link rel="stylesheet" href="${ctx}/static111/AdminLTE-2.3.3/plugins/daterangepicker/daterangepicker-bs3.css">
+    <link rel="stylesheet" href="${ctx}/static/AdminLTE-2.3.3/plugins/daterangepicker/daterangepicker-bs3.css">
 
     <!-- datatable -->
-    <link rel="stylesheet" href="${ctx}/static111/AdminLTE-2.3.3/plugins/datatables/dataTables.bootstrap.css">
+    <link rel="stylesheet" href="${ctx}/static/AdminLTE-2.3.3/plugins/datatables/dataTables.bootstrap.css">
 
     <!-- custom style -->
-    <link rel="stylesheet" href="${ctx}/static111/styles/custom.css">
+    <link rel="stylesheet" href="${ctx}/static/styles/custom.css">
 
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -58,63 +58,63 @@
     <![endif]-->
 
     <!-- jQuery 2.1.4 -->
-    <script src="${ctx}/static111/AdminLTE-2.3.3/plugins/jQuery/jQuery-2.2.0.min.js"></script>
+    <script src="${ctx}/static/AdminLTE-2.3.3/plugins/jQuery/jQuery-2.2.0.min.js"></script>
     <!-- Bootstrap 3.3.5 -->
-    <script src="${ctx}/static111/AdminLTE-2.3.3/bootstrap/js/bootstrap.min.js"></script>
+    <script src="${ctx}/static/AdminLTE-2.3.3/bootstrap/js/bootstrap.min.js"></script>
     <!-- Select2 -->
-    <script src="${ctx}/static111/AdminLTE-2.3.3/plugins/select2/select2.full.min.js"></script>
+    <script src="${ctx}/static/AdminLTE-2.3.3/plugins/select2/select2.full.min.js"></script>
     <!-- InputMask -->
-    <script src="${ctx}/static111/AdminLTE-2.3.3/plugins/input-mask/jquery.inputmask.js"></script>
-    <script src="${ctx}/static111/AdminLTE-2.3.3/plugins/input-mask/jquery.inputmask.date.extensions.js"></script>
-    <script src="${ctx}/static111/AdminLTE-2.3.3/plugins/input-mask/jquery.inputmask.extensions.js"></script>
-    <script src="${ctx}/static111/AdminLTE-2.3.3/plugins/input-mask/jquery.inputmask.numeric.extensions.js"></script>
+    <script src="${ctx}/static/AdminLTE-2.3.3/plugins/input-mask/jquery.inputmask.js"></script>
+    <script src="${ctx}/static/AdminLTE-2.3.3/plugins/input-mask/jquery.inputmask.date.extensions.js"></script>
+    <script src="${ctx}/static/AdminLTE-2.3.3/plugins/input-mask/jquery.inputmask.extensions.js"></script>
+    <script src="${ctx}/static/AdminLTE-2.3.3/plugins/input-mask/jquery.inputmask.numeric.extensions.js"></script>
     <!-- date-range-picker -->
-    <script src="${ctx}/static111/AdminLTE-2.3.3/plugins/daterangepicker/moment-with-locales.min.js"></script>
-    <script src="${ctx}/static111/AdminLTE-2.3.3/plugins/daterangepicker/daterangepicker.js"></script>
+    <script src="${ctx}/static/AdminLTE-2.3.3/plugins/daterangepicker/moment-with-locales.min.js"></script>
+    <script src="${ctx}/static/AdminLTE-2.3.3/plugins/daterangepicker/daterangepicker.js"></script>
     <!-- bootstrap color picker -->
-    <script src="${ctx}/static111/AdminLTE-2.3.3/plugins/colorpicker/bootstrap-colorpicker.min.js"></script>
+    <script src="${ctx}/static/AdminLTE-2.3.3/plugins/colorpicker/bootstrap-colorpicker.min.js"></script>
     <!-- bootstrap time picker -->
-    <script src="${ctx}/static111/AdminLTE-2.3.3/plugins/timepicker/bootstrap-timepicker.min.js"></script>
+    <script src="${ctx}/static/AdminLTE-2.3.3/plugins/timepicker/bootstrap-timepicker.min.js"></script>
     <!-- SlimScroll 1.3.0 -->
-    <script src="${ctx}/static111/AdminLTE-2.3.3/plugins/slimScroll/jquery.slimscroll.min.js"></script>
+    <script src="${ctx}/static/AdminLTE-2.3.3/plugins/slimScroll/jquery.slimscroll.min.js"></script>
     <!-- iCheck 1.0.1 -->
-    <script src="${ctx}/static111/AdminLTE-2.3.3/plugins/iCheck/icheck.min.js"></script>
+    <script src="${ctx}/static/AdminLTE-2.3.3/plugins/iCheck/icheck.min.js"></script>
     <!-- ChartJS 2.1.4 -->
-    <script src="${ctx}/static111/chartjs/Chart.js"></script>
+    <script src="${ctx}/static/chartjs/Chart.js"></script>
     <!-- FastClick -->
-    <script src="${ctx}/static111/AdminLTE-2.3.3/plugins/fastclick/fastclick.min.js"></script>
+    <script src="${ctx}/static/AdminLTE-2.3.3/plugins/fastclick/fastclick.min.js"></script>
     <!-- Ion Slider -->
-    <script src="${ctx}/static111/AdminLTE-2.3.3/plugins/ionslider/ion.rangeSlider.min.js"></script>
+    <script src="${ctx}/static/AdminLTE-2.3.3/plugins/ionslider/ion.rangeSlider.min.js"></script>
     <!-- bootbox -->
-    <script src="${ctx}/static111/bootbox/bootbox.js"></script>
+    <script src="${ctx}/static/bootbox/bootbox.js"></script>
     <!-- jquery validate 1.14.0 -->
-    <script src="${ctx}/static111/jquery-validation/1.14.0/dist/jquery.validate.js" type="text/javascript"></script>
-    <script src="${ctx}/static111/jquery-validation/1.14.0/dist/jquey.validate.override.js" type="text/javascript"></script>
+    <script src="${ctx}/static/jquery-validation/1.14.0/dist/jquery.validate.js" type="text/javascript"></script>
+    <script src="${ctx}/static/jquery-validation/1.14.0/dist/jquey.validate.override.js" type="text/javascript"></script>
     <!-- DataTables -->
-    <script src="${ctx}/static111/AdminLTE-2.3.3/plugins/datatables/jquery.dataTables.min.js"></script>
-    <script src="${ctx}/static111/AdminLTE-2.3.3/plugins/datatables/dataTables.bootstrap.min.js"></script>
+    <script src="${ctx}/static/AdminLTE-2.3.3/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="${ctx}/static/AdminLTE-2.3.3/plugins/datatables/dataTables.bootstrap.min.js"></script>
 
     <!-- AdminLTE App -->
-    <script src="${ctx}/static111/AdminLTE-2.3.3/dist/js/app.min.js"></script>
+    <script src="${ctx}/static/AdminLTE-2.3.3/dist/js/app.min.js"></script>
     <!-- AdminLTE for demo purposes -->
-    <script src="${ctx}/static111/AdminLTE-2.3.3/dist/js/demo.js"></script>
+    <script src="${ctx}/static/AdminLTE-2.3.3/dist/js/demo.js"></script>
 
     <!-- ztree -->
-    <link rel="stylesheet" href="${ctx}/static111/zTree/css/zTreeStyle/zTreeStyle.css" type="text/css">
-    <script type="text/javascript" src="${ctx}/static111/zTree/js/jquery.ztree.core.js"></script>
+    <link rel="stylesheet" href="${ctx}/static/zTree/css/zTreeStyle/zTreeStyle.css" type="text/css">
+    <script type="text/javascript" src="${ctx}/static/zTree/js/jquery.ztree.core.js"></script>
 
     <!-- ajaxUpload -->
-    <script type="text/javascript" src="${ctx}/static111/ajaxupload/ajaxupload.3.6.js"></script>
+    <script type="text/javascript" src="${ctx}/static/ajaxupload/ajaxupload.3.6.js"></script>
 
     <!-- x-edittable -->
-    <link rel="stylesheet" href="${ctx}/static111/x-editable/bootstrap-editable.css" type="text/css">
-    <script type="text/javascript" src="${ctx}/static111/x-editable/bootstrap-editable.min.js"></script>
+    <link rel="stylesheet" href="${ctx}/static/x-editable/bootstrap-editable.css" type="text/css">
+    <script type="text/javascript" src="${ctx}/static/x-editable/bootstrap-editable.min.js"></script>
     <%
         LocaleResolver localeResolver = RequestContextUtils.getLocaleResolver (request);
         String lang =localeResolver.resolveLocale(request).getLanguage();
         if("zh".equals(lang)){
     %>
-        <script src="${ctx}/static111/jquery-validation/1.14.0/dist/localization/messages_zh.js" type="text/javascript"></script>
+        <script src="${ctx}/static/jquery-validation/1.14.0/dist/localization/messages_zh.js" type="text/javascript"></script>
         <script type="text/javascript">
             moment.locale("zh-cn");
         </script>
@@ -123,7 +123,7 @@
     %>
     <style type="text/css">
         #cover {
-            background: url("${ctx}/static111/images/spin.gif") no-repeat scroll center center #000;
+            background: url("${ctx}/static/images/spin.gif") no-repeat scroll center center #000;
             position: fixed;
             top: 0;
             left: 0;

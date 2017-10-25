@@ -76,7 +76,7 @@
 				/login = jCaptchaValidate,authc
 				/logout = logout
 				/static/** = anon
-				/static111/** = anon
+				/static/** = anon
 				/process/** = anon
 				/file/** = anon
 				/paytran/create = anon

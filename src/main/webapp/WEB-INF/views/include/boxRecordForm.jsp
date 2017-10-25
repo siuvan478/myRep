@@ -4,17 +4,21 @@
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags"%>
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
 
-<link rel="stylesheet" href="${ctx}/static111/zyupload/skins/zyupload-1.0.0.min.css " type="text/css">
-<script type="text/javascript" src="${ctx}/static111/zyupload/zyupload.basic-1.0.0.min.js"></script>
+<style type="text/css">
+
+    .upload_preview { width: 100%;}
+</style>
+<link rel="stylesheet" href="${ctx}/static/zyupload/skins/zyupload-1.0.0.min.css " type="text/css">
+<script type="text/javascript" src="${ctx}/static/zyupload/zyupload.basic-1.0.0.min.js"></script>
 <script type="text/javascript">
 
     // 初始化插件
     $("#zyupload").zyUpload({
         width            :   "auto",                 // 宽度
         height           :   "auto",                 // 宽度
-        itemWidth        :   "50px",                 // 文件项的宽度
-        itemHeight       :   "50px",                 // 文件项的高度
-        url              :   "${ctx}/upload/image?fileType=9",  // 上传文件的路径
+        itemWidth        :   "100px",                 // 文件项的宽度
+        itemHeight       :   "100px",                 // 文件项的高度
+        url              :   "${ctx}/file/upload",  // 上传文件的路径
         fileType         :   ["jpg","png"],// 上传文件的类型
         fileSize         :   2097152,                // 上传文件的大小 2m
         multiple         :   false,                    // 是否可以多个文件上传
@@ -68,7 +72,7 @@
         </div>
         <div class="modal-body">
             <div class="col-md-12">
-                <div id="zyupload" class="zyupload fl" style="margin-right: 20px;"></div>
+                <div id="zyupload" class="zyupload"></div>
                 <span style="color: #dd7e6b; margin-top: 100px; display: block;">
 							1、最多上传3张<br>
 							2、不足3张 则 从新闻内容提取<br>
