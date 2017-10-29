@@ -1,16 +1,16 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : localhost
-Source Server Version : 50710
+Source Server         : cas
+Source Server Version : 50623
 Source Host           : localhost:3306
 Source Database       : cas
 
 Target Server Type    : MYSQL
-Target Server Version : 50710
+Target Server Version : 50623
 File Encoding         : 65001
 
-Date: 2017-10-24 09:03:40
+Date: 2017-10-29 23:59:21
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -21,18 +21,19 @@ SET FOREIGN_KEY_CHECKS=0;
 DROP TABLE IF EXISTS `ss_address`;
 CREATE TABLE `ss_address` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
-  `city_id` varchar(10) NOT NULL COMMENT '城市',
+  `city_id` varchar(10) NOT NULL DEFAULT '-1' COMMENT '城市',
   `area_id` varchar(10) NOT NULL COMMENT '区域',
   `address` varchar(100) DEFAULT NULL COMMENT '具体地址',
   `user_id` bigint(20) NOT NULL COMMENT '用户ID',
   `status` tinyint(4) NOT NULL DEFAULT '1' COMMENT '状态 1=正常 0=失效',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of ss_address
 -- ----------------------------
-INSERT INTO `ss_address` VALUES ('1', '1', '1', '快手镇老铁村', '1', '1');
+INSERT INTO `ss_address` VALUES ('1', '1', '12', '快手县双击镇老铁村666收11111', '1', '1');
+INSERT INTO `ss_address` VALUES ('2', '-1', '1', 'dsasdfasdf', '5', '1');
 
 -- ----------------------------
 -- Table structure for ss_appoint_fee
@@ -66,7 +67,7 @@ CREATE TABLE `ss_area` (
 -- ----------------------------
 -- Records of ss_area
 -- ----------------------------
-INSERT INTO `ss_area` VALUES ('1', '香港仔', 'Aberdeen', '1', '0');
+INSERT INTO `ss_area` VALUES ('1', '香港仔', 'Aberdeen', '1', '1');
 INSERT INTO `ss_area` VALUES ('2', '金鐘', 'Admiralty', '1', '1');
 INSERT INTO `ss_area` VALUES ('3', '鴨脷洲', 'Ap Lei Chau', '1', '1');
 INSERT INTO `ss_area` VALUES ('4', '大浪灣', 'Big Wave Bay', '1', '1');
@@ -190,7 +191,7 @@ CREATE TABLE `ss_box_record` (
 INSERT INTO `ss_box_record` VALUES ('4', '0', '1', '1', '2017-10-20 16:00:00', '60.00', '0', '2017-10-19 16:55:54', '1', null, null, null, null);
 INSERT INTO `ss_box_record` VALUES ('5', '0', '1', '1', '2017-10-20 16:00:00', '60.00', '0', '2017-10-19 17:00:07', '1', null, null, null, null);
 INSERT INTO `ss_box_record` VALUES ('6', '1', '1', '1', '2017-10-20 16:00:00', '60.00', '0', '2017-10-20 09:50:55', '1', null, null, null, null);
-INSERT INTO `ss_box_record` VALUES ('7', '1', '7', '1', '2017-10-29 09:00:00', '0.00', '0', '2017-10-24 07:39:07', '1', null, null, null, null);
+INSERT INTO `ss_box_record` VALUES ('7', '1', '7', '1', '2017-10-29 09:00:00', '0.00', '0', '2017-10-24 07:39:07', '2', '/usr/temp/upload/BoxRecord/340ba2eaffa74ad087eb957203fa0675.png', '/usr/temp/upload/BoxRecord/1d382c4f7a2c463499d2bc63601f7c72.png', '/usr/temp/upload/BoxRecord/9161e7c8fbd7471c9d9d00f444393db6.png', null);
 
 -- ----------------------------
 -- Table structure for ss_box_service
@@ -218,7 +219,7 @@ CREATE TABLE `ss_box_service` (
 INSERT INTO `ss_box_service` VALUES ('4', '1', '1', '1', '1', '1', '1', '2017-10-19 16:00:00', '2017-10-20 10:00:00', '2017-10-19 16:55:54', '2017-10-19 16:55:54', '0');
 INSERT INTO `ss_box_service` VALUES ('5', '1', '1', '1', '1', '1', '1', '2017-10-20 16:00:00', '2017-11-20 16:00:00', '2017-10-19 17:00:07', '2017-10-19 17:00:07', '1');
 INSERT INTO `ss_box_service` VALUES ('6', '1', '1', '1', '1', '1', '1', '2017-10-20 16:00:00', '2017-11-20 16:00:00', '2017-10-20 09:50:54', '2017-10-20 09:50:54', '1');
-INSERT INTO `ss_box_service` VALUES ('7', '1', '1', '5', '8', '4', '1', '2017-10-29 09:00:00', '2018-10-29 09:00:00', '2017-10-24 07:39:07', '2017-10-24 07:39:07', '1');
+INSERT INTO `ss_box_service` VALUES ('7', '1', '1', '5', '8', '4', '1', '2017-10-29 09:00:00', '2018-10-29 09:00:00', '2017-10-24 07:39:07', '2017-10-26 00:55:10', '2');
 
 -- ----------------------------
 -- Table structure for ss_city
@@ -279,7 +280,7 @@ CREATE TABLE `ss_order` (
 -- ----------------------------
 -- Records of ss_order
 -- ----------------------------
-INSERT INTO `ss_order` VALUES ('1', '1', 'TODO-ORDER-NO-01', '1', '1', '1', '1', '1', '160.00', '2017-10-19 16:55:54', null, '1', '1', null);
+INSERT INTO `ss_order` VALUES ('1', '1', 'TODO-ORDER-NO-01', '1', '1', '1', '1', '1', '160.00', '2017-10-19 16:55:54', null, '0', '1', '');
 INSERT INTO `ss_order` VALUES ('2', '1', 'TODO-ORDER-NO-01', '1', '1', '1', '1', '1', '160.00', '2017-10-19 17:00:07', null, '1', '1', null);
 INSERT INTO `ss_order` VALUES ('3', '1', '20171020095055260794624', '1', '1', '1', '1', '1', '160.00', '2017-10-20 09:50:55', null, '1', '1', null);
 INSERT INTO `ss_order` VALUES ('4', '1', '20171024073907545794624', '1', '5', '8', '4', '1', '600.00', '2017-10-24 07:39:07', '2017-10-24 07:39:29', '2', '7', '');
@@ -370,13 +371,17 @@ CREATE TABLE `ss_user` (
   `update_date` datetime DEFAULT NULL COMMENT '更新时间',
   `status` tinyint(4) DEFAULT '1' COMMENT '状态 1=正常 0=停用',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of ss_user
 -- ----------------------------
-INSERT INTO `ss_user` VALUES ('1', '295636011@qq.com', '夏红凡', '7d4b0bd4179443be783d1231a63f9162d8a2cc15', '842ea2ec22b2d20c', null, '295636011@qq.com', null, '2017-09-29 13:05:12', '2017-10-18 11:33:15', '1');
+INSERT INTO `ss_user` VALUES ('1', '295636011@qq.com', '夏红凡', '9beefa9804aa33d56539a5c1d0d90af6c6c5045a', '6688e0396f7ebd21', '1', '295636011@qq.com', '17620021827111', '2017-09-29 13:05:12', '2017-10-29 23:40:42', '1');
 INSERT INTO `ss_user` VALUES ('2', 'liuwenyang@qq.com', '刘文扬', '23f1d525150bde0e212c8b2be3fe0d08ccf678f8', 'aa605a2cdcb4cda7', null, 'liuwenyang@qq.com', null, '2017-09-29 13:45:50', '2017-10-16 08:32:23', '1');
 INSERT INTO `ss_user` VALUES ('3', '380612645@qq.com', null, '6f84864e81331ba171b04e7885ea00ffae7e0274', '167d7f6726f29eff', null, null, null, '2017-10-18 11:33:58', '2017-10-18 11:33:58', '1');
-INSERT INTO `ss_user` VALUES ('5', '160402281@qq.com', null, '771a276a34ded4b381872bfe6141c22c8088a09e', 'b96297af17ad4d03', null, null, null, '2017-10-19 18:39:39', '2017-10-19 18:39:39', '1');
+INSERT INTO `ss_user` VALUES ('5', '160402281@qq.com', 'Lou', '771a276a34ded4b381872bfe6141c22c8088a09e', 'b96297af17ad4d03', null, null, '18520339838', '2017-10-19 18:39:39', '2017-10-29 23:05:25', '1');
 INSERT INTO `ss_user` VALUES ('6', '470508081@qq.com', null, 'df478645bd3538d264a30e91875d8a67a37e8782', 'aa9ef7bb5cfae4e3', null, null, null, '2017-10-19 22:33:01', '2017-10-19 22:33:01', '1');
+INSERT INTO `ss_user` VALUES ('7', '', '', '8f093aeb7f341fff17c260b1950286044ca9a0b7', '2950d62d0e83dac8', null, '', '', '2017-10-26 01:02:21', '2017-10-26 01:02:21', '2');
+INSERT INTO `ss_user` VALUES ('8', '', '', 'be6d44ae06102f5a8d430b27e98af1e93cc44901', '767f08efa08660ad', null, '', '', '2017-10-26 01:02:33', '2017-10-26 01:02:33', '2');
+INSERT INTO `ss_user` VALUES ('9', '', '', '3be15c438cb9bbb458de48efe3d4ae254c8fb823', 'ae2e879a70476251', null, '', '112', '2017-10-26 01:03:52', '2017-10-26 01:03:52', '2');
+INSERT INTO `ss_user` VALUES ('10', '', '', 'a5a2fa1a483d5e807004504a47004a83bba93110', 'e2ac37e8a434509b', null, '', '', '2017-10-26 01:04:47', '2017-10-26 01:04:47', '2');
