@@ -1,5 +1,6 @@
 package com.asgab.service.account;
 
+import com.asgab.constants.GlobalConstants;
 import com.asgab.core.pagination.Page;
 import com.asgab.entity.User;
 import com.asgab.repository.UserMapper;
@@ -74,6 +75,7 @@ public class AccountService {
         entryptPassword(user);
         user.setRegisterDate(clock.getCurrentDate());
         user.setUpdateDate(clock.getCurrentDate());
+        user.setRoles(GlobalConstants.Role.COMMON_USER.toString());
         userMapper.save(user);
     }
 

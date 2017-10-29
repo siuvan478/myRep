@@ -26,6 +26,12 @@
 		<if test="name != null">
 			and name like "%"#{name}"%"
 		</if>
+		<if test="email != null">
+			and email = #{email}
+		</if>
+		<if test="phone != null">
+			and phone = #{phone}
+		</if>
 		<if test="roles != null">
 			and roles like "%"#{roles}"%"
 		</if>
@@ -38,10 +44,16 @@
 		select count(1)
 		from ss_user where status = 1
 		<if test="loginName != null">
-			and login_name=#{loginName}
+			and login_name = #{loginName}
 		</if>
 		<if test="name != null">
 			and name like "%"#{name}"%"
+		</if>
+		<if test="email != null">
+			and email = #{email}
+		</if>
+		<if test="phone != null">
+			and phone = #{phone}
 		</if>
 		<if test="roles != null">
 			and roles like "%"#{roles}"%"

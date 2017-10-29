@@ -28,7 +28,6 @@ import java.util.Map;
 public class HttpClientUtil {
 
     public static String doGet(String url, Map<String, String> param) {
-
         // 创建Httpclient对象
         CloseableHttpClient httpclient = HttpClients.createDefault();
 
@@ -43,10 +42,8 @@ public class HttpClientUtil {
                 }
             }
             URI uri = builder.build();
-
             // 创建http GET请求
             HttpGet httpGet = new HttpGet(uri);
-
             // 执行请求
             response = httpclient.execute(httpGet);
             // 判断返回状态是否为200
@@ -87,7 +84,7 @@ public class HttpClientUtil {
                     paramList.add(new BasicNameValuePair(key, param.get(key)));
                 }
                 // 模拟表单
-                UrlEncodedFormEntity entity = new UrlEncodedFormEntity(paramList,"utf-8");
+                UrlEncodedFormEntity entity = new UrlEncodedFormEntity(paramList, "utf-8");
                 httpPost.setEntity(entity);
             }
             // 执行http请求
@@ -99,7 +96,6 @@ public class HttpClientUtil {
             try {
                 response.close();
             } catch (IOException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
         }
@@ -131,7 +127,6 @@ public class HttpClientUtil {
             try {
                 response.close();
             } catch (IOException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
         }

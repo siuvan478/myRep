@@ -133,6 +133,9 @@ public class OrderWebService {
      * @return
      */
     public BigDecimal getAppointFee(Date appointmentTime, Long userId) {
+        if (appointmentTime == null || DateUtils.isBeforeNow(appointmentTime)) {
+            throw new ApiException("预约时间参数错误");
+        }
         //周日免费
         if (DateUtils.isSunday(appointmentTime)) {
             return new BigDecimal(0);

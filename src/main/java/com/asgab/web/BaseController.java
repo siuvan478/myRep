@@ -1,7 +1,9 @@
 package com.asgab.web;
 
+import com.asgab.service.account.ShiroDbRealm;
 import com.asgab.util.Servlets;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.ui.Model;
 
 import javax.servlet.ServletRequest;
@@ -28,5 +30,10 @@ public abstract class BaseController {
         // 将搜索条件编码成字符串，用于排序，分页的URL
         model.addAttribute("search", Servlets.encodeParameterString(params));
         return params;
+    }
+
+    protected ShiroDbRealm.ShiroUser getCurrUserInfo() {
+        ShiroDbRealm.ShiroUser user = (ShiroDbRealm.ShiroUser) SecurityUtils.getSubject().getPrincipal();
+        return user;
     }
 }

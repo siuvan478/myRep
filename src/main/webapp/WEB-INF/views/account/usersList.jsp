@@ -30,25 +30,29 @@
 							<div class="col-lg-4">
 								<div class="form-group">
 									<label for="name"><spring:message code="user.name" /></label>
-									<input type="text" class="form-control" id="name" name="name" value="<c:out value="${pages.searchMap['name']}"/>" placeholder="userName">
+									<input type="text" class="form-control" id="name" name="name" value="<c:out value="${pages.searchMap['name']}"/>"
+										   placeholder="<spring:message code="user.name" />">
 								</div>
 							</div>
 							<div class="col-lg-4">
 								<div class="form-group">
 									<label for="loginName"><spring:message code="index.loginname" /></label>
-									<input type="text" class="form-control" id="loginName" name="loginName" value="<c:out value="${pages.searchMap['loginName']}"/>" placeholder="loginName">
+									<input type="text" class="form-control" id="loginName" name="loginName" value="<c:out value="${pages.searchMap['loginName']}"/>"
+										   placeholder="<spring:message code="index.loginname" />">
 								</div>
 							</div>
 							<div class="col-lg-4">
 								<div class="form-group">
 									<label for="email">邮箱</label>
-									<input type="text" class="form-control" id="email" name="email" value="<c:out value="${pages.searchMap['email']}"/>" placeholder="email">
+									<input type="text" class="form-control" id="email" name="email" value="<c:out value="${pages.searchMap['email']}"/>"
+										   placeholder="邮箱">
 								</div>
 							</div>
 							<div class="col-lg-4">
 								<div class="form-group">
 									<label for="email">手机号</label>
-									<input type="text" class="form-control" id="phone" name="phone" value="<c:out value="${pages.searchMap['phone']}"/>" placeholder="phone">
+									<input type="text" class="form-control" id="phone" name="phone" value="<c:out value="${pages.searchMap['phone']}"/>"
+										   placeholder="手机号">
 								</div>
 							</div>
 						</div>
@@ -63,8 +67,8 @@
 							</button>
 						</div>
 
-						<a class="btn  btn-primary pull-right" href="${ctx}/user/create">
-							<i class="fa fa-plus"></i> <spring:message code="public.create" /></a>
+						<a class="btn btn-primary pull-right" href="${ctx}/user/create">
+							<i class="fa fa-user-plus"></i> <spring:message code="public.create" /></a>
 					</div>
 				</div>
 			</div>
@@ -84,7 +88,6 @@
 									<th <tags:sort column="login_name" page="${pages}"/>><spring:message code="index.loginname" /></th>
 									<th>邮箱</th>
 									<th>手机号</th>
-									<th><spring:message code="user.role" /></th>
 									<th>注册时间</th>
 									<th><spring:message code="public.oper" /></th>
 								</tr>
@@ -96,11 +99,12 @@
 										<td>${user.loginName}</td>
 										<td>${user.email}</td>
 										<td>${user.phone}</td>
-										<td>${user.roles}</td>
 										<td>${user.registerDate}</td>
 										<td>
 											<a href="${ctx}/user/update/${user.id}"><i class="fa fa-edit fa-fw"></i></a>
-											<a href="javascript:if(confirm('delete?'))window.location.href='${ctx}/user/delete/${user.id}'"><i class="fa fa-times fa-fw"></i></a>
+											<c:if test="${user.id ne userId}">
+												<a href="javascript:if(confirm('delete?'))window.location.href='${ctx}/user/delete/${user.id}'"><i class="fa fa-times fa-fw"></i></a>
+											</c:if>
 										</td>
 									</tr>
 								</c:forEach>
@@ -116,11 +120,6 @@
 			<!-- /.panel -->
 		</div>
 	</div>
-
-	<!-- modal -->
-	<jsp:include page="/WEB-INF/views/account/upload.jsp" flush="true">
-		<jsp:param name="upload_url" value="/file/upload"></jsp:param>
-	</jsp:include>
 
 	<script>
 		$(document).ready(function() {

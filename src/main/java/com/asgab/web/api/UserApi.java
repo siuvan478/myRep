@@ -6,6 +6,7 @@ import com.asgab.entity.User;
 import com.asgab.service.ApiException;
 import com.asgab.service.JedisService;
 import com.asgab.service.api.UserWebService;
+import com.asgab.util.LoginUtil;
 import com.asgab.web.api.param.FindPwdParam;
 import com.asgab.web.api.param.UserInfo;
 import com.asgab.web.api.param.UserRegParam;
@@ -175,6 +176,7 @@ public class UserApi {
     public ApiResponse<Boolean> profile(@RequestBody UserInfo userInfo) {
         ApiResponse<Boolean> response = new ApiResponse<>(Boolean.TRUE);
         try {
+            userInfo.setId(LoginUtil.getUserId());
             userWebService.updateUserInfo(userInfo);
         } catch (ApiException e) {
             response.setData(false);

@@ -14,15 +14,15 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link rel="shortcut icon" href="${ctx}/static/images/favicon.ico">
-    <title>登录 | Box</title>
+    <title>登入 | FREEMAN</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.5 -->
     <link rel="stylesheet" href="${ctx}/static/AdminLTE-2.3.3/bootstrap/css/bootstrap.min.css">
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="${ctx}/static/styles//font-awesome.min.css">
+    <link rel="stylesheet" href="${ctx}/static/styles/font-awesome.min.css">
     <!-- Ionicons -->
-    <link rel="stylesheet" href="${ctx}/static/styles//ionicons.min.css">
+    <link rel="stylesheet" href="${ctx}/static/styles/ionicons.min.css">
     <!-- Theme style -->
     <link rel="stylesheet" href="${ctx}/static/AdminLTE-2.3.3/dist/css/AdminLTE.min.css">
     <!-- custom style -->
@@ -35,7 +35,7 @@
     <!-- iCheck -->
     <link rel="stylesheet" href="${ctx}/static/AdminLTE-2.3.3/plugins/iCheck/square/blue.css">
     <!-- validate -->
-    <link href="${ctx}/static/jquery-validation/1.11.1/validate.css" type="text/css" rel="stylesheet" />
+    <link href="${ctx}/static/jquery-validation/1.14.0/validate.css" type="text/css" rel="stylesheet" />
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -44,7 +44,7 @@
     <![endif]-->
 
     <%
-        String lang  = LocaleContextHolder.getLocale().getLanguage();
+        String lang = LocaleContextHolder.getLocale().getLanguage();
         request.setAttribute("lang", lang);
     %>
 
@@ -57,12 +57,12 @@
 <div class="login-box" >
     <div class="login-logo">
         <div class="login-logo">
-            <a href="#"><b>Admin</b>LTE</a>
+            <a href="#"><b>FREEMAN</b></a>
         </div>
     </div><!-- /.login-logo -->
     <div class="login-box-body" >
         <p class="login-box-msg">
-            欢迎访问<b style="font-size: 16px;"> BOX</b>
+            <b style="font-size: 16px;"> Login</b>
             <a href="javascript:void(0)" class="dropdown-toggle text-right" style="cursor: default;height: 50px;" >
                 <span class="x-lang-ch pull-right <c:if test="${pageContext.response.locale.language=='zh' }">selected</c:if>" onclick="changeLang('zh_CN')" ></span>
                 <span class="x-lang-en pull-right <c:if test="${pageContext.response.locale.language=='en' }">selected</c:if>" onclick="changeLang('en_US')" ></span>
@@ -71,20 +71,20 @@
         <%
             String error = (String) request.getAttribute(FormAuthenticationFilter.DEFAULT_ERROR_KEY_ATTRIBUTE_NAME);
             SavedRequest savedRequest = WebUtils.getSavedRequest(request);
-            String url = savedRequest!=null?savedRequest.getRequestUrl():"";
+            String url = savedRequest != null ? savedRequest.getRequestUrl() : "";
             if(StringUtils.isNotBlank(url)){
                 url = url.replaceFirst(request.getServletContext().getContextPath(), "");
             }
             if(StringUtils.isBlank(error) && StringUtils.isNotBlank(url) && !url.startsWith("/login")&& !url.startsWith("/favicon.ico") && !url.equals("/")){
-                error = "zh".equalsIgnoreCase(lang)? "请登录后进行操作。":"Please login before performing any operations.";
+                error = "zh".equalsIgnoreCase(lang)? "請先登入":"Please login first";
             }
-
             if(error != null){
                 if(error.endsWith("UnknownAccountException") || error.endsWith("IncorrectCredentialsException")){
-                    error = "zh".equalsIgnoreCase(lang)? "邮箱地址或密码错误。":"Email or password error.";
-                }
-                if(error.endsWith("LockedAccountException")){
-                    error = "zh".equalsIgnoreCase(lang)? "帐号被锁定，请联系XMO系统管理员。":"Account has locked. Please contact XMO system administrator。 ";
+                    error = "zh".equalsIgnoreCase(lang)? "用戶名或密码错误":"Username or password error";
+                } else if(error.endsWith("LockedAccountException")){
+                    error = "zh".equalsIgnoreCase(lang)? "帳號被鎖定，請聯絡管理員":"Account has locked, please contact system administrator";
+                } else if(error.endsWith("CannotLoginException")){
+                    error = "zh".equalsIgnoreCase(lang)? "普通用戶不能登入":"Only an administrator can login";
                 }
         %>
         <div class="alert alert-danger alert-dismissable">
@@ -107,8 +107,8 @@
 
             <c:if test="${jcaptchaEbabled}">
                 <div class="form-group input-group">
-                    <label for="jcaptchaCode">验证码:</label><br/>
-                    <input type="text" id="jcaptchaCode" name="jcaptchaCode" class="form-control col-sm-6" style="width: 50%">
+                    <input type="text" id="jcaptchaCode" name="jcaptchaCode" class="form-control col-sm-6" style="width: 50%"
+                           placeholder="Verification code...">
                     <img class="col-sm-6 jcaptcha-btn jcaptcha-img" style="height: 34px" id="jcaptchaCodeImg" src="${pageContext.request.contextPath}/jcaptcha.jpg"
                          title="登陆验证码">
                 </div>
@@ -118,7 +118,7 @@
                 <div class="col-xs-8">
                     <div class="checkbox icheck">
                         <label>
-                            <input  name="rememberMe" type="checkbox" value="true"> 记住我
+                            <input name="rememberMe" type="checkbox" value="true"> 记住我
                         </label>
                     </div>
                 </div><!-- /.col -->
@@ -128,17 +128,6 @@
             </div>
         </form>
 
-        <%
-            if(lang.equals("zh")){
-        %>
-            <a href="#">忘记密码?</a>
-        <%
-        }else{
-        %>
-            <a href="#">忘记密码?</a>
-        <%
-            }
-        %>
     </div><!-- /.login-box-body -->
 </div><!-- /.login-box -->
 

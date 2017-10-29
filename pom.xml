@@ -36,6 +36,13 @@
 
 	<dependencies>
 
+		<!--jpush-->
+		<dependency>
+			<groupId>cn.jpush.api</groupId>
+			<artifactId>jpush-client</artifactId>
+			<version>3.3.2</version>
+		</dependency>
+
 		<!-- https://mvnrepository.com/artifact/joda-time/joda-time -->
 		<dependency>
 			<groupId>joda-time</groupId>

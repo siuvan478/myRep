@@ -1,7 +1,9 @@
 package com.asgab.service.account;
 
 
+import com.asgab.constants.GlobalConstants;
 import com.asgab.entity.User;
+import com.asgab.service.CannotLoginException;
 import com.asgab.util.Encodes;
 import com.google.common.base.Objects;
 import org.apache.shiro.authc.*;
@@ -27,10 +29,12 @@ public class ShiroDbRealm extends AuthorizingRealm {
         UsernamePasswordToken token = (UsernamePasswordToken) authcToken;
         User user = accountService.findUserByLoginName(token.getUsername());
         if (user != null) {
+            if (!user.getRoleList().contains(GlobalConstants.Role.SYS_ADMIN.toString())) {
+                throw new CannotLoginException("普通用户不能登入");
+            }
             byte[] salt = Encodes.decodeHex(user.getSalt());
             return new SimpleAuthenticationInfo(new ShiroUser(user.getId(), user.getLoginName(), user.getName()),
                     user.getPassword(), ByteSource.Util.bytes(salt), getName());
-
         } else {
             return null;
         }

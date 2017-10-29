@@ -53,6 +53,14 @@ public class GlobalConstants {
     }
 
     /**
+     * 角色 1=系统管理员 2=普通用户
+     */
+    public static class Role {
+        public static final Integer SYS_ADMIN = 1;
+        public static final Integer COMMON_USER = 2;
+    }
+
+    /**
      * 是/否
      */
     public static class YesOrNo {
