@@ -192,7 +192,7 @@ public class UserWebService {
             this.cleanErrorCount(loginName);
         }
         String userJson = jedisService.get(CacheKey.USER_ID_KEY + user.getId().toString());
-        User history = JSONObject.parseObject(userJson, User.class);
+        UserEntity history = JSONObject.parseObject(userJson, UserEntity.class);
         if (history != null && StringUtils.isNotBlank(history.getToken())) {
             jedisService.delete(CacheKey.TOKEN_KEY + history.getToken());
         }
@@ -202,12 +202,12 @@ public class UserWebService {
         jedisService.setex(CacheKey.TOKEN_KEY + token, CONVERSATION_KEEP_TIMEOUT, JSONObject.toJSONString(userEntity));
     }
 
-    public UserInfo profile(String token) {
-        String userJson = jedisService.get(CacheKey.TOKEN_KEY + token);
-        if (StringUtils.isBlank(userJson)) {
+    public UserInfo profile(Long userId) {
+        User user = accountService.getUser(userId);
+        if (user == null) {
             throw new ApiException("用户未登录");
         }
-        UserInfo userInfo = JSONObject.parseObject(userJson, UserInfo.class);
+        UserInfo userInfo = BeanMapper.map(user, UserInfo.class);
         Address addressInfo = addressService.getUniqueAddressByUserId(userInfo.getId());
         if (addressInfo != null) {
             userInfo.setAddressId(addressInfo.getId());
@@ -241,6 +241,13 @@ public class UserWebService {
             addressInfo.setAreaId(userInfo.getAreaId());
             addressInfo.setAddress(userInfo.getAddress());
             addressService.update(addressInfo);
+        }
+        String userJson = jedisService.get(CacheKey.USER_ID_KEY + user.getId().toString());
+        UserEntity userEntity = JSONObject.parseObject(userJson, UserEntity.class);
+        if (userEntity != null) {
+            BeanMapper.copy(user, userEntity);
+            jedisService.set(CacheKey.USER_ID_KEY + userEntity.getId().toString(), JSONObject.toJSONString(userEntity));
+            jedisService.set(CacheKey.TOKEN_KEY + userEntity.getToken(), JSONObject.toJSONString(userEntity));
         }
     }
 

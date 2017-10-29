@@ -5,12 +5,10 @@ import com.asgab.entity.BoxRecord;
 import com.asgab.entity.BoxService;
 import com.asgab.repository.BoxRecordMapper;
 import com.asgab.service.ApiException;
-import com.asgab.service.BoxRecordService;
 import com.asgab.service.BoxServiceService;
 import com.asgab.util.BeanMapper;
 import com.asgab.util.DateUtils;
 import com.asgab.util.LoginUtil;
-import com.asgab.web.api.UserApi;
 import com.asgab.web.api.param.BoxServiceApplyParam;
 import com.asgab.web.api.param.BoxServiceDetails;
 import com.asgab.web.api.param.MyBoxService;
@@ -45,7 +43,7 @@ public class BoxServiceWebService {
         try {
             Long userId = LoginUtil.getUserId();
             if (userId == null) throw new ApiException("用户未登录");
-            UserInfo userInfo = userWebService.profile(LoginUtil.getToken());
+            UserInfo userInfo = userWebService.profile(userId);
             BeanMapper.copy(userInfo, myBoxService);
             Map<String, Object> params = Maps.newHashMap();
             params.put("userId", userId);

@@ -33,6 +33,7 @@ public class AddressService {
     }
 
     public void save(Address address) {
+        address.setCityId(-1L);
         addressMapper.save(address);
     }
 

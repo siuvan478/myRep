@@ -153,11 +153,10 @@ public class UserApi {
      */
     @RequestMapping(value = "/user/profile", method = RequestMethod.GET)
     @ResponseBody
-    public ApiResponse<UserInfo> profile(HttpServletRequest request) {
+    public ApiResponse<UserInfo> profile() {
         ApiResponse<UserInfo> response = new ApiResponse<>();
-        String token = request.getHeader("x-token");
         try {
-            response.setData(userWebService.profile(token));
+            response.setData(userWebService.profile(LoginUtil.getUserId()));
         } catch (ApiException e) {
             response.setCode(e.getErrorCode());
             response.setMessage(e.getMessage());
