@@ -29,6 +29,9 @@
 		<if test="productId != null and productId != ''">
 			and a.product_id = #{productId}
 		</if>
+		<if test="userId != null and userId != ''">
+			and a.user_id = #{userId}
+		</if>
 		<if test="contactName != null and contactName != ''">
 			and b.`name` like "%"#{contactName}"%"
 		</if>
@@ -43,6 +46,9 @@
 		where a.status in(1,2)
 		<if test="productId != null and productId != ''">
 			and a.product_id = #{productId}
+		</if>
+		<if test="userId != null and userId != ''">
+			and a.user_id = #{userId}
 		</if>
 		<if test="contactName != null and contactName != ''">
 			and b.`name` like "%"#{contactName}"%"

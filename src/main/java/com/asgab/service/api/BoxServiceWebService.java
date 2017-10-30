@@ -38,7 +38,7 @@ public class BoxServiceWebService {
     @Resource
     private UserWebService userWebService;
 
-    public MyBoxService getMyBoxService() {
+    public MyBoxService getMyBoxService(Long productId) {
         MyBoxService myBoxService = new MyBoxService();
         try {
             Long userId = LoginUtil.getUserId();
@@ -47,6 +47,7 @@ public class BoxServiceWebService {
             BeanMapper.copy(userInfo, myBoxService);
             Map<String, Object> params = Maps.newHashMap();
             params.put("userId", userId);
+            params.put("productId", productId);
             myBoxService.setBoxServices(boxServiceService.getBoxServiceList(params));
         } catch (ApiException e) {
             throw e;

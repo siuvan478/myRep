@@ -27,10 +27,10 @@ public class BoxServiceApi {
      */
     @RequestMapping(value = "/boxService/my", method = RequestMethod.GET)
     @ResponseBody
-    public ApiResponse<MyBoxService> myBoxServices() {
+    public ApiResponse<MyBoxService> myBoxServices(@RequestParam(required = false) Long productId) {
         ApiResponse<MyBoxService> response = new ApiResponse<>();
         try {
-            response.setData(boxServiceWebService.getMyBoxService());
+            response.setData(boxServiceWebService.getMyBoxService(productId));
         } catch (ApiException e) {
             response.setCode(e.getErrorCode());
             response.setMessage(e.getMessage());
