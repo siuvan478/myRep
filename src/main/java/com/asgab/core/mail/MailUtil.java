@@ -13,32 +13,6 @@ import freemarker.template.TemplateException;
  * 邮件发送工具类
  */
 public class MailUtil {
-	
-	public static void main(String[] args) throws IOException, TemplateException, MessagingException {
-		
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("tradeNo", "20151126151055");
-		map.put("uploadDate", "2015-11-26 18:47:10");
-		map.put("custUsername", "baidu-iclick-hk");
-		
-		map.put("custName", "香港XXXXXX有限公司");
-		map.put("currency", "HKD");
-		map.put("rzjeLowercase", "");
-		map.put("rzjeCapital", "叁仟元整");
-		map.put("item", "年费");
-		map.put("rebate", "10%");
-		map.put("rebateAmount", "900");
-		map.put("giftAmount", "0");
-		map.put("jkjeLowercase", "0");
-		map.put("jkjeCapital", "0");
-		map.put("custPort", "baidu-iclick-hk");
-		map.put("sales_contact", "刘诗诗");
-		map.put("custService", "李思思");
-		map.put("agent", "爱点击");
-		
-		
-		sendMailByTemplate("siuvan.xia@i-click.com", "客户入账通知", map, "example2.ftl");
-	}
 
 	/**
 	 * 根据模板名称查找模板，加载模板内容后发送邮件
