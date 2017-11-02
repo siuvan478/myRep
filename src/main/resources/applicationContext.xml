@@ -20,11 +20,10 @@
 		<context:exclude-filter type="annotation" expression="org.springframework.web.bind.annotation.ControllerAdvice"/>
 	</context:component-scan>
 
-
 	<!-- MyBatis配置 -->
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />
-		<property name="configLocation" value="classpath:/mybatis/mybatis-config.xml"></property>
+		<property name="configLocation" value="classpath:/mybatis/mybatis-config.xml" />
 		<!-- 自动扫描entity目录, 省掉Configuration.xml里的手工配置 -->
 		<property name="typeAliasesPackage" value="com.asgab.entity" />
 		<!-- 显式指定Mapper文件位置 -->
@@ -36,7 +35,6 @@
 		<property name="annotationClass" value="com.asgab.repository.mybatis.MyBatisRepository"/>
 	</bean>
 	
-	
 	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
         <property name="dataSource" ref="dataSource" />
     </bean>
@@ -47,10 +45,8 @@
 
 	<!-- JSR303 Validator定义 -->
  	<bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />
-	
-	
-	<bean id="multipartResolver"
-		class="com.asgab.core.fileupload.CustomMultipartResolver">
+
+	<bean id="multipartResolver" class="com.asgab.core.fileupload.CustomMultipartResolver">
 		<property name="defaultEncoding" value="utf-8" />
 		<property name="maxUploadSize" value="10485760000" />
 		<property name="maxInMemorySize" value="40960" />
@@ -83,21 +79,16 @@
 			<property name="url" value="${jdbc.url}"/>
 			<property name="username" value="${jdbc.username}"/>
 			<property name="password" value="${jdbc.password}"/>
-	
 			<!-- 配置初始化时建立物理连接的个数、最小连接池数量、最大连接池数量 -->
 			<property name="initialSize" value="5" />
 			<property name="minIdle" value="5" />
 			<property name="maxActive" value="20" />
-	
 			<!-- 配置获取连接等待超时的时间 -->
 			<property name="maxWait" value="60000" />
-	
 			<!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
 			<property name="timeBetweenEvictionRunsMillis" value="60000" />
-	
 			<!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
 			<property name="minEvictableIdleTimeMillis" value="300000" />
-	
 			<!-- 用来检测连接是否有效的SQL，要求是一个查询语句。 -->
 			<property name="validationQuery" value="SELECT 'x'" />
 			<!-- 建议配置为true，不影响性能，并且保证安全性。申请连接的时候检测，如果空闲时间大于timeBetweenEvictionRunsMillis，执行validationQuery检测连接是否有效。 -->
@@ -106,16 +97,12 @@
 			<property name="testOnBorrow" value="false" />
 			<!-- 归还连接时执行validationQuery检测连接是否有效，做了这个配置会降低性能 -->
 			<property name="testOnReturn" value="false" />
-	
 			<!-- 打开PSCache，并且指定每个连接上PSCache的大小 -->
 			<!-- 如果用Oracle，则把poolPreparedStatements配置为true，SQL Server和MySql可以配置为false。 -->
 			<property name="poolPreparedStatements" value="false" />
 			<!-- <property name="maxPoolPreparedStatementPerConnectionSize" value="20" /> -->
-	
-	
 			<!-- 配置监控统计拦截的filters -->
-			<property name="filters" value="stat"></property>
-			
+			<property name="filters" value="stat" />
 			<!-- 打开removeAbandoned功能 ，自动关闭长时间不使用的连接 -->
 			<property name="removeAbandoned" value="true" /> 
 			<!-- 1800秒 -->
@@ -125,6 +112,12 @@
 		</bean>
 
 		<bean id="springHolder" class="com.asgab.util.SpringHolder" lazy-init="false"/>
+
+		<bean id="pushClient" class="cn.jpush.api.JPushClient">
+			<constructor-arg value="${jPush.appKey}" />
+			<constructor-arg value="${jPush.masterSecret}"/>
+		</bean>
+
 	</beans>
 	
 </beans>

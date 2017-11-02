@@ -1,6 +1,5 @@
 package com.asgab.web.api;
 
-import com.alibaba.fastjson.JSONObject;
 import com.asgab.HttpClientUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

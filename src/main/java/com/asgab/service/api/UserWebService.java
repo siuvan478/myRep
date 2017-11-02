@@ -55,6 +55,9 @@ public class UserWebService {
     @Resource
     private AreaService areaService;
 
+    @Resource
+    private SmsService smsService;
+
     /**
      * 找回密码
      */
@@ -128,7 +131,7 @@ public class UserWebService {
     }
 
     /**
-     * 发送验证码 todo
+     * 发送验证码
      */
     public void sendVerifyCode(VerifyCodeParam param) {
         if (StringUtils.isBlank(param.getLoginName())) throw new ApiException("手机号或邮箱不能为空");
@@ -148,19 +151,21 @@ public class UserWebService {
         }
         //验证码
         String verifyCode = RandomNumUtil.getRandNumber(6);
+        //验证码有效时间2分钟
+        jedisService.setex(VERIFY_CODE_KEY + param.getLoginName(), 2 * 60, verifyCode);
         //发送验证码到邮箱
         if (Validator.isEmail(param.getLoginName())) {
-            //验证码有效时间2分钟
-            jedisService.setex(VERIFY_CODE_KEY + param.getLoginName(), 2 * 60, verifyCode);
             Map<String, Object> params = new HashMap<>();
             params.put("verifyCode", verifyCode);
             if (!mailService.sendCaptcha(param.getLoginName(), mte, params)) {
-                throw new ApiException("验证码发送失败，请联系FreeMan客服");
+                throw new ApiException("验证码发送失败，请联系Freeman客服");
             }
         }
         //发送验证码到手机
         else if (Validator.isHongKongMobile(param.getLoginName()) || Validator.isMobile(param.getLoginName())) {
-
+            if (!smsService.sendVerifyCode(param.getLoginName(), verifyCode)) {
+                throw new ApiException("验证码发送失败，请联系Freeman客服");
+            }
         } else {
             throw new ApiException("用户名必须为邮箱或手机号");
         }
