@@ -2,6 +2,7 @@ package com.asgab.web.api;
 
 import com.asgab.service.ApiException;
 import com.asgab.service.api.BoxServiceWebService;
+import com.asgab.util.MediaTypes;
 import com.asgab.web.api.param.BoxServiceApplyParam;
 import com.asgab.web.api.param.BoxServiceDetails;
 import com.asgab.web.api.param.MyBoxService;
@@ -47,7 +48,7 @@ public class BoxServiceApi {
      * @param param
      * @return
      */
-    @RequestMapping(value = "/boxService/apply", method = RequestMethod.POST, produces = "application/json")
+    @RequestMapping(value = "/boxService/apply", method = RequestMethod.POST, produces = MediaTypes.JSON_UTF_8)
     @ResponseBody
     public ApiResponse<Boolean> submitOrder(@RequestBody BoxServiceApplyParam param) {
         ApiResponse<Boolean> response = new ApiResponse<>(Boolean.TRUE);

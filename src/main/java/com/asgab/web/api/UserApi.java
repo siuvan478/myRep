@@ -7,6 +7,7 @@ import com.asgab.service.ApiException;
 import com.asgab.service.JedisService;
 import com.asgab.service.api.UserWebService;
 import com.asgab.util.LoginUtil;
+import com.asgab.util.MediaTypes;
 import com.asgab.web.api.param.FindPwdParam;
 import com.asgab.web.api.param.UserInfo;
 import com.asgab.web.api.param.UserRegParam;
@@ -36,7 +37,7 @@ public class UserApi {
     /**
      * 注册用户
      */
-    @RequestMapping(value = "/user/register", method = RequestMethod.POST, produces = "application/json")
+    @RequestMapping(value = "/user/register", method = RequestMethod.POST, produces = MediaTypes.JSON_UTF_8)
     @ResponseBody
     public ApiResponse<Boolean> register(@RequestBody UserRegParam param) {
         ApiResponse<Boolean> response = new ApiResponse<>(Boolean.TRUE);
@@ -57,7 +58,7 @@ public class UserApi {
     /**
      * 获取验证码
      */
-    @RequestMapping(value = "/verifyCode", method = RequestMethod.POST, produces = "application/json")
+    @RequestMapping(value = "/verifyCode", method = RequestMethod.POST, produces = MediaTypes.JSON_UTF_8)
     @ResponseBody
     public ApiResponse<Boolean> getVerifyCode(@RequestBody VerifyCodeParam param) {
         ApiResponse<Boolean> response = new ApiResponse<>(Boolean.TRUE);
@@ -78,7 +79,7 @@ public class UserApi {
     /**
      * 找回密码
      */
-    @RequestMapping(value = "/user/resetPwd", method = RequestMethod.POST, produces = "application/json")
+    @RequestMapping(value = "/user/resetPwd", method = RequestMethod.POST, produces = MediaTypes.JSON_UTF_8)
     @ResponseBody
     public ApiResponse<Boolean> resetPwd(@RequestBody FindPwdParam userParam) {
         ApiResponse<Boolean> response = new ApiResponse<>(Boolean.TRUE);
@@ -99,7 +100,7 @@ public class UserApi {
     /**
      * 用户登录
      */
-    @RequestMapping(value = "/login", method = RequestMethod.POST, produces = "application/json")
+    @RequestMapping(value = "/login", method = RequestMethod.POST, produces = MediaTypes.JSON_UTF_8)
     @ResponseBody
     public ApiResponse<String> login(@RequestBody UserRegParam param, HttpServletResponse httpServletResponse) {
         ApiResponse<String> response = new ApiResponse<>();
@@ -122,7 +123,7 @@ public class UserApi {
     /**
      * 用户登出
      */
-    @RequestMapping(value = "/logout", method = RequestMethod.POST, produces = "application/json")
+    @RequestMapping(value = "/logout", method = RequestMethod.POST, produces = MediaTypes.JSON_UTF_8)
     @ResponseBody
     public ApiResponse<Boolean> logout(HttpServletRequest request) {
         ApiResponse<Boolean> response = new ApiResponse<>(Boolean.TRUE);
@@ -170,7 +171,7 @@ public class UserApi {
     /**
      * 更新用户资料
      */
-    @RequestMapping(value = "/user/profile", method = RequestMethod.POST, produces = "application/json")
+    @RequestMapping(value = "/user/profile", method = RequestMethod.POST, produces = MediaTypes.JSON_UTF_8)
     @ResponseBody
     public ApiResponse<Boolean> profile(@RequestBody UserInfo userInfo) {
         ApiResponse<Boolean> response = new ApiResponse<>(Boolean.TRUE);

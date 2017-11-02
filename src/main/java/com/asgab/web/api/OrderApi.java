@@ -4,6 +4,7 @@ package com.asgab.web.api;
 import com.asgab.service.ApiException;
 import com.asgab.service.api.OrderWebService;
 import com.asgab.util.LoginUtil;
+import com.asgab.util.MediaTypes;
 import com.asgab.web.api.param.OrderBuyParam;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,7 +22,7 @@ public class OrderApi {
     @Resource
     private OrderWebService orderWebService;
 
-    @RequestMapping(value = "/order/submit", method = RequestMethod.POST, produces = "application/json")
+    @RequestMapping(value = "/order/submit", method = RequestMethod.POST, produces = MediaTypes.JSON_UTF_8)
     @ResponseBody
     public ApiResponse<Boolean> submitOrder(@RequestBody OrderBuyParam param) {
         ApiResponse<Boolean> response = new ApiResponse<>(Boolean.TRUE);
@@ -39,7 +40,7 @@ public class OrderApi {
         return response;
     }
 
-    @RequestMapping(value = "/order/appointFee", method = RequestMethod.POST, produces = "application/json")
+    @RequestMapping(value = "/order/appointFee", method = RequestMethod.POST, produces = MediaTypes.JSON_UTF_8)
     @ResponseBody
     public ApiResponse<BigDecimal> getAppointFee(@RequestBody OrderBuyParam param) {
         ApiResponse<BigDecimal> response = new ApiResponse<>();
