@@ -41,7 +41,7 @@ public class SmsService {
         param.put("user", user);
         param.put("pwd", pwd);
         param.put("phone", phone);
-        param.put("msg", "Verification code is:" + verifyCode);
+        param.put("msg", "[Freeman] Verification code is:" + verifyCode);
         Map<String, String> result = Maps.newHashMap();
         try {
             String xml = HttpClientUtil.doGet(send_vercode_url, param).trim().replace("\uFEFF", "");
