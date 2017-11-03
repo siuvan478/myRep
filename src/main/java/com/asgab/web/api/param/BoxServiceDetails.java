@@ -14,7 +14,7 @@ public class BoxServiceDetails implements Serializable {
     private static final long serialVersionUID = 5810756116488076805L;
 
     private Long id;//文件柜ID；
-    private String boxName;//名称
+    private String productName;//box名称
     private Integer flag;//文件柜状态
     private Date startTime;//有效期
     private Date endTime;//有效期
@@ -33,12 +33,12 @@ public class BoxServiceDetails implements Serializable {
         this.id = id;
     }
 
-    public String getBoxName() {
-        return boxName;
+    public String getProductName() {
+        return productName;
     }
 
-    public void setBoxName(String boxName) {
-        this.boxName = boxName;
+    public void setProductName(String productName) {
+        this.productName = productName;
     }
 
     public Integer getFlag() {

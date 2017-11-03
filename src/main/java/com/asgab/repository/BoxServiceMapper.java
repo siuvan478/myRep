@@ -16,6 +16,8 @@ import java.util.Map;
 @MyBatisRepository
 public interface BoxServiceMapper {
 
+    List<Long> getProductIdsByUserId(Long userId);
+
     List<BoxService> search(Map<String, Object> parameters);
 
     List<BoxService> search(Map<String, Object> parameters, RowBounds rowBounds);

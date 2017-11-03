@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.List;
 
 
-public class ProductInfo implements Serializable{
+public class ProductInfo implements Serializable {
 
     private static final long serialVersionUID = 2355250460186538414L;
     private Long id;
@@ -15,6 +15,8 @@ public class ProductInfo implements Serializable{
     private String feature;//特征
     private String description;//描述
     private String image;//图片
+    private String imageDetail;//详情图片
+    private Integer isOwned = 0;//是否拥有该产品服务
     private List<Scale> scales;
 
     public ProductInfo() {
@@ -66,6 +68,22 @@ public class ProductInfo implements Serializable{
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public String getImageDetail() {
+        return imageDetail;
+    }
+
+    public void setImageDetail(String imageDetail) {
+        this.imageDetail = imageDetail;
+    }
+
+    public Integer getIsOwned() {
+        return isOwned;
+    }
+
+    public void setIsOwned(Integer isOwned) {
+        this.isOwned = isOwned;
     }
 
     public List<Scale> getScales() {

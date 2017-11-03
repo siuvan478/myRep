@@ -1,11 +1,12 @@
 package com.asgab.service.api;
 
 import com.asgab.constants.GlobalConstants;
-import com.asgab.entity.BoxRecord;
-import com.asgab.entity.BoxService;
+import com.asgab.entity.*;
 import com.asgab.repository.BoxRecordMapper;
 import com.asgab.service.ApiException;
 import com.asgab.service.BoxServiceService;
+import com.asgab.service.ProductService;
+import com.asgab.service.ScaleService;
 import com.asgab.util.BeanMapper;
 import com.asgab.util.DateUtils;
 import com.asgab.util.LoginUtil;
@@ -14,6 +15,7 @@ import com.asgab.web.api.param.BoxServiceDetails;
 import com.asgab.web.api.param.MyBoxService;
 import com.asgab.web.api.param.UserInfo;
 import com.google.common.collect.Maps;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 @Component
@@ -38,6 +41,12 @@ public class BoxServiceWebService {
     @Resource
     private UserWebService userWebService;
 
+    @Resource
+    private ProductService productService;
+
+    @Resource
+    private ScaleService scaleService;
+
     public MyBoxService getMyBoxService(Long productId) {
         MyBoxService myBoxService = new MyBoxService();
         try {
@@ -48,7 +57,38 @@ public class BoxServiceWebService {
             Map<String, Object> params = Maps.newHashMap();
             params.put("userId", userId);
             params.put("productId", productId);
-            myBoxService.setBoxServices(boxServiceService.getBoxServiceList(params));
+
+            List<BoxService> boxServicesList = boxServiceService.getBoxServiceList(params);
+            if (CollectionUtils.isNotEmpty(boxServicesList)) {
+                for (BoxService bx : boxServicesList) {
+                    if (bx != null) {
+                        Product product = productService.getProductFromCache(bx.getProductId());
+                        if (product != null) {
+                            bx.setProductName(product.getProductName());
+                        }
+                        Scale scale = scaleService.getScaleFromCache(bx.getScaleId());
+                        if (scale != null) {
+                            bx.setScaleName(scale.getScale());
+                        }
+
+                        Map<String, Object> searchBoxRecords = Maps.newHashMap();
+                        params.put("serviceId", bx.getId());
+                        params.put("sort", "create_time desc");
+                        List<BoxRecord> lastRecords = boxRecordMapper.search(params);
+                        if (lastRecords != null && lastRecords.size() > 0) {
+                            BoxRecord lastRecord = lastRecords.get(0);
+                            //服务柜状态 0=无效/删除 1=等待收货 2=已收货 3=等待取货 4=已取货
+                            if (bx.getStatus().equals(GlobalConstants.ServiceStatus.WAIT_FOR_SAVE) ||
+                                    bx.getStatus().equals(GlobalConstants.ServiceStatus.WAIT_FOR_TAKE)) {
+                                bx.setShowTime(lastRecord.getAppointmentTime());
+                            } else if (bx.getStatus().equals(GlobalConstants.ServiceStatus.SAVED) || bx.getStatus().equals(GlobalConstants.ServiceStatus.TAKEN)) {
+                                bx.setShowTime(lastRecord.getConfirmTime());
+                            }
+                        }
+                    }
+                }
+            }
+            myBoxService.setBoxServices(boxServicesList);
         } catch (ApiException e) {
             throw e;
         } catch (Exception e) {

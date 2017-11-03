@@ -17,6 +17,7 @@ public class BoxRecord {
     private BigDecimal cost;
     private Integer fullCost;
     private Date createTime;
+    private Date confirmTime;
     private Integer status;
     private String picture1;
     private String picture2;
@@ -100,6 +101,14 @@ public class BoxRecord {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public Date getConfirmTime() {
+        return confirmTime;
+    }
+
+    public void setConfirmTime(Date confirmTime) {
+        this.confirmTime = confirmTime;
     }
 
     public Integer getStatus() {

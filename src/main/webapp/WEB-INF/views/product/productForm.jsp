@@ -13,7 +13,8 @@
 
 	<form role="form" id="inputForm" action="${ctx}/product/${action}" method="post" class="form-horizontal">
 		<input type="hidden" name="id" value="${product.id}" />
-		<input type="hidden" name="image" id="product_image_value" value="${product.image}" />
+		<input type="hidden" name="image" id="image_value" value="${product.image}" />
+		<input type="hidden" name="imageDetail" id="imageDetail_value" value="${product.imageDetail}" />
 		<section class="content">
 			<div class="box box-info">
 				<div class="box-header"><h3 class="box-title">
@@ -54,14 +55,29 @@
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-md-3 control-label" data-toggle="modal" data-target="#myModal">產品示意图</label>
+								<label class="col-md-3 control-label">產品示意图</label>
 								<div class="col-md-9">
-									<div id="product_image" style="padding: 5px 0px 5px 0px;">
+									<div id="image_div" style="padding: 5px 0px 5px 0px;">
 										<c:if test="${product.image != null}">
 											<img class="col-md-12" src="${ctx}/file/dumpImage?path=${product.image}"  />
 										</c:if>
 									</div>
-									<a class="btn btn-primary btn-70" data-toggle="modal" data-target="#myModal"><i class="fa fa-upload"></i> <spring:message code="public.upload" /></a>
+									<a class="btn btn-primary btn-70" onclick="showImageUploadModal('image')" data-toggle="modal"
+									   data-target="#image_modal"><i class="fa fa-upload"></i> <spring:message code="public.upload" /></a>
+									<p class="help-block"><i class="fa fa-fw fa-commenting"></i>图片上传后，需要点击保存生效.</p>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-md-3 control-label">產品示意图(详情)</label>
+								<div class="col-md-9">
+									<div id="imageDetail_div" style="padding: 5px 0px 5px 0px;">
+										<c:if test="${product.imageDetail != null}">
+											<img class="col-md-12" src="${ctx}/file/dumpImage?path=${product.imageDetail}"  />
+										</c:if>
+									</div>
+									<a class="btn btn-primary btn-70" onclick="showImageUploadModal('imageDetail')"
+									   data-toggle="modal" data-target="#imageDetail_modal"><i class="fa fa-upload"></i> <spring:message code="public.upload" /></a>
+
 									<p class="help-block"><i class="fa fa-fw fa-commenting"></i>图片上传后，需要点击保存生效.</p>
 								</div>
 							</div>
@@ -80,7 +96,8 @@
 	<section class="content">
 		<div class="box" style="top: -30px">
 			<div class="box-header">
-				<button type="button" class="btn btn-primary btn-70" onclick="scaleForm('${ctx}/product/scale/create/${product.id}')" data-toggle="modal" data-target="#scaleFormModal"><i class="fa fa-plus"></i> 新增</button>
+				<button type="button" class="btn btn-primary btn-70" onclick="scaleForm('${ctx}/product/scale/create/${product.id}')"
+						data-toggle="modal" data-target="#scaleFormModal"><i class="fa fa-plus"></i> 新增</button>
 			</div>
 			<div class="box-body">
 				<div class="table-responsive">
@@ -118,12 +135,14 @@
 		</div>
 	</section>
 	</c:if>
-	<!-- upload modal -->
-	<jsp:include page="/WEB-INF/views/account/upload.jsp" flush="true">
-		<jsp:param name="upload_url" value="/file/upload" />
-	</jsp:include>
 	<!-- scale form modal -->
 	<div class="modal fade" id="scaleFormModal">
+
+	</div>
+	<div class="modal fade" id="image_modal">
+
+	</div>
+	<div class="modal fade" id="imageDetail_modal">
 
 	</div>
 	<%@ include file="/WEB-INF/views/include/confirmDel.jsp"%>
@@ -142,13 +161,28 @@
 			});
 		});
 
+		function showImageUploadModal(imageType){
+			if(imageType == 'image'){
+				$("#imageDetail_modal").html('');
+			}else if(imageType == 'imageDetail'){
+				$("#image_modal").html('');
+			}
+			$.ajax({
+				type: 'GET',
+				url: '${ctx}/product/showUploadModal/' + imageType,
+				dataType: 'html',
+				success : function(html){
+					$("#" + imageType + "_modal").html(html);
+				}
+			});
+		}
+
 		function scaleForm(url){
 			$.ajax({
 				type: 'GET',
 				url: url,
 				dataType: 'html',
 				success : function(html){
-					console.log(html);
 					$("#scaleFormModal").html(html);
 				}
 			});

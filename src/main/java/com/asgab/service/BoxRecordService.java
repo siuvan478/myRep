@@ -45,6 +45,7 @@ public class BoxRecordService {
             boxService.setUpdateTime(new Date());
             boxServiceService.update(boxService);
         }
+        boxRecord.setConfirmTime(new Date());
         boxRecord.setStatus(GlobalConstants.RecordStatus.COMPLETED);
         boxRecordMapper.update(boxRecord);
     }

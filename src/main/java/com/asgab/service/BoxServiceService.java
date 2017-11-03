@@ -80,4 +80,8 @@ public class BoxServiceService {
         }
         return boxServiceMapper.get(id);
     }
+
+    public List<Long> getProductIdsByUserId(Long userId) {
+        return boxServiceMapper.getProductIdsByUserId(userId);
+    }
 }

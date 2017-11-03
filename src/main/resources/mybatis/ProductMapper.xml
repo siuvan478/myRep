@@ -5,7 +5,7 @@
 <mapper namespace="com.asgab.repository.ProductMapper">
 
 	<sql id="product_columns">
-		product_name as productName, product_no as productNo, feature, description, image, image_detail, status, create_time as createTime, update_time as updateTime
+		product_name as productName, product_no as productNo, feature, description, image, image_detail as imageDetail, status, create_time as createTime, update_time as updateTime
 	</sql>
 
 	<select id="get" parameterType="long" resultType="Product">

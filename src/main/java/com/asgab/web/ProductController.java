@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.ServletRequest;
-import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
 import java.util.Map;
 
@@ -79,6 +78,13 @@ public class ProductController extends BaseController {
         if (id != -1) {
             model.addAttribute("product", productService.get(id));
         }
+    }
+
+    @RequestMapping(value = "showUploadModal/{imageType}", method = RequestMethod.GET)
+    public String showUploadModal(@PathVariable("imageType") String imageType, Model model) {
+        model.addAttribute("imageType", imageType);
+        model.addAttribute("upload_url", "/file/upload");
+        return "include/upload";
     }
 
     /*===================================================Scale 部分===================================================*/

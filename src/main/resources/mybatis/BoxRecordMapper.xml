@@ -5,7 +5,7 @@
 <mapper namespace="com.asgab.repository.BoxRecordMapper">
 
 	<sql id="box_record_columns">
-		user_id as userId, service_id as serviceId, `type`, appointment_time as appointmentTime, cost, full_cost as fullCost, create_time as createTime, status,
+		user_id as userId, service_id as serviceId, `type`, appointment_time as appointmentTime, cost, full_cost as fullCost, create_time as createTime, confirm_time as confirmTime, status,
 		picture1, picture2, picture3, picture4
 	</sql>
 
@@ -65,6 +65,7 @@
 		appointment_time = #{appointmentTime},
 		cost = #{cost},
 		full_cost = #{fullCost},
+		confirm_time = #{confirmTime},
 		status = #{status},
 		picture1 = #{picture1},
 		picture2 = #{picture2},

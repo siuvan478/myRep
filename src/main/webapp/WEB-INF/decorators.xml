@@ -7,6 +7,7 @@
 		<pattern>/login*</pattern>
 		<pattern>/product/scale/update/*</pattern>
 		<pattern>/product/scale/create/*</pattern>
+		<pattern>/product/showUploadModal/*</pattern>
 		<pattern>/order/audit/*</pattern>
 		<pattern>/boxService/record/done/*</pattern>
 	</excludes>

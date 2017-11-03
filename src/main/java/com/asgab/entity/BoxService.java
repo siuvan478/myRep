@@ -29,6 +29,7 @@ public class BoxService {
     private String contactEmail;
     private String productName;
     private String scaleName;
+    private Date showTime;
 
     public BoxService() {
     }
@@ -191,5 +192,13 @@ public class BoxService {
 
     public void setScaleName(String scaleName) {
         this.scaleName = scaleName;
+    }
+
+    public Date getShowTime() {
+        return showTime;
+    }
+
+    public void setShowTime(Date showTime) {
+        this.showTime = showTime;
     }
 }
