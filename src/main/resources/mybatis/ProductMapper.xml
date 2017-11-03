@@ -5,7 +5,7 @@
 <mapper namespace="com.asgab.repository.ProductMapper">
 
 	<sql id="product_columns">
-		product_name as productName, product_no as productNo, feature, description, image, status, create_time as createTime, update_time as updateTime
+		product_name as productName, product_no as productNo, feature, description, image, image_detail, status, create_time as createTime, update_time as updateTime
 	</sql>
 
 	<select id="get" parameterType="long" resultType="Product">
@@ -20,6 +20,9 @@
 		<if test="productName != null">
 			and product_name like "%"#{productName}"%"
 		</if>
+		<if test="productNo != null">
+			and product_no like "%"#{productNo}"%"
+		</if>
 		<if test="sort != null and sort!=''">
 			order by ${sort}
 		</if>
@@ -31,11 +34,14 @@
 		<if test="productName != null">
 			and product_name like "%"#{productName}"%"
 		</if>
+		<if test="productNo != null">
+			and product_no like "%"#{productNo}"%"
+		</if>
 	</select>
 
 	<insert id="save" parameterType="Product" useGeneratedKeys="true" keyProperty="id">
-		insert into ss_product (product_name, product_no, feature, description, image, create_time, update_time)
-		values (#{productName}, #{productNo}, #{feature}, #{description}, #{image}, now(), now())
+		insert into ss_product (product_name, product_no, feature, description, image, image_detail, create_time, update_time)
+		values (#{productName}, #{productNo}, #{feature}, #{description}, #{image}, #{imageDetail}, now(), now())
 	</insert>
 
 	<update id="update" parameterType="Product">
@@ -45,6 +51,7 @@
 		feature = #{feature},
 		description = #{description},
 		image = #{image},
+		image_detail = #{imageDetail},
 		update_time = NOW(),
 		status = #{status}
 		where id = #{id}

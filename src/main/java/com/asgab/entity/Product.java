@@ -13,6 +13,7 @@ public class Product {
     private String feature;//特征
     private String description;//描述
     private String image;//图片
+    private String imageDetail;//详情示意图
     private Integer status; //状态
     private Date createTime;//创建时间
     private Date updateTime;//更新时间
@@ -66,6 +67,14 @@ public class Product {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public String getImageDetail() {
+        return imageDetail;
+    }
+
+    public void setImageDetail(String imageDetail) {
+        this.imageDetail = imageDetail;
     }
 
     public Integer getStatus() {
