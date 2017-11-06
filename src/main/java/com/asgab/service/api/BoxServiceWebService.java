@@ -72,9 +72,9 @@ public class BoxServiceWebService {
                         }
 
                         Map<String, Object> searchBoxRecords = Maps.newHashMap();
-                        params.put("serviceId", bx.getId());
-                        params.put("sort", "create_time desc");
-                        List<BoxRecord> lastRecords = boxRecordMapper.search(params);
+                        searchBoxRecords.put("serviceId", bx.getId());
+                        searchBoxRecords.put("sort", "create_time desc");
+                        List<BoxRecord> lastRecords = boxRecordMapper.search(searchBoxRecords);
                         if (lastRecords != null && lastRecords.size() > 0) {
                             BoxRecord lastRecord = lastRecords.get(0);
                             //服务柜状态 0=无效/删除 1=等待收货 2=已收货 3=等待取货 4=已取货
