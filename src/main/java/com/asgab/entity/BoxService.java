@@ -16,6 +16,7 @@ public class BoxService {
     private Integer flag;
     private Date startTime;
     private Date endTime;
+    private String belongNo;
     private Date createTime;
     private Date updateTime;
     private Integer status;
@@ -105,6 +106,14 @@ public class BoxService {
 
     public void setEndTime(Date endTime) {
         this.endTime = endTime;
+    }
+
+    public String getBelongNo() {
+        return belongNo;
+    }
+
+    public void setBelongNo(String belongNo) {
+        this.belongNo = belongNo;
     }
 
     public Date getCreateTime() {

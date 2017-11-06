@@ -6,12 +6,12 @@
 
 	<sql id="box_service_columns">
 		user_id as userId, address_id as addressId, product_id as productId, scale_id as scaleId, cycle, flag,
-		start_time as startTime, end_time as endTime, create_time as createTime, update_time as updateTime, status
+		start_time as startTime, end_time as endTime, belong_no as belongNo, create_time as createTime, update_time as updateTime, status
 	</sql>
 
 	<sql id="box_service_columns_for_join">
 		a.user_id as userId, a.address_id as addressId, a.product_id as productId, a.scale_id as scaleId, a.cycle, a.flag,
-		a.start_time as startTime, a.end_time as endTime, a.create_time as createTime, a.update_time as updateTime, a.status
+		a.start_time as startTime, a.end_time as endTime, a.belong_no as belongNo, a.create_time as createTime, a.update_time as updateTime, a.status
 	</sql>
 
 	<select id="get" parameterType="long" resultType="BoxService">
@@ -60,8 +60,8 @@
 	</select>
 
 	<insert id="save" parameterType="BoxService" useGeneratedKeys="true" keyProperty="id">
-		insert into ss_box_service (user_id, address_id, product_id, scale_id, cycle, flag, start_time, end_time, create_time, update_time)
-		values (#{userId}, #{addressId}, #{productId}, #{scaleId}, #{cycle}, #{flag}, #{startTime}, #{endTime}, now(), now())
+		insert into ss_box_service (user_id, address_id, product_id, scale_id, cycle, flag, start_time, end_time, belong_no, create_time, update_time)
+		values (#{userId}, #{addressId}, #{productId}, #{scaleId}, #{cycle}, #{flag}, #{startTime}, #{endTime}, #{belongNo}, now(), now())
 	</insert>
 	
 	<update id="update" parameterType="BoxService">
@@ -74,6 +74,7 @@
 		flag = #{flag},
 		start_time = #{startTime},
 		end_time = #{endTime},
+		belong_no = #{belongNo},
 		create_time = #{createTime},
 		update_time = #{updateTime},
 		status = #{status}

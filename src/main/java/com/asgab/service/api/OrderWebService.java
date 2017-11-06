@@ -16,6 +16,7 @@ import com.asgab.util.DateUtils;
 import com.asgab.util.IdGenerator;
 import com.asgab.util.LoginUtil;
 import com.asgab.web.api.param.OrderBuyParam;
+import com.google.common.collect.Maps;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,6 +25,7 @@ import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.text.MessageFormat;
 import java.util.Date;
+import java.util.Map;
 
 @Component
 @Transactional
@@ -140,10 +142,12 @@ public class OrderWebService {
         if (DateUtils.isSunday(appointmentTime)) {
             return new BigDecimal(0);
         }
-        int countFullAppointFee = boxRecordMapper.countFullAppointFee(userId);
+        Map<String, Object> countBoxServiceNumParam = Maps.newHashMap();
+        countBoxServiceNumParam.put("userId", userId);
+        int boxServiceNum = boxServiceMapper.count(countBoxServiceNumParam);
         Config config = configService.getConfigFromCache();
         if (config != null) {
-            return countFullAppointFee >= config.getNumber() ? config.getDiscountFee() : config.getCommonFee();
+            return boxServiceNum >= config.getNumber() ? config.getDiscountFee() : config.getCommonFee();
         }
         return DEFAULT_APPOINT_FEE;
     }

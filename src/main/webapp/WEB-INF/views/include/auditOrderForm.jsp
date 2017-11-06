@@ -4,9 +4,25 @@
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags"%>
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
 
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("#orderAuditForm").validate({
+            rules : {
+                belongNo : {
+                    required:true,
+                    maxlength:20
+                }
+            },
+            messages: {
+
+            }
+        });
+    });
+</script>
+
 <div class="modal-dialog">
     <div class="modal-content message_align">
-        <form action="${ctx}/order/audit" method="post" class="form-horizontal">
+        <form id="orderAuditForm" action="${ctx}/order/audit" method="post" class="form-horizontal">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
             <h4 class="modal-title">
@@ -17,7 +33,7 @@
             <input type="hidden" name="id" value="${orderForm.id}">
             <div class="col-md-12">
                 <div class="form-group">
-                    <label class="col-md-3 control-label"></label>
+                    <label class="col-md-3 control-label">审核状态:</label>
                     <div class="col-md-9">
                         <label class="radio-inline">
                             <input type="radio" name="status" id="status1" value="0"> 取消订单
@@ -25,6 +41,12 @@
                         <label class="radio-inline">
                             <input type="radio" name="status" checked id="status2" value="2"> 已收款
                         </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-3 control-label">分配编号:</label>
+                    <div class="col-md-9">
+                        <input type="text" class="form-control belongNo" id="belongNo" name="belongNo" />
                     </div>
                 </div>
                 <div class="form-group">

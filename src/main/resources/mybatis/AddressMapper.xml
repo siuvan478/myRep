@@ -64,7 +64,8 @@
 	</select>
 
 	<select id="get" parameterType="long" resultType="Address">
-		select a.id, <include refid="address_columns_for_join"/>, b.name as contactName
+		select a.id, <include refid="address_columns_for_join"/>, b.name as contactName, b.phone as contactPhone,
+		b.email as contactEmail
 		from ss_address a left join ss_user b on a.user_id = b.id
 		where a.status = 1 and a.id = #{id}
 	</select>

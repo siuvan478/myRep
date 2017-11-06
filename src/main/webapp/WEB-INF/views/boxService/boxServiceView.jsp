@@ -21,11 +21,6 @@
 
 <body>
 
-	<!-- Content Header -->
-	<%--<section class="content-header">--%>
-		<%--<h1>文件柜服务</h1>--%>
-	<%--</section>--%>
-
 	<div role="form"class="form-horizontal">
 		 <section class="content">
 			<div class="box box-info">
@@ -82,11 +77,15 @@
 								<dd>${boxServiceForm.startTime} - ${boxServiceForm.endTime}</dd>
 							</dl>
 							<dl class="dl-horizontal">
+								<dt>分配编号</dt>
+								<dd>${boxServiceForm.belongNo}</dd>
+							</dl>
+							<dl class="dl-horizontal">
 								<dt>服务状态</dt>
 								<dd>
 									<c:forEach var="status" items="${statuses}">
 										<c:if test="${status.key eq boxServiceForm.status}">
-											${status.value}
+											<label class="label label-info">${status.value}</label>
 										</c:if>
 									</c:forEach>
 								</dd>
@@ -125,6 +124,7 @@
 						<dl class="dl-horizontal">
 							<dt>状态</dt>
 							<dd>
+								<label class="label label-info">
 								<c:if test="${records[0].status eq 1}">
 									<select name="status" class="form-control status" id="status">
 										<c:if test="${records[0].type eq 1}">
@@ -145,19 +145,20 @@
 										已提货
 									</c:if>
 								</c:if>
+								</label>
 							</dd>
 						</dl>
 						<dl class="dl-horizontal">
 							<dt>照片</dt>
 							<dd>
 								<c:if test="${records[0].status eq 2}">
-									<c:if test="${records[0].picture1 != null}">
+									<c:if test="${records[0].picture1 != null and records[0].picture1 != ''}">
 										<img src="${ctx}/file/dumpImage?path=${records[0].picture1}" class="col-md-3" />
 									</c:if>
-									<c:if test="${records[0].picture2 != null}">
+									<c:if test="${records[0].picture2 != null and records[0].picture2 != ''}">
 										<img src="${ctx}/file/dumpImage?path=${records[0].picture2}" class="col-md-3" />
 									</c:if>
-									<c:if test="${records[0].picture3 != null}">
+									<c:if test="${records[0].picture3 != null and records[0].picture3 != ''}">
 										<img src="${ctx}/file/dumpImage?path=${records[0].picture3}" class="col-md-3" />
 									</c:if>
 								</c:if>

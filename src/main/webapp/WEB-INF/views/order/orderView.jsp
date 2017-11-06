@@ -32,6 +32,10 @@
 								<dd>${orderForm.orderNo}</dd>
 							</dl>
 							<dl class="dl-horizontal">
+								<dt>分配编号</dt>
+								<dd>${orderForm.belongNo}</dd>
+							</dl>
+							<dl class="dl-horizontal">
 								<dt>产品类型</dt>
 								<dd>${orderForm.productName}</dd>
 							</dl>

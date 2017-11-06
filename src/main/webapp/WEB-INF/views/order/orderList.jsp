@@ -90,6 +90,7 @@
 									<th <tags:sort column="cycle" page="${pages}"/>>周期</th>
 									<th <tags:sort column="totalPrice" page="${pages}"/>>金额</th>
 									<th <tags:sort column="orderTime" page="${pages}"/>>下单时间</th>
+									<th>联系地址</th>
 									<th <tags:sort column="status" page="${pages}"/>>状态</th>
 									<th><spring:message code="public.oper" /></th>
 								</tr>
@@ -109,6 +110,7 @@
 										</td>
 										<td>$ ${order.totalPrice}HKD</td>
 										<td><fmt:formatDate value="${order.orderTime}" pattern="yyyy-MM-dd HH:ss" /></td>
+										<td><span class="label label-default" onclick="window.open('${ctx}/address/update/${order.addressId}');" style="cursor: pointer">查看地址</span></td>
 										<td>
 											<c:forEach var="status" items="${statuses}">
 												<c:if test="${status.key eq order.status}">

@@ -26,6 +26,7 @@ public class Order implements Serializable {
     private Integer status;
     private Long callbackId;
     private String remark;
+    private String belongNo;
 
     //for app
     private String productName;
@@ -164,5 +165,13 @@ public class Order implements Serializable {
 
     public String getLabelClass() {
         return GlobalConstants.OrderStatus.getLabelClass(this.getStatus());
+    }
+
+    public String getBelongNo() {
+        return belongNo;
+    }
+
+    public void setBelongNo(String belongNo) {
+        this.belongNo = belongNo;
     }
 }

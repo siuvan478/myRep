@@ -5,6 +5,7 @@ import com.asgab.core.pagination.Page;
 import com.asgab.entity.*;
 import com.asgab.repository.OrderMapper;
 import com.asgab.util.Collections3;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -78,17 +79,20 @@ public class OrderService {
         if (order.getId() == null) {
             throw new ServiceException("审核失败，订单ID不能为空");
         }
+        if (StringUtils.isBlank(order.getBelongNo())) {
+            throw new ServiceException("审核失败，分配编号不能为空");
+        }
         if (order.getStatus() == null || !GlobalConstants.OrderStatus.validAuditStatus(order.getStatus())) {
-            throw new ServiceException("审核失败，订单ID不能为空");
+            throw new ServiceException("审核失败，审核状态必须填写");
         }
         Order orderInfo = orderMapper.get(order.getId());
         if (orderInfo == null) {
             throw new ServiceException("审核失败，订单不存在");
         }
+        //文件服务|记录取消
+        BoxService boxService = boxServiceService.get(orderInfo.getCallbackId());
         //审核不通过，则取消订单
         if (GlobalConstants.OrderStatus.CANCEL.equals(order.getStatus())) {
-            //文件服务|记录取消
-            BoxService boxService = boxServiceService.get(orderInfo.getCallbackId());
             if (boxService != null) {
                 boxService.setStatus(GlobalConstants.ServiceStatus.INVALID);
                 this.boxServiceService.update(boxService);
@@ -98,9 +102,15 @@ public class OrderService {
         //订单生效
         else {
             orderInfo.setEffectiveTime(new Date());
+            //分配编号
+            if (boxService != null) {
+                boxService.setBelongNo(order.getBelongNo());
+                this.boxServiceService.update(boxService);
+            }
         }
         orderInfo.setStatus(order.getStatus());
         orderInfo.setRemark(order.getRemark());
+        orderInfo.setBelongNo(order.getBelongNo());
         orderMapper.update(orderInfo);
     }
 

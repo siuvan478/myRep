@@ -33,6 +33,18 @@
 							</div>
 						</div>
 						<div class="form-group">
+							<label class="col-md-3 control-label">手机号:</label>
+							<div class="col-md-9">
+								<input class="form-control" type="text" value="${address.contactPhone}" readonly>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-md-3 control-label">电子邮箱:</label>
+							<div class="col-md-9">
+								<input class="form-control" type="text" value="${address.contactEmail}" readonly>
+							</div>
+						</div>
+						<div class="form-group">
 							<label class="col-md-3 control-label">区域:</label>
 							<div class="col-md-9">
 								<tags:selectbox name="areaId" map="${areas}" value="${address.areaId}" empty="true"/>

@@ -287,6 +287,7 @@
         $("#searchForm input[type='text']").val('');
         $("#searchForm select").val(null).change();
     }
+
 </script>
 </body>
 </html>
