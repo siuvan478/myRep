@@ -1,12 +1,12 @@
 package com.asgab.service.api;
 
 import com.asgab.constants.GlobalConstants;
-import com.asgab.entity.*;
+import com.asgab.entity.BoxRecord;
+import com.asgab.entity.BoxService;
+import com.asgab.entity.Product;
+import com.asgab.entity.Scale;
 import com.asgab.repository.BoxRecordMapper;
-import com.asgab.service.ApiException;
-import com.asgab.service.BoxServiceService;
-import com.asgab.service.ProductService;
-import com.asgab.service.ScaleService;
+import com.asgab.service.*;
 import com.asgab.util.BeanMapper;
 import com.asgab.util.DateUtils;
 import com.asgab.util.LoginUtil;
@@ -47,6 +47,12 @@ public class BoxServiceWebService {
     @Resource
     private ScaleService scaleService;
 
+    @Resource
+    private OrderWebService orderWebService;
+
+    @Resource
+    private ConfigService configService;
+
     public MyBoxService getMyBoxService(Long productId) {
         MyBoxService myBoxService = new MyBoxService();
         try {
@@ -65,6 +71,7 @@ public class BoxServiceWebService {
                         Product product = productService.getProductFromCache(bx.getProductId());
                         if (product != null) {
                             bx.setProductName(product.getProductName());
+                            bx.setImageList(product.getImageList());
                         }
                         Scale scale = scaleService.getScaleFromCache(bx.getScaleId());
                         if (scale != null) {
@@ -118,14 +125,13 @@ public class BoxServiceWebService {
     }
 
     public void applyService(BoxServiceApplyParam param) {
-        BigDecimal cost = new BigDecimal(0);
         try {
             Long userId = LoginUtil.getUserId();
             if (userId == null) throw new ApiException("用户未登录");
-            if (param.getServiceId() == null || param.getApplyType() == null || param.getAppointmentTime() == null) {
+            if (param.getServiceId() == null || param.getApplyType() == null || param.getAppointmentTime() == null || param.getCost() == null) {
                 throw new ApiException("预约参数异常");
             }
-            if (GlobalConstants.RecordType.valid(param.getApplyType())) throw new ApiException("预约参数异常");
+            if (!GlobalConstants.RecordType.valid(param.getApplyType())) throw new ApiException("预约参数异常");
             if (DateUtils.isBeforeNow(param.getAppointmentTime())) throw new ApiException("预约时间不能早于今天");
             //获取文件柜服务
             final BoxService boxService = boxServiceService.get(param.getServiceId());
@@ -135,9 +141,14 @@ public class BoxServiceWebService {
             } else if (DateUtils.isBeforeNow(boxService.getEndTime())) {
                 throw new ApiException("文件柜服务已过期");
             }
+            BigDecimal appointFee = orderWebService.getAppointFee(param.getAppointmentTime(), userId);
+            if (!param.getCost().equals(appointFee)) {
+                throw new ApiException("预约费用非法");
+            }
             //保存预约记录
-            BoxRecord record = new BoxRecord(userId, param.getServiceId(), param.getApplyType(), param.getAppointmentTime(), cost);
+            BoxRecord record = new BoxRecord(userId, param.getServiceId(), param.getApplyType(), param.getAppointmentTime(), appointFee);
             record.setStatus(GlobalConstants.RecordStatus.WAITING);
+            record.setFullCost(configService.isFullCost(appointFee));
             boxRecordMapper.save(record);
             //更新文件柜服务状态
             if (GlobalConstants.RecordType.SAVE.equals(param.getApplyType())) {

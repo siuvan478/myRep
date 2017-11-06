@@ -14,6 +14,7 @@ public class Product {
     private String description;//描述
     private String image;//图片
     private String imageDetail;//详情示意图
+    private String imageList;//列表示意图
     private Integer status; //状态
     private Date createTime;//创建时间
     private Date updateTime;//更新时间
@@ -75,6 +76,14 @@ public class Product {
 
     public void setImageDetail(String imageDetail) {
         this.imageDetail = imageDetail;
+    }
+
+    public String getImageList() {
+        return imageList;
+    }
+
+    public void setImageList(String imageList) {
+        this.imageList = imageList;
     }
 
     public Integer getStatus() {

@@ -30,6 +30,7 @@ public class BoxService {
     private String productName;
     private String scaleName;
     private Date showTime;
+    private String imageList;
 
     public BoxService() {
     }
@@ -200,5 +201,13 @@ public class BoxService {
 
     public void setShowTime(Date showTime) {
         this.showTime = showTime;
+    }
+
+    public String getImageList() {
+        return imageList;
+    }
+
+    public void setImageList(String imageList) {
+        this.imageList = imageList;
     }
 }
