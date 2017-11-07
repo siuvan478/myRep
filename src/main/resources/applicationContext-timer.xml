@@ -35,7 +35,7 @@
 	        <property name="triggers">  
 	            <list>
 					<!--box服务到期-->
-	               <!-- <ref bean="serviceExpireTaskTrigger" />-->
+	                <ref bean="serviceExpireTaskTrigger" />
 	            </list>  
 	        </property>  
 	    </bean>    

@@ -1,15 +1,20 @@
 package com.asgab.service;
 
 import com.asgab.constants.GlobalConstants;
+import com.asgab.core.JPush;
 import com.asgab.core.pagination.Page;
 import com.asgab.entity.*;
 import com.asgab.repository.OrderMapper;
+import com.asgab.service.account.AccountService;
 import com.asgab.util.Collections3;
+import com.asgab.util.DateUtils;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.text.MessageFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -31,6 +36,9 @@ public class OrderService {
 
     @Resource
     private BoxRecordService boxRecordService;
+
+    @Resource
+    private AccountService accountService;
 
     public List<Order> getAll() {
         return orderMapper.search(null);
@@ -101,12 +109,38 @@ public class OrderService {
         }
         //订单生效
         else {
-            orderInfo.setEffectiveTime(new Date());
-            //分配编号
             if (boxService != null) {
+                //消息推送
+                User user = this.accountService.getUser(boxService.getUserId());
+                if (user != null) {
+                    //推送消息订单购买成功
+                    String content = MessageFormat.format(GlobalConstants.JPushMsgTemplate.order_success_message,
+                            boxService.getProductName(), boxService.getScaleName());
+                    JPush.pushMessageToApp(user.getLoginName(), "", content);
+                    //定时推送消息
+                    final List<BoxRecord> boxRecordList = this.boxRecordService.getBoxRecordList(boxService.getId());
+                    if (CollectionUtils.isNotEmpty(boxRecordList)) {
+                        //前天16.30通知
+                        String beforeDayNoticeTime = DateUtils.getBeforeDayPM1630(boxRecordList.get(0).getAppointmentTime());
+                        if (StringUtils.isNotBlank(beforeDayNoticeTime)) {
+                            JPush.pushScheduleMessageToApp(user.getLoginName(), "",
+                                    MessageFormat.format(GlobalConstants.JPushMsgTemplate.schedule_message,
+                                            boxService.getProductName(), "明天"), beforeDayNoticeTime);
+                        }
+                        //当前天9.00通知
+                        String currentDayNoticeTime = DateUtils.getCurrentDayAM900(boxRecordList.get(0).getAppointmentTime());
+                        if (StringUtils.isNotBlank(currentDayNoticeTime)) {
+                            JPush.pushScheduleMessageToApp(user.getLoginName(), "",
+                                    MessageFormat.format(GlobalConstants.JPushMsgTemplate.schedule_message,
+                                            boxService.getProductName(), "今天"), currentDayNoticeTime);
+                        }
+                    }
+                }
+                //分配编号
                 boxService.setBelongNo(order.getBelongNo());
                 this.boxServiceService.update(boxService);
             }
+            orderInfo.setEffectiveTime(new Date());
         }
         orderInfo.setStatus(order.getStatus());
         orderInfo.setRemark(order.getRemark());

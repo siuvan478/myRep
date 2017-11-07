@@ -1,6 +1,7 @@
 package com.asgab.service.api;
 
 import com.asgab.constants.GlobalConstants;
+import com.asgab.core.JPush;
 import com.asgab.entity.BoxRecord;
 import com.asgab.entity.BoxService;
 import com.asgab.entity.Product;
@@ -16,12 +17,14 @@ import com.asgab.web.api.param.MyBoxService;
 import com.asgab.web.api.param.UserInfo;
 import com.google.common.collect.Maps;
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
+import java.text.MessageFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -145,6 +148,7 @@ public class BoxServiceWebService {
             if (param.getCost().doubleValue() != appointFee.doubleValue()) {
                 throw new ApiException("预约费用非法");
             }
+
             //保存预约记录
             BoxRecord record = new BoxRecord(userId, param.getServiceId(), param.getApplyType(), param.getAppointmentTime(), appointFee);
             record.setStatus(GlobalConstants.RecordStatus.WAITING);
@@ -160,6 +164,21 @@ public class BoxServiceWebService {
             }
             boxService.setUpdateTime(new Date());
             boxServiceService.update(boxService);
+
+            //消息推送前天16.30通知
+            String beforeDayNoticeTime = DateUtils.getBeforeDayPM1630(record.getAppointmentTime());
+            if (StringUtils.isNotBlank(beforeDayNoticeTime)) {
+                JPush.pushScheduleMessageToApp(LoginUtil.getLoginName(), "",
+                        MessageFormat.format(GlobalConstants.JPushMsgTemplate.schedule_message,
+                                boxService.getProductName(), "明天"), beforeDayNoticeTime);
+            }
+            //消息推送当前天9.00通知
+            String currentDayNoticeTime = DateUtils.getCurrentDayAM900(record.getAppointmentTime());
+            if (StringUtils.isNotBlank(currentDayNoticeTime)) {
+                JPush.pushScheduleMessageToApp(LoginUtil.getLoginName(), "",
+                        MessageFormat.format(GlobalConstants.JPushMsgTemplate.schedule_message,
+                                boxService.getProductName(), "今天"), currentDayNoticeTime);
+            }
         } catch (ApiException e) {
             logger.error("预约文件柜服务出错", e);
             throw e;
