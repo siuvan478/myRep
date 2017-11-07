@@ -23,13 +23,13 @@
 	</select>
 
 	<select id="getProductIdsByUserId" parameterType="long" resultType="java.lang.Long">
-		select product_id from ss_box_service where status in(1,2) and user_id = #{userId}
+		select product_id from ss_box_service where status NOT in(0) and user_id = #{userId}
 	</select>
 
 	<select id="search" parameterType="map" resultType="BoxService">
 		select a.id, <include refid="box_service_columns_for_join"/>, b.name as contactName
 		from ss_box_service a left join ss_user b on a.user_id = b.id
-		where a.status in(1,2)
+		where a.status NOT IN(0)
 		<if test="productId != null and productId != ''">
 			and a.product_id = #{productId}
 		</if>
@@ -47,7 +47,7 @@
 	<select id="count" parameterType="map" resultType="int">
 		select count(1)
 		from ss_box_service a left join ss_user b on a.user_id = b.id
-		where a.status in(1,2)
+		where a.status NOT IN(0)
 		<if test="productId != null and productId != ''">
 			and a.product_id = #{productId}
 		</if>

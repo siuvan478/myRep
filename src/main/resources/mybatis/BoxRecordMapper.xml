@@ -17,7 +17,7 @@
 
 	<select id="search" parameterType="map" resultType="BoxRecord">
 		select id, <include refid="box_record_columns"/>
-		from ss_box_record where status in(1,2)
+		from ss_box_record where status NOT IN(0)
 		<if test="userId != null and userId != ''">
 			and user_id = #{userId}
 		</if>
@@ -37,7 +37,7 @@
 
 	<select id="count" parameterType="map" resultType="int">
 		select count(1)
-		from ss_box_record where status in(1,2)
+		from ss_box_record where status NOT IN(0)
 		<if test="userId != null and userId != ''">
 			and user_id = #{userId}
 		</if>

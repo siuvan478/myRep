@@ -57,7 +57,7 @@ public class ConfigService implements InitializingBean {
         if (config == null) {
             return GlobalConstants.YesOrNo.NO;
         }
-        return appointFee.equals(config.getCommonFee()) ? GlobalConstants.YesOrNo.YES : GlobalConstants.YesOrNo.NO;
+        return appointFee.doubleValue() == config.getCommonFee().doubleValue() ? GlobalConstants.YesOrNo.YES : GlobalConstants.YesOrNo.NO;
     }
 
 }

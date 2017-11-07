@@ -142,7 +142,7 @@ public class BoxServiceWebService {
                 throw new ApiException("文件柜服务已过期");
             }
             BigDecimal appointFee = orderWebService.getAppointFee(param.getAppointmentTime(), userId);
-            if (!param.getCost().equals(appointFee)) {
+            if (param.getCost().doubleValue() != appointFee.doubleValue()) {
                 throw new ApiException("预约费用非法");
             }
             //保存预约记录
