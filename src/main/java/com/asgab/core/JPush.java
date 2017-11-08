@@ -11,7 +11,7 @@ import cn.jpush.api.push.model.notification.AndroidNotification;
 import cn.jpush.api.push.model.notification.IosNotification;
 import cn.jpush.api.push.model.notification.Notification;
 import cn.jpush.api.schedule.ScheduleResult;
-import com.asgab.util.RandomNumUtil;
+import com.asgab.util.Identities;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -88,7 +88,7 @@ public class JPush {
                         .build())
                 .build();
         try {
-            ScheduleResult pushResult = pushClient.createSingleSchedule(alias + "-" + RandomNumUtil.getRandNumber(4), time, pushPayload);
+            ScheduleResult pushResult = pushClient.createSingleSchedule(Identities.uuid(), time, pushPayload);
             LOGGER.info("schedule result is " + pushResult);
         } catch (APIConnectionException e) {
             LOGGER.error("Connection error. Should retry later. ", e);
@@ -101,10 +101,10 @@ public class JPush {
     }
 
     public static void main(String[] args) {
-        String alias = "470508081@qq.com";
+        String alias = "295636011@qq.com";
         String title = "freeman";
         String content = "文案:你的XX(服务名例如衣服柜)服务将于明天(今天)进行,如有变动请联系客服";
-        String time = "2017-11-7 17:27:33";
+        String time = "2017-11-8 11:56:05";
         pushScheduleMessageToApp(alias, title, content, time);
     }
 }
