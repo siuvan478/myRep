@@ -5,12 +5,12 @@
 <mapper namespace="com.asgab.repository.BoxServiceMapper">
 
 	<sql id="box_service_columns">
-		user_id as userId, address_id as addressId, product_id as productId, scale_id as scaleId, cycle, flag,
+		user_id as userId, address_id as addressId, order_id as orderId, product_id as productId, scale_id as scaleId, cycle, flag,
 		start_time as startTime, end_time as endTime, belong_no as belongNo, create_time as createTime, update_time as updateTime, status
 	</sql>
 
 	<sql id="box_service_columns_for_join">
-		a.user_id as userId, a.address_id as addressId, a.product_id as productId, a.scale_id as scaleId, a.cycle, a.flag,
+		a.user_id as userId, a.address_id as addressId, a.order_id as orderId, a.product_id as productId, a.scale_id as scaleId, a.cycle, a.flag,
 		a.start_time as startTime, a.end_time as endTime, a.belong_no as belongNo, a.create_time as createTime, a.update_time as updateTime, a.status
 	</sql>
 
@@ -36,6 +36,9 @@
 		<if test="userId != null and userId != ''">
 			and a.user_id = #{userId}
 		</if>
+		<if test="orderId != null and orderId != ''">
+			and a.order_id = #{orderId}
+		</if>
 		<if test="contactName != null and contactName != ''">
 			and b.`name` like "%"#{contactName}"%"
 		</if>
@@ -54,20 +57,24 @@
 		<if test="userId != null and userId != ''">
 			and a.user_id = #{userId}
 		</if>
+		<if test="orderId != null and orderId != ''">
+			and a.order_id = #{orderId}
+		</if>
 		<if test="contactName != null and contactName != ''">
 			and b.`name` like "%"#{contactName}"%"
 		</if>
 	</select>
 
 	<insert id="save" parameterType="BoxService" useGeneratedKeys="true" keyProperty="id">
-		insert into ss_box_service (user_id, address_id, product_id, scale_id, cycle, flag, start_time, end_time, belong_no, create_time, update_time)
-		values (#{userId}, #{addressId}, #{productId}, #{scaleId}, #{cycle}, #{flag}, #{startTime}, #{endTime}, #{belongNo}, now(), now())
+		insert into ss_box_service (user_id, address_id, order_id, product_id, scale_id, cycle, flag, start_time, end_time, belong_no, create_time, update_time)
+		values (#{userId}, #{addressId}, #{orderId}, #{productId}, #{scaleId}, #{cycle}, #{flag}, #{startTime}, #{endTime}, #{belongNo}, now(), now())
 	</insert>
 	
 	<update id="update" parameterType="BoxService">
 		update ss_box_service set
 	  	user_id = #{userId},
 		address_id = #{addressId},
+		order_id = #{orderId},
 		product_id = #{productId},
 		scale_id = #{scaleId},
 		cycle = #{cycle},

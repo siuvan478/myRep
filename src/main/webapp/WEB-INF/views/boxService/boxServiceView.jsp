@@ -124,7 +124,6 @@
 						<dl class="dl-horizontal">
 							<dt>状态</dt>
 							<dd>
-								<label class="label label-info">
 								<c:if test="${records[0].status eq 1}">
 									<select name="status" class="form-control status" id="status">
 										<c:if test="${records[0].type eq 1}">
@@ -138,14 +137,15 @@
 									</select>
 								</c:if>
 								<c:if test="${records[0].status ne 1}">
+									<label class="label label-info">
 									<c:if test="${records[0].type eq 1}">
 										已收件
 									</c:if>
 									<c:if test="${records[0].type eq 2}">
 										已提货
 									</c:if>
+									</label>
 								</c:if>
-								</label>
 							</dd>
 						</dl>
 						<dl class="dl-horizontal">

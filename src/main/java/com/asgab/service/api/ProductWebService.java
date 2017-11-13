@@ -44,7 +44,7 @@ public class ProductWebService {
     public ProductInfo getProductInfo(Long productId) {
         ProductInfo info = BeanMapper.map(productService.getProductFromCache(productId), ProductInfo.class);
         if (info == null) {
-            throw new ApiException("产品不存在");
+            throw new ApiException("服務不存在");
         }
         info.setScales(scaleService.getScalesFromCacheByProductId(productId));
         return info;

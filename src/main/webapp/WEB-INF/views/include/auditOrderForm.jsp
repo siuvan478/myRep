@@ -8,10 +8,7 @@
     $(document).ready(function() {
         $("#orderAuditForm").validate({
             rules : {
-                belongNo : {
-                    required:true,
-                    maxlength:20
-                }
+
             },
             messages: {
 
@@ -19,14 +16,13 @@
         });
     });
 </script>
-
+<form id="orderAuditForm" action="${ctx}/order/audit" method="post" class="form-horizontal">
 <div class="modal-dialog">
     <div class="modal-content message_align">
-        <form id="orderAuditForm" action="${ctx}/order/audit" method="post" class="form-horizontal">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
             <h4 class="modal-title">
-                订单审核
+                訂單編號: ${orderForm.orderNo}
             </h4>
         </div>
         <div class="modal-body">
@@ -46,7 +42,9 @@
                 <div class="form-group">
                     <label class="col-md-3 control-label">分配编号:</label>
                     <div class="col-md-9">
-                        <input type="text" class="form-control belongNo" id="belongNo" name="belongNo" />
+                        <c:forEach var="curr" begin="1" end="${orderForm.quantity}" step="1">
+                            <input type="text" required="required" maxlength="12" class="form-control belongNo_${curr}" id="belongNo_${curr}" name="belongNoArray" />
+                        </c:forEach>
                     </div>
                 </div>
                 <div class="form-group">
@@ -62,6 +60,6 @@
             <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
             <button type="submit" class="btn btn-success">确定</button>
         </div>
-        </form>
     </div>
 </div>
+</form>

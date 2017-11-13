@@ -16,6 +16,7 @@ public class ProductInfo implements Serializable {
     private String description;//描述
     private String image;//图片
     private String imageDetail;//详情图片
+    private String imageList;//详情图片
     private Integer isOwned = 0;//是否拥有该产品服务
     private List<Scale> scales;
 
@@ -76,6 +77,14 @@ public class ProductInfo implements Serializable {
 
     public void setImageDetail(String imageDetail) {
         this.imageDetail = imageDetail;
+    }
+
+    public String getImageList() {
+        return imageList;
+    }
+
+    public void setImageList(String imageList) {
+        this.imageList = imageList;
     }
 
     public Integer getIsOwned() {

@@ -10,6 +10,7 @@ public class BoxService {
     private Long id;
     private Long userId;
     private Long addressId;
+    private Long orderId;
     private Long productId;
     private Long scaleId;
     private Integer cycle;
@@ -58,6 +59,14 @@ public class BoxService {
 
     public void setAddressId(Long addressId) {
         this.addressId = addressId;
+    }
+
+    public Long getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(Long orderId) {
+        this.orderId = orderId;
     }
 
     public Long getProductId() {

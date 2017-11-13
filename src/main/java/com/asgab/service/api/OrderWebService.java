@@ -60,70 +60,77 @@ public class OrderWebService {
         try {
             Long userId = LoginUtil.getUserId();
             if (userId == null) {
-                throw new ApiException("用户未登录");
+                throw new ApiException("請先登入");
             }
             if (param.getProductId() == null || param.getScaleId() == null || param.getCycle() == null
                     || param.getTotalPrice() == null || param.getTotalPrice().doubleValue() <= 0
-                    || !GlobalConstants.CycleEnum.validCycle(param.getCycle()) || param.getAppointmentTime() == null) {
-                throw new ApiException("订单参数异常");
+                    || !GlobalConstants.CycleEnum.validCycle(param.getCycle()) || param.getAppointmentTime() == null
+                    || param.getQuantity() == null || param.getQuantity() <= 0) {
+                throw new ApiException("訂單參數異常");
             }
             if (DateUtils.isBeforeNow(param.getAppointmentTime())) {
-                throw new ApiException("指定时间不能是早于今天");
+                throw new ApiException("預約時間必須晚於當前時間");
             }
             Product productInfo = productService.getProductFromCache(param.getProductId());
             if (productInfo == null) {
-                logger.error(MessageFormat.format("购买的服务已下架，productId={0}不存在", param.getProductId()));
-                throw new ApiException("购买的服务已下架");
+                logger.error(MessageFormat.format("購買的服務已下架，productId={0}不存在", param.getProductId()));
+                throw new ApiException("購買的服務已下架");
             }
             Scale scaleInfo = scaleService.getScaleFromCache(param.getScaleId());
             if (scaleInfo == null) {
-                logger.error(MessageFormat.format("购买的服务已下架，scaleId={0}不存在", param.getScaleId()));
-                throw new ApiException("购买的服务已下架");
+                logger.error(MessageFormat.format("購買的服務已下架，scaleId={0}不存在", param.getScaleId()));
+                throw new ApiException("購買的服務已下架");
             }
             if (!scaleInfo.getProductId().equals(param.getProductId())) {
-                logger.error(MessageFormat.format("购买的服务已下架，[orderInfo={0}/{1}，scaleInfo={3}/{4}]",
+                logger.error(MessageFormat.format("購買的服務已下架，[orderInfo={0}/{1}，scaleInfo={3}/{4}]",
                         param.getScaleId(), param.getProductId(), scaleInfo.getId(), scaleInfo.getProductId()));
-                throw new ApiException("购买的服务已下架");
+                throw new ApiException("購買的服務已下架");
             }
             if (!scaleInfo.validCycle(param.getCycle())) {
-                logger.error(MessageFormat.format("不支持当前租用时间, cycle={0}", param.getCycle()));
-                throw new ApiException("不支持当前租用时间");
+                logger.error(MessageFormat.format("不支持當前購買週期, cycle={0}", param.getCycle()));
+                throw new ApiException("不支持當前購買週期");
             }
             //非周末收取额外费用
             BigDecimal appointFee = this.getAppointFee(param.getAppointmentTime(), userId);
-            if (!scaleInfo.validTotalPrice(param.getCycle(), param.getTotalPrice(), appointFee)) {
-                logger.error(MessageFormat.format("购买的服务已下架, cycle={0}, totalPrice={1}, productInfo=[\r\n{2}\r\n]",
+            if (!scaleInfo.validTotalPrice(param.getCycle(), param.getTotalPrice(), appointFee, param.getQuantity())) {
+                logger.error(MessageFormat.format("購買的服務已下架, cycle={0}, totalPrice={1}, productInfo=[\r\n{2}\r\n]",
                         param.getCycle(), param.getTotalPrice(), JSONObject.toJSONString(scaleInfo)));
-                throw new ApiException("购买的服务已下架");
+                throw new ApiException("購買的服務已下架");
             }
 
-            //文件服务
-            GlobalConstants.CycleEnum cycleEnum = GlobalConstants.CycleEnum.getCycleEnum(param.getCycle());
-            BoxService service = BeanMapper.map(param, BoxService.class);
-            service.setUserId(userId);
-            service.setStartTime(param.getAppointmentTime());
-            service.setEndTime(DateUtils.plusMonths(param.getAppointmentTime(), cycleEnum.getValue()));
-            service.setFlag(GlobalConstants.BoxFlag.USE);
-            service.setStatus(GlobalConstants.ServiceStatus.WAIT_FOR_SAVE);//等待收货
-            boxServiceMapper.save(service);
-            //服务记录
-            BoxRecord record = new BoxRecord(userId, service.getId(), GlobalConstants.RecordType.SAVE, param.getAppointmentTime(), appointFee);
-            record.setStatus(GlobalConstants.RecordStatus.WAITING);
-            record.setFullCost(configService.isFullCost(appointFee));
-            boxRecordMapper.save(record);
             //构建订单
             Order order = BeanMapper.map(param, Order.class);
             order.setUserId(userId);
             order.setOrderNo(IdGenerator.INSTANCE.nextId());
-            order.setCallbackId(service.getId());
-            order.setQuantity(1);
             orderMapper.save(order);
+
+            //文件服务
+            GlobalConstants.CycleEnum cycleEnum = GlobalConstants.CycleEnum.getCycleEnum(param.getCycle());
+            if (cycleEnum == null) throw new ApiException("不支持當前購買週期");
+            //批量構建訂單數據
+            for (int i = 1; i <= param.getQuantity(); i++) {
+                //文件服务
+                BoxService service = BeanMapper.map(param, BoxService.class);
+                service.setUserId(userId);
+                service.setStartTime(param.getAppointmentTime());
+                service.setEndTime(DateUtils.plusMonths(param.getAppointmentTime(), cycleEnum.getValue()));
+                service.setFlag(GlobalConstants.BoxFlag.USE);
+                service.setStatus(GlobalConstants.ServiceStatus.WAIT_FOR_SAVE);//等待收货
+                service.setOrderId(order.getId());
+                boxServiceMapper.save(service);
+
+                //服务记录
+                BoxRecord record = new BoxRecord(userId, service.getId(), GlobalConstants.RecordType.SAVE, param.getAppointmentTime(), appointFee);
+                record.setStatus(GlobalConstants.RecordStatus.WAITING);
+                record.setFullCost(configService.isFullCost(appointFee));
+                boxRecordMapper.save(record);
+            }
         } catch (ApiException e) {
             throw e;
         } catch (Exception e) {
             logger.error(e.getMessage());
             e.printStackTrace();
-            throw new ApiException("购买提交失败，请联系客服");
+            throw new ApiException("購買失敗，請聯絡客服");
         }
     }
 
@@ -136,7 +143,7 @@ public class OrderWebService {
      */
     public BigDecimal getAppointFee(Date appointmentTime, Long userId) {
         if (appointmentTime == null || DateUtils.isBeforeNow(appointmentTime)) {
-            throw new ApiException("预约时间参数错误");
+            throw new ApiException("參數異常");
         }
         //周日免费
         if (DateUtils.isSunday(appointmentTime)) {

@@ -31,6 +31,7 @@ public class Order implements Serializable {
     //for app
     private String productName;
     private String scaleName;
+    private String[] belongNoArray;
 
     public Order() {
     }
@@ -173,5 +174,13 @@ public class Order implements Serializable {
 
     public void setBelongNo(String belongNo) {
         this.belongNo = belongNo;
+    }
+
+    public String[] getBelongNoArray() {
+        return belongNoArray;
+    }
+
+    public void setBelongNoArray(String[] belongNoArray) {
+        this.belongNoArray = belongNoArray;
     }
 }

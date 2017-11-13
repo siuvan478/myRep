@@ -63,24 +63,24 @@ public class UserWebService {
      */
     public void resetPwd(FindPwdParam param) {
         if (StringUtils.isBlank(param.getLoginName())) {
-            throw new ApiException("用户名不能为空");
+            throw new ApiException("用戶名不能為空");
         }
         if (StringUtils.isBlank(param.getNewPassword())) {
-            throw new ApiException("新密码不能为空");
+            throw new ApiException("新密碼不能為空");
         }
         if (StringUtils.isBlank(param.getConfirmPassword())) {
-            throw new ApiException("重复密码不能为空");
+            throw new ApiException("重複密碼不能為空");
         }
         final User user = accountService.checkLoginName(param.getLoginName());
         if (user == null) {
-            throw new ApiException("用户名不存在");
+            throw new ApiException("用戶名不存在");
         }
         if (!"888888".equals(param.getVerifyCode())) {
             String verifyCode = jedisService.get(CacheKey.VERIFY_CODE_KEY + param.getLoginName());
             if (verifyCode == null) {
-                throw new ApiException("验证码已过期");
+                throw new ApiException("驗證碼已過期");
             } else if (!verifyCode.equals(param.getVerifyCode())) {
-                throw new ApiException("验证码错误");
+                throw new ApiException("驗證碼錯誤");
             }
         }
         //更新密码
@@ -94,34 +94,34 @@ public class UserWebService {
      */
     public void register(UserRegParam param) {
         if (StringUtils.isBlank(param.getLoginName())) {
-            throw new ApiException("手机号或邮箱不能为空");
+            throw new ApiException("用戶名不能為空");
         }
         if (!(Validator.isEmail(param.getLoginName()) || Validator.isHongKongMobile(param.getLoginName()) || Validator.isMobile(param.getLoginName()))) {
-            throw new ApiException("请输入有效的用户名");
+            throw new ApiException("請輸入有效的用戶名");
         }
         if (StringUtils.isBlank(param.getVerifyCode())) {
-            throw new ApiException("验证码不能为空");
+            throw new ApiException("驗證碼不能為空");
         }
         if (StringUtils.isBlank(param.getPassword())) {
-            throw new ApiException("密码不能为空");
+            throw new ApiException("密碼不能為空");
         }
         if (StringUtils.isBlank(param.getConfirmPassword())) {
-            throw new ApiException("重复密码不能为空");
+            throw new ApiException("重複密碼不能為空");
         }
         if (!param.getPassword().equals(param.getConfirmPassword())) {
-            throw new ApiException("两次密码输入不一致");
+            throw new ApiException("兩次密碼輸入不一致");
         }
         if (!"888888".equals(param.getVerifyCode())) {
             String verifyCode = jedisService.get(VERIFY_CODE_KEY + param.getLoginName());
             if (verifyCode == null) {
-                throw new ApiException("验证码已过期");
+                throw new ApiException("驗證碼已過期");
             } else if (!verifyCode.equals(param.getVerifyCode())) {
-                throw new ApiException("验证码错误");
+                throw new ApiException("驗證碼錯誤");
             }
         }
         User exists = accountService.findUserByLoginName(param.getLoginName());
         if (exists != null) {
-            throw new ApiException("用户名已存在");
+            throw new ApiException("用戶名已存在");
         }
         //注册用户
         User user = new User();
@@ -134,20 +134,20 @@ public class UserWebService {
      * 发送验证码
      */
     public void sendVerifyCode(VerifyCodeParam param) {
-        if (StringUtils.isBlank(param.getLoginName())) throw new ApiException("手机号或邮箱不能为空");
-        if (param.getType() == null) throw new ApiException("验证码类型不能为空");
+        if (StringUtils.isBlank(param.getLoginName())) throw new ApiException("用戶名不能為空");
+        if (param.getType() == null) throw new ApiException("驗證碼類型不能為空");
         MailTemplateEnum mte = null;
         //注册用户
         if (param.getType().equals(1)) {
             User user = accountService.checkLoginName(param.getLoginName());
-            if (user != null) throw new ApiException("用户名已被注册");
+            if (user != null) throw new ApiException("該用戶名已註冊");
             mte = MailTemplateEnum.REG_USER;
         }
         //重置密码
         else if (param.getType().equals(2)) {
             mte = MailTemplateEnum.RESET_PWD;
         } else {
-            throw new ApiException("验证码类型非法");
+            throw new ApiException("驗證碼類型錯誤");
         }
         //验证码
         String verifyCode = RandomNumUtil.getRandNumber(6);
@@ -158,16 +158,16 @@ public class UserWebService {
             Map<String, Object> params = new HashMap<>();
             params.put("verifyCode", verifyCode);
             if (!mailService.sendCaptcha(param.getLoginName(), mte, params)) {
-                throw new ApiException("验证码发送失败，请联系Freeman客服");
+                throw new ApiException("驗證碼發送失敗，請聯絡客服");
             }
         }
         //发送验证码到手机
         else if (Validator.isHongKongMobile(param.getLoginName()) || Validator.isMobile(param.getLoginName())) {
             if (!smsService.sendVerifyCode(param.getLoginName(), verifyCode)) {
-                throw new ApiException("验证码发送失败，请联系Freeman客服");
+                throw new ApiException("驗證碼發送失敗，請聯絡客服");
             }
         } else {
-            throw new ApiException("用户名必须为邮箱或手机号");
+            throw new ApiException("用戶名必須為有效手機號或郵箱");
         }
     }
 
@@ -181,18 +181,18 @@ public class UserWebService {
         String errorCountKey = CacheKey.PWD_ERROR_COUNT_KEY + loginName;
         String errorCount = jedisService.get(errorCountKey);
         if (errorCount != null && Integer.valueOf(errorCount) >= MAX_PWD_ERROR_COUNT) {
-            throw new ApiException("用户名或错误错误次数过多，请联系FREEMAN客服或找回密码");
+            throw new ApiException("用戶名密碼錯誤次數過多，請聯絡客服或找回密碼");
         }
         if (StringUtils.isBlank(loginName)) {
-            throw new ApiException("用户名不能为空");
+            throw new ApiException("用戶名不能為空");
         }
         if (StringUtils.isBlank(password)) {
-            throw new ApiException("密码不能为空");
+            throw new ApiException("密碼不能為空");
         }
         User user = accountService.login(loginName, password);
         if (user == null) {
             this.recordErrorCount(loginName);
-            throw new ApiException("用户名或密码错误");
+            throw new ApiException("用戶名或密碼錯誤");
         } else {
             this.cleanErrorCount(loginName);
         }
@@ -210,7 +210,7 @@ public class UserWebService {
     public UserInfo profile(Long userId) {
         User user = accountService.getUser(userId);
         if (user == null) {
-            throw new ApiException("用户未登录");
+            throw new ApiException("請先登入");
         }
         UserInfo userInfo = BeanMapper.map(user, UserInfo.class);
         Address addressInfo = addressService.getUniqueAddressByUserId(userInfo.getId());
@@ -227,10 +227,10 @@ public class UserWebService {
     }
 
     public void updateUserInfo(UserInfo userInfo) {
-        if (userInfo.getId() == null) throw new ApiException("非法参数");
-        if (userInfo.getAreaId() == null) throw new ApiException("小区地址不能为空");
+        if (userInfo.getId() == null) throw new ApiException("參數錯誤");
+        if (userInfo.getAreaId() == null) throw new ApiException("區號不能為空");
         User user = accountService.getUser(userInfo.getId());
-        if (user == null) throw new ApiException("用户信息不存在");
+        if (user == null) throw new ApiException("用戶不存在");
         //更新用户信息
         BeanMapper.copy(userInfo, user);
         accountService.updateUser(user);

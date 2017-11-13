@@ -14,6 +14,7 @@ public class OrderBuyParam implements Serializable {
     private Integer cycle;
     private BigDecimal totalPrice;
     private Date appointmentTime;
+    private Integer quantity;
 
     public OrderBuyParam() {
     }
@@ -64,5 +65,13 @@ public class OrderBuyParam implements Serializable {
 
     public void setAppointmentTime(Date appointmentTime) {
         this.appointmentTime = appointmentTime;
+    }
+
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
     }
 }

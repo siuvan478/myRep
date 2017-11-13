@@ -106,6 +106,8 @@ public class ScaleService implements InitializingBean {
             Scale scale = scaleMapper.get(id);
             if (scale != null) {
                 jedisService.hashPut(CacheKey.SCALE_KEY, String.valueOf(scale.getId()), JSONObject.toJSONString(scale));
+            } else {
+                jedisService.hashDelete(CacheKey.SCALE_KEY, String.valueOf(scale.getId()));
             }
         }
     }

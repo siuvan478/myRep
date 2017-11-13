@@ -57,9 +57,9 @@ public class GlobalConstants {
      */
     public static class JPushMsgTemplate {
         //您购买的{信箱}({12 x 24 x 34 cm})已生效,请耐心等待工作人员上门取货,如有疑问请联系客服
-        public static final String order_success_message = "您购买的{0}({1})已生效,届时工作人员将上门取货,如有疑问请联系客服";
+        public static final String order_success_message = "您購買的{0}({1})已生效,屆時工作人員會上門取貨,如有疑問請聯絡客服";
         //您预约的{文件柜}服务将于{今天}进行,如需更改请联系客服
-        public static final String schedule_message = "您预约的{0}服务将于{1}进行,如需更改请联系客服";
+        public static final String schedule_message = "您預約的{0}服務將於{1}進行,如需更改時間,請聯絡客服";
     }
 
     /**

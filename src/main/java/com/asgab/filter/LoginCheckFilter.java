@@ -66,12 +66,12 @@ public class LoginCheckFilter implements Filter {
         String requestURI = httpRequest.getServletPath();
         if (filterPath(requestURI)) {
             if (StringUtils.isBlank(token)) {
-                this.redirect(httpRequest, httpResponse, "用户未登录");
+                this.redirect(httpRequest, httpResponse, "請先登入");
                 return;
             }
             String userJson = jedisService.get(CacheKey.TOKEN_KEY + token);
             if (StringUtils.isBlank(userJson)) {
-                this.redirect(httpRequest, httpResponse, "用户未登录");
+                this.redirect(httpRequest, httpResponse, "請先登入");
                 return;
             }
             LoginUtil.setUserJson(userJson);

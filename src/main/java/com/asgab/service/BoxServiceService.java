@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -31,6 +32,12 @@ public class BoxServiceService {
     private AreaService areaService;
 
     public List<BoxService> getBoxServiceList(Map<String, Object> parameters) {
+        return boxServiceMapper.search(parameters);
+    }
+
+    public List<BoxService> getBoxServiceListByOrderId(Long orderId) {
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("orderId", orderId);
         return boxServiceMapper.search(parameters);
     }
 

@@ -53,7 +53,7 @@
 		description = #{description},
 		image = #{image},
 		image_detail = #{imageDetail},
-		image_list = #{iamgeList},
+		image_list = #{imageList},
 		update_time = NOW(),
 		status = #{status}
 		where id = #{id}

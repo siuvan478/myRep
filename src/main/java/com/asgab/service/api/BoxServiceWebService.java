@@ -60,7 +60,7 @@ public class BoxServiceWebService {
         MyBoxService myBoxService = new MyBoxService();
         try {
             Long userId = LoginUtil.getUserId();
-            if (userId == null) throw new ApiException("用户未登录");
+            if (userId == null) throw new ApiException("請先登入");
             UserInfo userInfo = userWebService.profile(userId);
             BeanMapper.copy(userInfo, myBoxService);
             Map<String, Object> params = Maps.newHashMap();
@@ -111,7 +111,7 @@ public class BoxServiceWebService {
         BoxServiceDetails boxServiceDetails = new BoxServiceDetails();
         try {
             Long userId = LoginUtil.getUserId();
-            if (userId == null) throw new ApiException("用户未登录");
+            if (userId == null) throw new ApiException("請先登入");
             BoxService boxService = boxServiceService.get(serviceId);
             if (boxService == null || !boxService.getUserId().equals(userId)) throw new ApiException("文件柜服务不存在");
             BeanMapper.copy(boxService, boxServiceDetails);
@@ -130,7 +130,7 @@ public class BoxServiceWebService {
     public void applyService(BoxServiceApplyParam param) {
         try {
             Long userId = LoginUtil.getUserId();
-            if (userId == null) throw new ApiException("用户未登录");
+            if (userId == null) throw new ApiException("請先登入");
             if (param.getServiceId() == null || param.getApplyType() == null || param.getAppointmentTime() == null || param.getCost() == null) {
                 throw new ApiException("预约参数异常");
             }

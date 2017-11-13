@@ -26,7 +26,7 @@ public interface BoxServiceMapper {
 
     BoxService get(Long id);
 
-    void save(BoxService boxService);
+    Long save(BoxService boxService);
 
     void update(BoxService boxService);
 

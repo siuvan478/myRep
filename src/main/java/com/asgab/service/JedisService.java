@@ -74,6 +74,19 @@ public class JedisService {
         }
     }
 
+    public void hashDelete(String key, String field) {
+        Jedis jedis = jedisPool.getResource();
+        try {
+            jedis.hdel(key, field);
+        } finally {
+            try {
+                jedis.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     public void hashPut(String key, String field, String value) {
         Jedis jedis = jedisPool.getResource();
         try {

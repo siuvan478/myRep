@@ -3,7 +3,6 @@ package com.asgab.web;
 import com.asgab.constants.GlobalConstants;
 import com.asgab.core.pagination.Page;
 import com.asgab.entity.Order;
-import com.asgab.entity.Product;
 import com.asgab.service.OrderService;
 import com.asgab.service.ProductService;
 import com.asgab.service.ServiceException;
@@ -14,9 +13,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.annotation.Resource;
 import javax.servlet.ServletRequest;
-import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
 
 @Controller
 @RequestMapping(value = "/order")

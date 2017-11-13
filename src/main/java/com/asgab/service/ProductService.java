@@ -89,15 +89,9 @@ public class ProductService implements InitializingBean {
     }
 
     public List<Product> getProductListFromCache() {
-        long s1 = System.currentTimeMillis();
         String jsonList = jedisService.hashGet(CacheKey.PRODUCT_KEY, CacheKey.LIST);
-        long s2 = System.currentTimeMillis();
-        System.out.println("-------------------------------------" + (s2 - s1));
         if (StringUtils.isNoneBlank(jsonList)) {
-            long s3 = System.currentTimeMillis();
-            List<Product> products = JSONObject.parseArray(jsonList, Product.class);
-            System.out.println("-------------------------------------" + (s3 - s2));
-            return products;
+            return JSONObject.parseArray(jsonList, Product.class);
         } else {
             return productMapper.search(null);
         }
@@ -131,6 +125,8 @@ public class ProductService implements InitializingBean {
             Product product = productMapper.get(id);
             if (product != null) {
                 jedisService.hashPut(CacheKey.PRODUCT_KEY, String.valueOf(id), JSONObject.toJSONString(product));
+            } else {
+                jedisService.hashDelete(CacheKey.PRODUCT_KEY, String.valueOf(id));
             }
         }
     }
