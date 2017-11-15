@@ -6,7 +6,8 @@
 
 <html>
 <head>
-<title>产品管理</title>
+<title>	<c:if test="${action eq 'create' }"><spring:message code="product.form.create.title" /></c:if>
+	<c:if test="${action eq 'update' }"><spring:message code="product.form.edit.title" /></c:if></title>
 </head>
 
 <body>
@@ -18,8 +19,8 @@
 		<section class="content">
 			<div class="box box-info">
 				<div class="box-header"><h3 class="box-title">
-					<c:if test="${action eq 'create' }">新建产品</c:if>
-					<c:if test="${action eq 'update' }">编辑产品</c:if></h3></div>
+					<c:if test="${action eq 'create' }"><spring:message code="product.form.create.title" /></c:if>
+					<c:if test="${action eq 'update' }"><spring:message code="product.form.edit.title" /></c:if></h3></div>
 				<div class="box-body">
 					<div class="row">
 						<div class="col-md-12">
@@ -31,31 +32,31 @@
 						</div>
 						<div class="col-md-6">
 							<div class="form-group">
-								<label class="col-md-3 control-label">產品名:</label>
+								<label class="col-md-3 control-label"><spring:message code="product.form.productName" />:</label>
 								<div class="col-md-9">
 									<input class="form-control" type="text" id="productName" name="productName" value="${product.productName}">
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-md-3 control-label">編號:</label>
+								<label class="col-md-3 control-label"><spring:message code="product.form.productNo" />:</label>
 								<div class="col-md-9">
 									<input class="form-control" type="text" id="productNo" name="productNo" value="${product.productNo}">
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-md-3 control-label">特征:</label>
+								<label class="col-md-3 control-label"><spring:message code="product.form.feature" />:</label>
 								<div class="col-md-9">
 									<textarea class="form-control" id="feature" name="feature" rows="5">${product.feature}</textarea>
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-md-3 control-label">描述:</label>
+								<label class="col-md-3 control-label"><spring:message code="product.form.description" />:</label>
 								<div class="col-md-9">
 									<textarea class="form-control" id="description" name="description" rows="5">${product.description}</textarea>
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-md-3 control-label">產品示意图</label>
+								<label class="col-md-3 control-label"><spring:message code="product.form.image" /></label>
 								<div class="col-md-9">
 									<div id="image_div" style="padding: 5px 0px 5px 0px;">
 										<c:if test="${product.image != null}">
@@ -64,11 +65,11 @@
 									</div>
 									<a class="btn btn-primary btn-70" onclick="showImageUploadModal('image')" data-toggle="modal"
 									   data-target="#image_modal"><i class="fa fa-upload"></i> <spring:message code="public.upload" /></a>
-									<p class="help-block"><i class="fa fa-fw fa-commenting"></i>图片上传后，需要点击保存生效.</p>
+									<p class="help-block"><i class="fa fa-fw fa-commenting"></i><spring:message code="public.image.tips" /></p>
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-md-3 control-label">產品示意图(详情)</label>
+								<label class="col-md-3 control-label"><spring:message code="product.form.imageDetail" /></label>
 								<div class="col-md-9">
 									<div id="imageDetail_div" style="padding: 5px 0px 5px 0px;">
 										<c:if test="${product.imageDetail != null}">
@@ -78,7 +79,7 @@
 									<a class="btn btn-primary btn-70" onclick="showImageUploadModal('imageDetail')"
 									   data-toggle="modal" data-target="#imageDetail_modal"><i class="fa fa-upload"></i> <spring:message code="public.upload" /></a>
 
-									<p class="help-block"><i class="fa fa-fw fa-commenting"></i>图片上传后，需要点击保存生效.</p>
+									<p class="help-block"><i class="fa fa-fw fa-commenting"></i><spring:message code="public.image.tips" /></p>
 								</div>
 							</div>
 						</div>
@@ -86,7 +87,7 @@
 				</div>
 				<div class="box-footer">
 					<button type="submit" class="btn btn-success btn-70"><i class="fa fa-save"></i> <spring:message code="public.save" /></button>
-					<button type="button" class="btn btn-primary btn-70 disabled" onclick="window.location.href='${ctx}/product'">取消</button>
+					<button type="button" class="btn btn-primary btn-70 disabled" onclick="window.location.href='${ctx}/product'"><spring:message code="public.cancel" /></button>
 				</div>
 			</div>
 		</section>
@@ -97,19 +98,19 @@
 		<div class="box" style="top: -30px">
 			<div class="box-header">
 				<button type="button" class="btn btn-primary btn-70" onclick="scaleForm('${ctx}/product/scale/create/${product.id}')"
-						data-toggle="modal" data-target="#scaleFormModal"><i class="fa fa-plus"></i> 新增</button>
+						data-toggle="modal" data-target="#scaleFormModal"><i class="fa fa-plus"></i> <spring:message code="public.add"/></button>
 			</div>
 			<div class="box-body">
 				<div class="table-responsive">
 				<table class="table table-striped table-hover dataTable" style="margin-bottom:0px;">
 					<thead>
 						<tr>
-							<th>规格</th>
-							<th>12月/单价</th>
-							<th>6月/单价</th>
-							<th>3月/单价</th>
-							<th>1月/单价</th>
-							<th>库存</th>
+							<th><spring:message code="scale.body.name" /></th>
+							<th><spring:message code="scale.body.twelveMonthPrice" /></th>
+							<th><spring:message code="scale.body.sixMonthPrice" /></th>
+							<th><spring:message code="scale.body.threeMonthPrice" /></th>
+							<th><spring:message code="scale.body.oneMonthPrice" /></th>
+							<th><spring:message code="scale.body.number" /></th>
 							<th><spring:message code="public.oper" /></th>
 						</tr>
 					</thead>

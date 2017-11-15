@@ -24,7 +24,7 @@ public class Validator {
     /**
      * 正则表达式：验证香港手机号
      */
-    public static final String REGEX_HK_MOBILE = "^((13[0-9])|(15[^4,\\D])|(18[0,5-9]))\\d{8}$";
+    public static final String REGEX_HK_MOBILE = "^([6|9])\\d{7}$|^[0][9]\\d{8}$";
 
     /**
      * 正则表达式：验证邮箱
@@ -142,8 +142,8 @@ public class Validator {
     }
 
     public static void main(String[] args) {
-        String username = "17620021827";
-        System.out.println(Validator.isMobile(username));
+        String username = "64312222";
+        System.out.println(Validator.isHongKongMobile(username));
     }
 
 }

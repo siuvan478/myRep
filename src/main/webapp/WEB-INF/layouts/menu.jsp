@@ -18,27 +18,27 @@
             <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
                 <ul class="nav navbar-nav">
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">会员管理 <span class="caret"></span></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><spring:message code="menu.user.mgt"/> <span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
-                            <li><a href="${ctx}/user">会员列表</a></li>
-                            <li><a href="${ctx}/address">取货地址列表</a></li>
+                            <li><a href="${ctx}/user"><spring:message code="menu.user.mgt.user"/></a></li>
+                            <li><a href="${ctx}/address"><spring:message code="menu.user.mgt.address"/></a></li>
                         </ul>
                     </li>
 
-                    <li><a href="${ctx}/product">产品管理</a></li>
+                    <li><a href="${ctx}/product"><spring:message code="menu.product.mgt"/></a></li>
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">订单管理 <%--<span id="refreshOrderNum" class="badge">2</span>--%><span class="caret"></span></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><spring:message code="menu.order.mgt"/> <%--<span id="refreshOrderNum" class="badge">2</span>--%><span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
-                            <li><a href="${ctx}/order">订单列表</a></li>
-                            <li><a href="${ctx}/boxService">服务列表</a></li>
+                            <li><a href="${ctx}/order"><spring:message code="menu.order.mgt.order"/></a></li>
+                            <li><a href="${ctx}/boxService"><spring:message code="menu.order.mgt.service"/></a></li>
                         </ul>
                     </li>
 
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">设置 <span class="caret"></span></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><spring:message code="menu.setting"/> <span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
-                            <li><a href="${ctx}/area">区域</a></li>
-                            <li><a href="${ctx}/config">配置</a></li>
+                            <li><a href="${ctx}/area"><spring:message code="menu.setting.area"/></a></li>
+                            <li><a href="${ctx}/config"><spring:message code="menu.setting.business"/></a></li>
                         </ul>
                     </li>
                 </ul>
@@ -62,12 +62,11 @@
                             <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu" role="menu">
-                            <li><a href="${ctx}/profile"><i class="fa fa-user fa-fw"></i><spring:message code="header.userprofile" /></a></li>
+                            <li><a href="${ctx}/profile"><i class="fa fa-user fa-fw"></i><spring:message code="menu.profile" /></a></li>
                             <li class="divider"></li>
-                            <li><a href="${ctx}/logout"><i class="fa fa-sign-out fa-fw"></i></i><spring:message code="header.logout" /></a></li>
+                            <li><a href="${ctx}/logout"><i class="fa fa-sign-out fa-fw"></i></i><spring:message code="menu.logout" /></a></li>
                         </ul>
                     </li>
-
                 </ul>
             </div><!-- /.navbar-custom-menu -->
         </div><!-- /.container-fluid -->

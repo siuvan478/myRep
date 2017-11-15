@@ -1,6 +1,5 @@
-<%@page import="org.springframework.web.servlet.support.RequestContextUtils"%>
-<%@page import="org.springframework.web.servlet.LocaleResolver"%>
-<%@ page import="org.springframework.context.i18n.LocaleContextHolder"%>
+<%@ page import="org.springframework.web.servlet.support.RequestContextUtils"%>
+<%@ page import="org.springframework.web.servlet.LocaleResolver"%>
 <%@ page contentType="text/html;charset=UTF-8"%>
 <%@ taglib prefix="sitemesh" uri="http://www.opensymphony.com/sitemesh/decorator"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -11,7 +10,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link rel="shortcut icon" href="${ctx}/static/images/favicon.ico">
-    <title>Box | <sitemesh:title/></title>
+    <title>FREE-BOX | <sitemesh:title/></title>
 
     <style type="text/css">
         table th{word-break: keep-all;white-space:nowrap;}

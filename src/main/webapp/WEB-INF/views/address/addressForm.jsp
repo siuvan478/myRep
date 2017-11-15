@@ -6,7 +6,7 @@
 
 <html>
 <head>
-	<title>取货地址管理</title>
+	<title><spring:message code="address.form.edit.title"/></title>
 </head>
 <body>
 
@@ -14,7 +14,7 @@
 	<input type="hidden" name="id" value="${address.id}" />
 	<section class="content">
 		<div class="box box-info">
-			<div class="box-header"><h3 class="box-title">取货地址管理</div>
+			<div class="box-header"><h3 class="box-title"><spring:message code="address.form.edit.title"/></h3></div>
 			<div class="box-body">
 				<div class="row">
 					<div class="col-md-12">
@@ -27,31 +27,31 @@
 					</div>
 					<div class="col-md-6">
 						<div class="form-group">
-							<label class="col-md-3 control-label">联系人:</label>
+							<label class="col-md-3 control-label"><spring:message code="address.form.name"/>:</label>
 							<div class="col-md-9">
 								<input class="form-control" type="text" value="${address.contactName}" readonly>
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-md-3 control-label">手机号:</label>
+							<label class="col-md-3 control-label"><spring:message code="address.form.phone"/>:</label>
 							<div class="col-md-9">
 								<input class="form-control" type="text" value="${address.contactPhone}" readonly>
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-md-3 control-label">电子邮箱:</label>
+							<label class="col-md-3 control-label"><spring:message code="address.form.email"/>:</label>
 							<div class="col-md-9">
 								<input class="form-control" type="text" value="${address.contactEmail}" readonly>
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-md-3 control-label">区域:</label>
+							<label class="col-md-3 control-label"><spring:message code="address.form.area"/>:</label>
 							<div class="col-md-9">
 								<tags:selectbox name="areaId" map="${areas}" value="${address.areaId}" empty="true"/>
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-md-3 control-label">地址:</label>
+							<label class="col-md-3 control-label"><spring:message code="address.form.detailAddress"/>:</label>
 							<div class="col-md-9">
 								<input class="form-control" type="text" id="address" name="address" value="${address.address}">
 							</div>
@@ -61,7 +61,7 @@
 			</div>
 			<div class="box-footer">
 				<button type="submit" class="btn btn-success btn-70"><i class="fa fa-save"></i> <spring:message code="public.save" /></button>
-				<button type="button" class="btn btn-primary btn-70 disabled" onclick="window.location.href='${ctx}/address'">取消</button>
+				<button type="button" class="btn btn-primary btn-70 disabled" onclick="window.location.href='${ctx}/address'"><spring:message code="public.cancel" /></button>
 			</div>
 		</div>
 	</section>

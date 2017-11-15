@@ -6,7 +6,7 @@
 
 <html>
 <head>
-<title>产品列表</title>
+<title><spring:message code="product.list.header.title" /></title>
 </head>
 <body>
 	<br />
@@ -19,7 +19,7 @@
 			<div class="col-lg-12">
 				<div class="panel panel-info">
 					<div class="panel-heading">
-						产品列表
+						<spring:message code="product.list.header.title" />
 						<small></small>
 						<button type="button" class="btn-mini btn-link pull-right search-plus-minus">
 							<i class="fa fa-search-minus"></i>
@@ -29,16 +29,16 @@
 						<div class="row">
 							<div class="col-lg-4">
 								<div class="form-group">
-									<label for="productName">產品名</label>
+									<label for="productName"><spring:message code="product.list.header.productName" /></label>
 									<input type="text" class="form-control" id="productName" name="productName" value="<c:out value="${pages.searchMap['productName']}"/>"
-										   placeholder="Enter Product name...">
+										   placeholder="<spring:message code="product.list.header.productName" />">
 								</div>
 							</div>
 							<div class="col-lg-4">
 								<div class="form-group">
-									<label for="productName">編號</label>
+									<label for="productName"><spring:message code="product.list.header.productNo" /></label>
 									<input type="text" class="form-control" id="productNo" name="productNo" value="<c:out value="${pages.searchMap['productNo']}"/>"
-										   placeholder="Enter Product number...">
+										   placeholder="<spring:message code="product.list.header.productNo" />">
 								</div>
 							</div>
 						</div>
@@ -70,9 +70,9 @@
 						<table class="table table-striped table-hover dataTable" style="margin-bottom:0px;">
 							<thead>
 								<tr>
-									<th <tags:sort column="productName" page="${pages}"/>>產品名</th>
-									<th <tags:sort column="productNo" page="${pages}"/>>編號</th>
-									<th <tags:sort column="status" page="${pages}"/>>状态</th>
+									<th <tags:sort column="productName" page="${pages}"/>><spring:message code="product.list.body.productName" /></th>
+									<th <tags:sort column="productNo" page="${pages}"/>><spring:message code="product.list.body.productNo" /></th>
+									<th <tags:sort column="status" page="${pages}"/>><spring:message code="product.list.body.status" /></th>
 									<th><spring:message code="public.oper" /></th>
 								</tr>
 							</thead>
@@ -83,10 +83,10 @@
 										<td>${product.productNo}</td>
 										<td>
 											<c:if test="${product.status eq 1}">
-												有效
+												<spring:message code="product.list.body.status.valid"/>
 											</c:if>
 											<c:if test="${product.status ne 1}">
-												无效
+												<spring:message code="product.list.body.status.invalid"/>
 											</c:if>
 										</td>
 										<td>

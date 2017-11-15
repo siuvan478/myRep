@@ -6,7 +6,7 @@
 
 <html>
 <head>
-<title><spring:message code="user.list" /></title>
+<title><spring:message code="user.list.header.title" /></title>
 </head>
 <body>
 	<br />
@@ -19,7 +19,7 @@
 			<div class="col-lg-12">
 				<div class="panel panel-info">
 					<div class="panel-heading">
-						<spring:message code="user.list" />
+						<spring:message code="user.list.header.title" />
 						<small></small>
 						<button type="button" class="btn-mini btn-link pull-right search-plus-minus">
 							<i class="fa fa-search-minus"></i>
@@ -29,30 +29,30 @@
 						<div class="row">
 							<div class="col-lg-4">
 								<div class="form-group">
-									<label for="name"><spring:message code="user.name" /></label>
+									<label for="name"><spring:message code="user.list.header.name" /></label>
 									<input type="text" class="form-control" id="name" name="name" value="<c:out value="${pages.searchMap['name']}"/>"
-										   placeholder="<spring:message code="user.name" />">
+										   placeholder="<spring:message code="user.list.header.name" />">
 								</div>
 							</div>
 							<div class="col-lg-4">
 								<div class="form-group">
-									<label for="loginName"><spring:message code="index.loginname" /></label>
+									<label for="loginName"><spring:message code="user.list.header.loginName" /></label>
 									<input type="text" class="form-control" id="loginName" name="loginName" value="<c:out value="${pages.searchMap['loginName']}"/>"
-										   placeholder="<spring:message code="index.loginname" />">
+										   placeholder="<spring:message code="user.list.header.loginName" />">
 								</div>
 							</div>
 							<div class="col-lg-4">
 								<div class="form-group">
-									<label for="email">邮箱</label>
+									<label for="email"><spring:message code="user.list.header.email" /></label>
 									<input type="text" class="form-control" id="email" name="email" value="<c:out value="${pages.searchMap['email']}"/>"
-										   placeholder="邮箱">
+										   placeholder="<spring:message code="user.list.header.email" />">
 								</div>
 							</div>
 							<div class="col-lg-4">
 								<div class="form-group">
-									<label for="email">手机号</label>
+									<label for="email"><spring:message code="user.list.header.phone" /></label>
 									<input type="text" class="form-control" id="phone" name="phone" value="<c:out value="${pages.searchMap['phone']}"/>"
-										   placeholder="手机号">
+										   placeholder="<spring:message code="user.list.header.phone" />">
 								</div>
 							</div>
 						</div>
@@ -84,11 +84,11 @@
 						<table class="table table-striped  table-hover dataTable" style="margin-bottom:0px;">
 							<thead>
 								<tr>
-									<th <tags:sort column="name" page="${pages}"/>><spring:message code="user.name" /></th>
-									<th <tags:sort column="login_name" page="${pages}"/>><spring:message code="index.loginname" /></th>
-									<th>邮箱</th>
-									<th>手机号</th>
-									<th>注册时间</th>
+									<th <tags:sort column="name" page="${pages}"/>><spring:message code="user.list.body.name" /></th>
+									<th <tags:sort column="login_name" page="${pages}"/>><spring:message code="user.list.body.loginName" /></th>
+									<th><spring:message code="user.list.body.email" /></th>
+									<th><spring:message code="user.list.body.phone" /></th>
+									<th><spring:message code="user.list.body.registerTime" /></th>
 									<th><spring:message code="public.oper" /></th>
 								</tr>
 							</thead>

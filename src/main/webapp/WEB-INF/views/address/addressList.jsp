@@ -6,7 +6,7 @@
 
 <html>
 <head>
-<title>取货地址列表</title>
+<title><spring:message code="address.list.header.title"/></title>
 </head>
 <body>
 	<br />
@@ -22,7 +22,7 @@
 			<div class="col-lg-12">
 				<div class="panel panel-info">
 					<div class="panel-heading">
-						取货地址列表
+						<spring:message code="address.list.header.title"/>
 						<small></small>
 						<button type="button" class="btn-mini btn-link pull-right search-plus-minus">
 							<i class="fa fa-search-minus"></i>
@@ -32,22 +32,22 @@
 						<div class="row">
 							<div class="col-lg-4">
 								<div class="form-group">
-									<label for="areaId">联系人姓名</label>
+									<label for="areaId"><spring:message code="address.list.header.name"/></label>
 									<input type="text" class="form-control" id="contactName" name="contactName" value="<c:out value="${pages.searchMap['contactName']}"/>"
-										   placeholder="输入关键字...">
+										   placeholder="<spring:message code="address.list.header.name"/>">
 								</div>
 							</div>
 							<div class="col-lg-4">
 								<div class="form-group">
-									<label for="areaId">区域</label>
+									<label for="areaId"><spring:message code="address.list.header.area"/></label>
 									<tags:selectbox name="areaId" map="${areas}" value="${pages.searchMap['areaId']}" empty="true"/>
 								</div>
 							</div>
 							<div class="col-lg-4">
 								<div class="form-group">
-									<label for="address">地址</label>
+									<label for="address"><spring:message code="address.list.header.detailAddress"/></label>
 									<input type="text" class="form-control" id="address" name="address" value="<c:out value="${pages.searchMap['address']}"/>"
-										   placeholder="输入关键字...">
+										   placeholder="<spring:message code="address.list.header.detailAddress"/>">
 								</div>
 							</div>
 						</div>
@@ -77,9 +77,9 @@
 						<table class="table table-striped table-hover dataTable" style="margin-bottom:0px;">
 							<thead>
 								<tr>
-									<th>联系人</th>
-									<th <tags:sort column="areaId" page="${pages}"/>>区域</th>
-									<th>地址</th>
+									<th><spring:message code="address.list.body.name"/></th>
+									<th <tags:sort column="areaId" page="${pages}"/>><spring:message code="address.list.body.area"/></th>
+									<th><spring:message code="address.list.body.detailAddress"/></th>
 									<th><spring:message code="public.oper" /></th>
 								</tr>
 							</thead>
@@ -135,7 +135,7 @@
 			});
 
 			$("#areaId").select2({
-				placeholder: "Please select...",
+				placeholder: "<spring:message code="select2.placeholder" />",
 				allowClear: true,
 				language: lang_options(1)
 			});

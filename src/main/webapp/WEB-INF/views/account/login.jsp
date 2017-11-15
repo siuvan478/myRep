@@ -14,7 +14,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link rel="shortcut icon" href="${ctx}/static/images/favicon.ico">
-    <title>登入 | FREEMAN</title>
+    <title>FREE-BOX | <spring:message code="public.login"/></title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.5 -->
@@ -97,20 +97,20 @@
 
         <form id="loginForm" action="${ctx}/login" method="post">
             <div class="form-group has-feedback">
-                <input type="text" class="form-control" name="username" placeholder="Enter username...">
+                <input type="text" class="form-control" name="username" placeholder="<spring:message code="login.loginName" />">
                 <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
             </div>
             <div class="form-group has-feedback">
-                <input type="password" class="form-control" name="password" placeholder="Enter password...">
+                <input type="password" class="form-control" name="password" placeholder="<spring:message code="login.password" />">
                 <span class="glyphicon glyphicon-lock form-control-feedback"></span>
             </div>
 
             <c:if test="${jcaptchaEbabled}">
                 <div class="form-group input-group">
                     <input type="text" id="jcaptchaCode" name="jcaptchaCode" class="form-control col-sm-6" style="width: 50%"
-                           placeholder="Verification code...">
-                    <img class="col-sm-6 jcaptcha-btn jcaptcha-img" style="height: 34px" id="jcaptchaCodeImg" src="${pageContext.request.contextPath}/jcaptcha.jpg"
-                         title="登陆验证码">
+                           placeholder="<spring:message code="login.verifyCode" />">
+                    <img class="col-sm-6 jcaptcha-btn jcaptcha-img" style="height: 34px" id="jcaptchaCodeImg"
+                         src="${pageContext.request.contextPath}/jcaptcha.jpg">
                 </div>
             </c:if>
 
@@ -118,7 +118,7 @@
                 <div class="col-xs-8">
                     <div class="checkbox icheck">
                         <label>
-                            <input name="rememberMe" type="checkbox" value="true"> 记住我
+                            <input name="rememberMe" type="checkbox" value="true"> <spring:message code="login.rememberMe" />
                         </label>
                     </div>
                 </div><!-- /.col -->

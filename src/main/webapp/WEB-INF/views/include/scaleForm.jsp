@@ -4,7 +4,6 @@
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags"%>
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
 
-
 <div class="modal-dialog">
     <div class="modal-content message_align">
         <form id="scaleForm" action="${ctx}/product/scale/${action2}" method="post" class="form-horizontal">
@@ -14,14 +13,14 @@
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
             <h4 class="modal-title">
-                <c:if test="${action2 eq 'create' }">新建产品规格</c:if>
-                <c:if test="${action2 eq 'update' }">编辑产品规格</c:if>
+                <c:if test="${action2 eq 'create' }"><spring:message code="scale.form.create.title" /></c:if>
+                <c:if test="${action2 eq 'update' }"><spring:message code="scale.form.edit.title" /></c:if>
             </h4>
         </div>
         <div class="modal-body">
                 <div class="col-md-12">
                     <div class="form-group">
-                        <label class="col-md-3 control-label">规格:</label>
+                        <label class="col-md-3 control-label"><spring:message code="scale.form.name" />:</label>
                         <div class="col-md-9">
                             <input class="form-control" type="text" id="scale" name="scale" value="${scaleForm.scale}">
                         </div>
@@ -29,7 +28,7 @@
                 </div>
                 <div class="col-md-12">
                     <div class="form-group">
-                        <label class="col-md-3 control-label" for="twelveMonthPrice">购买1年单价:</label>
+                        <label class="col-md-3 control-label" for="twelveMonthPrice"><spring:message code="scale.form.twelveMonthPrice" />:</label>
                         <div class="input-group col-md-9" style="padding: 0px 15px 0px 15px;">
                             <div class="input-group-addon">$</div>
                             <input type="text" class="form-control" name="twelveMonthPrice" id="twelveMonthPrice"
@@ -40,7 +39,7 @@
                 </div>
                 <div class="col-md-12">
                     <div class="form-group">
-                        <label class="col-md-3 control-label" for="sixMonthPrice">购买6个月单价:</label>
+                        <label class="col-md-3 control-label" for="sixMonthPrice"><spring:message code="scale.form.sixMonthPrice" />:</label>
                         <div class="input-group col-md-9" style="padding: 0px 15px 0px 15px;">
                             <div class="input-group-addon">$</div>
                             <input type="text" class="form-control" name="sixMonthPrice" id="sixMonthPrice"
@@ -51,7 +50,7 @@
                 </div>
                 <div class="col-md-12">
                     <div class="form-group">
-                        <label class="col-md-3 control-label" for="threeMonthPrice">购买3个月单价:</label>
+                        <label class="col-md-3 control-label" for="threeMonthPrice"><spring:message code="scale.form.threeMonthPrice" />:</label>
                         <div class="input-group col-md-9" style="padding: 0px 15px 0px 15px;">
                             <div class="input-group-addon">$</div>
                             <input type="text" class="form-control" name="threeMonthPrice" id="threeMonthPrice"
@@ -62,7 +61,7 @@
                 </div>
                 <div class="col-md-12">
                     <div class="form-group">
-                        <label class="col-md-3 control-label" for="oneMonthPrice">购买1个月单价:</label>
+                        <label class="col-md-3 control-label" for="oneMonthPrice"><spring:message code="scale.form.oneMonthPrice" />:</label>
                         <div class="input-group col-md-9" style="padding: 0px 15px 0px 15px;">
                             <div class="input-group-addon">$</div>
                             <input type="text" class="form-control" name="oneMonthPrice" id="oneMonthPrice"
@@ -73,7 +72,7 @@
                 </div>
                 <div class="col-md-12">
                     <div class="form-group">
-                        <label class="col-md-3 control-label">库存:</label>
+                        <label class="col-md-3 control-label"><spring:message code="scale.form.number" />:</label>
                         <div class="col-md-9">
                             <input class="form-control" type="text" id="num" name="num" value="${scaleForm.num}">
                         </div>
@@ -82,8 +81,8 @@
             <div class="clearfix"></div>
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-            <button type="submit" class="btn btn-success">确定</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal"><spring:message code="public.cancel" /></button>
+            <button type="submit" class="btn btn-success"><spring:message code="public.commit" /></button>
         </div>
         </form>
     </div>
