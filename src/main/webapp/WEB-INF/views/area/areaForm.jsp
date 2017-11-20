@@ -6,7 +6,7 @@
 
 <html>
 <head>
-<title>区域管理</title>
+<title><spring:message code="area.form.title"/></title>
 </head>
 
 <body>
@@ -15,7 +15,7 @@
 	<input type="hidden" name="id" value="${area.id}" />
 	<section class="content">
 		<div class="box box-info">
-			<div class="box-header"><h3 class="box-title">区域管理</h3></div>
+			<div class="box-header"><h3 class="box-title"><spring:message code="area.form.title"/></h3></div>
 			<div class="box-body">
 				<div class="row">
 					<div class="col-md-12">
@@ -28,13 +28,13 @@
 					</div>
 					<div class="col-md-6">
 						<div class="form-group">
-							<label class="col-md-3 control-label">区域名称:</label>
+							<label class="col-md-3 control-label"><spring:message code="area.list.header.name"/>:</label>
 							<div class="col-md-9">
 								<input class="form-control" type="text" id="name" name="name" value="${area.name}">
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-md-3 control-label">区域名称(英文):</label>
+							<label class="col-md-3 control-label"><spring:message code="area.list.header.nameEN"/>:</label>
 							<div class="col-md-9">
 								<input class="form-control" type="text" id="nameEN" name="nameEN" value="${area.nameEN}">
 							</div>
@@ -44,7 +44,7 @@
 			</div>
 			<div class="box-footer">
 				<button type="submit" class="btn btn-success btn-70"><i class="fa fa-save"></i> <spring:message code="public.save" /></button>
-				<button type="button" class="btn btn-primary btn-70 disabled" onclick="window.location.href='${ctx}/area'">取消</button>
+				<button type="button" class="btn btn-primary btn-70 disabled" onclick="window.location.href='${ctx}/area'"><spring:message code="public.cancel" /></button>
 			</div>
 		</div>
 	</section>

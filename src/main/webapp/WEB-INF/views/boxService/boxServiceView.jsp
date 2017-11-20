@@ -13,10 +13,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>
-        文件柜服务详情
-    </title>
-
+    <title><spring:message code="service.view.title"/></title>
 </head>
 
 <body>
@@ -24,36 +21,36 @@
 	<div role="form"class="form-horizontal">
 		 <section class="content">
 			<div class="box box-info">
-				<div class="box-header"><h3 class="box-title">文件柜服务详情</h3></div>
+				<div class="box-header"><h3 class="box-title"><spring:message code="service.view.title"/></h3></div>
 				<div class="box-body">
 					<div class="row">
 						<div class="col-md-8">
 							<dl class="dl-horizontal">
-								<dt>联络人姓名</dt>
+								<dt><spring:message code="service.view.contactName"/></dt>
 								<dd>${boxServiceForm.contactName}</dd>
 							</dl>
 							<dl class="dl-horizontal">
-								<dt>联络人电话</dt>
+								<dt><spring:message code="service.view.contactPhone"/></dt>
 								<dd>${boxServiceForm.contactPhone}</dd>
 							</dl>
 							<dl class="dl-horizontal">
-								<dt>联络人邮箱</dt>
+								<dt><spring:message code="service.view.contactEmail"/></dt>
 								<dd>${boxServiceForm.contactEmail}</dd>
 							</dl>
 							<dl class="dl-horizontal">
-								<dt>联络地址</dt>
+								<dt><spring:message code="service.view.contactAddress"/></dt>
 								<dd>${boxServiceForm.areaName}${boxServiceForm.address}</dd>
 							</dl>
 							<dl class="dl-horizontal">
-								<dt>产品类型</dt>
+								<dt><spring:message code="service.view.productId"/></dt>
 								<dd>${boxServiceForm.productName}</dd>
 							</dl>
 							<dl class="dl-horizontal">
-								<dt>产品规格</dt>
+								<dt><spring:message code="service.view.scale"/></dt>
 								<dd>${boxServiceForm.scaleName}</dd>
 							</dl>
 							<dl class="dl-horizontal">
-								<dt>期限</dt>
+								<dt><spring:message code="service.view.cycle"/></dt>
 								<dd>
 									<c:forEach var="cycle" items="${cycles}">
 										<c:if test="${cycle.key eq boxServiceForm.cycle}">
@@ -63,7 +60,7 @@
 								</dd>
 							</dl>
 							<dl class="dl-horizontal">
-								<dt>服务柜状态</dt>
+								<dt><spring:message code="service.view.useStatus"/></dt>
 								<dd>
 									<c:forEach var="flag" items="${flags}">
 									<c:if test="${flag.key eq boxServiceForm.flag}">
@@ -73,15 +70,15 @@
 								</dd>
 							</dl>
 							<dl class="dl-horizontal">
-								<dt>服务期间</dt>
+								<dt><spring:message code="service.view.servicePeriod"/></dt>
 								<dd>${boxServiceForm.startTime} - ${boxServiceForm.endTime}</dd>
 							</dl>
 							<dl class="dl-horizontal">
-								<dt>分配编号</dt>
+								<dt><spring:message code="service.view.belongNo"/></dt>
 								<dd>${boxServiceForm.belongNo}</dd>
 							</dl>
 							<dl class="dl-horizontal">
-								<dt>服务状态</dt>
+								<dt><spring:message code="service.view.status"/></dt>
 								<dd>
 									<c:forEach var="status" items="${statuses}">
 										<c:if test="${status.key eq boxServiceForm.status}">
@@ -99,7 +96,7 @@
 
 	<section class="content">
 		<div class="box" style="top: -30px">
-			<div class="box-header"><h3 class="box-title">最近一次记录</h3></div>
+			<div class="box-header"><h3 class="box-title"><spring:message code="record.view.title"/></h3></div>
 			<div class="box-body">
 				<div class="row">
 					<div class="col-md-9">
@@ -110,46 +107,47 @@
 						<input type="hidden" name="picture2" id="picture2" value="${records[0].picture2}">
 						<input type="hidden" name="picture3" id="picture3" value="${records[0].picture3}">
 						<dl class="dl-horizontal">
-							<dt>预约时间</dt>
+							<dt><spring:message code="record.view.appointmentTime"/></dt>
 							<dd>${records[0].appointmentTime}</dd>
 						</dl>
 						<dl class="dl-horizontal">
-							<dt>费用</dt>
+							<dt><spring:message code="record.view.serviceFee"/></dt>
 							<dd>${records[0].cost}</dd>
 						</dl>
 						<dl class="dl-horizontal">
-							<dt>申请时间</dt>
+							<dt><spring:message code="record.view.createTime"/></dt>
 							<dd>${records[0].createTime}</dd>
 						</dl>
 						<dl class="dl-horizontal">
-							<dt>状态</dt>
+							<dt><spring:message code="record.view.status"/></dt>
 							<dd>
 								<c:if test="${records[0].status eq 1}">
+
 									<select name="status" class="form-control status" id="status">
 										<c:if test="${records[0].type eq 1}">
-											<option value="1" <c:if test="${records[0].status eq 1}">selected</c:if>>等待收件</option>
-											<option value="2" <c:if test="${records[0].status eq 2}">selected</c:if>>已收件</option>
+											<option value="1" <c:if test="${records[0].status eq 1}">selected</c:if>><spring:message code="record.type1.status1"/></option>
+											<option value="2" <c:if test="${records[0].status eq 2}">selected</c:if>><spring:message code="record.type1.status2"/></option>
 										</c:if>
 										<c:if test="${records[0].type eq 2}">
-											<option value="1" <c:if test="${records[0].status eq 1}">selected</c:if> >等待提货</option>
-											<option value="2" <c:if test="${records[0].status eq 2}">selected</c:if>>已提货</option>
+											<option value="1" <c:if test="${records[0].status eq 1}">selected</c:if> ><spring:message code="record.type2.status1"/></option>
+											<option value="2" <c:if test="${records[0].status eq 2}">selected</c:if>><spring:message code="record.type2.status2"/></option>
 										</c:if>
 									</select>
 								</c:if>
 								<c:if test="${records[0].status ne 1}">
 									<label class="label label-info">
 									<c:if test="${records[0].type eq 1}">
-										已收件
+										<spring:message code="record.type1.status2"/>
 									</c:if>
 									<c:if test="${records[0].type eq 2}">
-										已提货
+										<spring:message code="record.type2.status2"/>
 									</c:if>
 									</label>
 								</c:if>
 							</dd>
 						</dl>
 						<dl class="dl-horizontal">
-							<dt>照片</dt>
+							<dt><spring:message code="record.view.picture"/></dt>
 							<dd>
 								<c:if test="${records[0].status eq 2}">
 									<c:if test="${records[0].picture1 != null and records[0].picture1 != ''}">
@@ -164,14 +162,14 @@
 								</c:if>
 								<c:if test="${records[0].status eq 1}">
 									<div id="zyupload" class="zyupload"></div>
-									<p class="help-block"><i class="fa fa-fw fa-commenting"></i>图片上传后，需要点击保存生效.</p>
+									<p class="help-block"><i class="fa fa-fw fa-commenting"></i><spring:message code="public.image.tips"/></p>
 								</c:if>
 							</dd>
 						</dl>
 						</form><!--./form-->
 						</c:if>
 						<c:if test="${fn:length(records) == 0}">
-							<div class="box-comment text-center">没有记录</div>
+							<div class="box-comment text-center"><spring:message code="record.view.noRecord"/></div>
 						</c:if>
 					</div>
 				</div>
@@ -179,13 +177,13 @@
 			<div class="box-footer">
 				<c:if test="${fn:length(records) > 0}">
 					<c:if test="${records[0].status eq 1}">
-					<button class="btn btn-success btn-100" onclick="submitBoxRecordForm();">
-						确认完成
+					<button class="btn btn-success btn-70" onclick="submitBoxRecordForm();">
+						<spring:message code="public.confirm"/>
 					</button>
 					</c:if>
 				</c:if>
 				<button class="btn btn-primary disabled btn-70" onclick="window.location.href='${ctx}/boxService'">
-					返回
+					<spring:message code="public.back"/>
 				</button>
 			</div>
 		</div>
@@ -248,7 +246,7 @@
 				}
 			});
 			if(flag==false){
-				if(confirm("没有上传文件，确认提交保存?")){
+				if(confirm("<spring:message code="record.view.confirmSubmit.tips" />")){
 					$("#boxRecordForm").submit();
 				}
 			}else{

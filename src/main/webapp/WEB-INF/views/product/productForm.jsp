@@ -63,7 +63,7 @@
 											<img class="col-md-12" src="${ctx}/file/dumpImage?path=${product.image}"  />
 										</c:if>
 									</div>
-									<a class="btn btn-primary btn-70" onclick="showImageUploadModal('image')" data-toggle="modal"
+									<a class="btn btn-primary btn-100" onclick="showImageUploadModal('image')" data-toggle="modal"
 									   data-target="#image_modal"><i class="fa fa-upload"></i> <spring:message code="public.upload" /></a>
 									<p class="help-block"><i class="fa fa-fw fa-commenting"></i><spring:message code="public.image.tips" /></p>
 								</div>
@@ -76,7 +76,7 @@
 											<img class="col-md-12" src="${ctx}/file/dumpImage?path=${product.imageDetail}"  />
 										</c:if>
 									</div>
-									<a class="btn btn-primary btn-70" onclick="showImageUploadModal('imageDetail')"
+									<a class="btn btn-primary btn-100" onclick="showImageUploadModal('imageDetail')"
 									   data-toggle="modal" data-target="#imageDetail_modal"><i class="fa fa-upload"></i> <spring:message code="public.upload" /></a>
 
 									<p class="help-block"><i class="fa fa-fw fa-commenting"></i><spring:message code="public.image.tips" /></p>

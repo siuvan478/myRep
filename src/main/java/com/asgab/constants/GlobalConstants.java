@@ -15,41 +15,59 @@ public class GlobalConstants {
      * 订单状态
      */
     public static final Map<String, String> ORDER_STATUS_ZH = new TreeMap<>();
+    public static final Map<String, String> ORDER_STATUS_EN = new TreeMap<>();
 
     /**
      * 购买周期
      */
     public static final Map<String, String> PRODUCT_CYCLE_ZH = new TreeMap<>();
+    public static final Map<String, String> PRODUCT_CYCLE_EN = new TreeMap<>();
 
     /**
      * 文件柜服务开关
      */
     public static final Map<String, String> BOX_SERVICE_FLAG_ZH = new TreeMap<>();
+    public static final Map<String, String> BOX_SERVICE_FLAG_EN = new TreeMap<>();
 
     /**
      * 文件柜服务状态
      */
     public static final Map<String, String> BOX_SERVICE_STATUS_ZH = new TreeMap<>();
+    public static final Map<String, String> BOX_SERVICE_STATUS_EN = new TreeMap<>();
 
     static {
         //===
         ORDER_STATUS_ZH.put("0", "已取消");
-        ORDER_STATUS_ZH.put("1", "新订单");
+        ORDER_STATUS_ZH.put("1", "新訂單");
         ORDER_STATUS_ZH.put("2", "已生效");
+        ORDER_STATUS_EN.put("0", "Cancel");
+        ORDER_STATUS_EN.put("1", "New");
+        ORDER_STATUS_EN.put("2", "Valid");
         //===
-        PRODUCT_CYCLE_ZH.put("1", "1个月");
-        PRODUCT_CYCLE_ZH.put("2", "3个月");
-        PRODUCT_CYCLE_ZH.put("3", "6个月");
-        PRODUCT_CYCLE_ZH.put("4", "12个月");
+        PRODUCT_CYCLE_ZH.put("1", "1個月");
+        PRODUCT_CYCLE_ZH.put("2", "3個月");
+        PRODUCT_CYCLE_ZH.put("3", "6個月");
+        PRODUCT_CYCLE_ZH.put("4", "12個月");
+        PRODUCT_CYCLE_EN.put("1", "1/months");
+        PRODUCT_CYCLE_EN.put("2", "3/months");
+        PRODUCT_CYCLE_EN.put("3", "6/months");
+        PRODUCT_CYCLE_EN.put("4", "12/months");
         //===
-        BOX_SERVICE_FLAG_ZH.put("0", "闲置");
+        BOX_SERVICE_FLAG_ZH.put("0", "閒置");
         BOX_SERVICE_FLAG_ZH.put("1", "使用中");
+        BOX_SERVICE_FLAG_EN.put("0", "Free");
+        BOX_SERVICE_FLAG_EN.put("1", "Using");
         //==
-        BOX_SERVICE_STATUS_ZH.put(ServiceStatus.WAIT_FOR_SAVE.toString(), "等待收货");
-        BOX_SERVICE_STATUS_ZH.put(ServiceStatus.SAVED.toString(), "已收货");
-        BOX_SERVICE_STATUS_ZH.put(ServiceStatus.WAIT_FOR_TAKE.toString(), "等待提货");
-        BOX_SERVICE_STATUS_ZH.put(ServiceStatus.TAKEN.toString(), "已提货");
-        BOX_SERVICE_STATUS_ZH.put(ServiceStatus.EXPIRY.toString(), "已过期");
+        BOX_SERVICE_STATUS_ZH.put(ServiceStatus.WAIT_FOR_SAVE.toString(), "等待收貨");
+        BOX_SERVICE_STATUS_ZH.put(ServiceStatus.SAVED.toString(), "已收貨");
+        BOX_SERVICE_STATUS_ZH.put(ServiceStatus.WAIT_FOR_TAKE.toString(), "等待提貨");
+        BOX_SERVICE_STATUS_ZH.put(ServiceStatus.TAKEN.toString(), "已提貨");
+        BOX_SERVICE_STATUS_ZH.put(ServiceStatus.EXPIRY.toString(), "已過期");
+        BOX_SERVICE_STATUS_EN.put(ServiceStatus.WAIT_FOR_SAVE.toString(), "Wait for save");
+        BOX_SERVICE_STATUS_EN.put(ServiceStatus.SAVED.toString(), "Saved");
+        BOX_SERVICE_STATUS_EN.put(ServiceStatus.WAIT_FOR_TAKE.toString(), "Wait for take");
+        BOX_SERVICE_STATUS_EN.put(ServiceStatus.TAKEN.toString(), "Taken");
+        BOX_SERVICE_STATUS_EN.put(ServiceStatus.EXPIRY.toString(), "Invalid");
     }
 
     /**

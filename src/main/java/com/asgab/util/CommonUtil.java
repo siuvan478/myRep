@@ -2,12 +2,15 @@ package com.asgab.util;
 
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.LocaleResolver;
+import org.springframework.web.servlet.support.RequestContextUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Map;
 import java.util.UUID;
 
 public class CommonUtil {
@@ -15,6 +18,13 @@ public class CommonUtil {
     public static String i18nStr(HttpServletRequest request, String zh, String en) {
         return "zh".equalsIgnoreCase(request.getLocale().getLanguage()) ? zh : en;
     }
+
+    public static Map<String, String> i18nMap(HttpServletRequest request, Map<String, String> zhMap, Map<String, String> enMap) {
+        LocaleResolver localeResolver = RequestContextUtils.getLocaleResolver(request);
+        String lang = localeResolver.resolveLocale(request).getLanguage();
+        return "zh".equalsIgnoreCase(lang) ? zhMap : enMap;
+    }
+
 
     public static String formatDate(Date date) {
         return formatDate(date, "yyyy-MM-dd HH:mm:ss");

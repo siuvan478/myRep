@@ -6,7 +6,7 @@
 
 <html>
 <head>
-<title>区域列表</title>
+<title><spring:message code="area.list.header.title"/></title>
 </head>
 <body>
 	<br />
@@ -19,7 +19,7 @@
 			<div class="col-lg-12">
 				<div class="panel panel-info">
 					<div class="panel-heading">
-						区域列表
+						<spring:message code="area.list.header.title"/>
 						<small></small>
 						<button type="button" class="btn-mini btn-link pull-right search-plus-minus">
 							<i class="fa fa-search-minus"></i>
@@ -29,14 +29,16 @@
 						<div class="row">
 							<div class="col-lg-4">
 								<div class="form-group">
-									<label for="name">区域名称</label>
-									<input type="text" class="form-control" id="name" name="name" value="<c:out value="${pages.searchMap['name']}"/>" placeholder="请输入区域名称...">
+									<label for="name"><spring:message code="area.list.header.name"/></label>
+									<input type="text" class="form-control" id="name" name="name" value="<c:out value="${pages.searchMap['name']}"/>"
+										   placeholder="<spring:message code="area.list.header.title"/>">
 								</div>
 							</div>
 							<div class="col-lg-4">
 								<div class="form-group">
-									<label for="nameEN">区域名称(英文)</label>
-									<input type="text" class="form-control" id="nameEN" name="nameEN" value="<c:out value="${pages.searchMap['nameEN']}"/>" placeholder="请输入区域英文名称...">
+									<label for="nameEN"><spring:message code="area.list.header.nameEN"/></label>
+									<input type="text" class="form-control" id="nameEN" name="nameEN" value="<c:out value="${pages.searchMap['nameEN']}"/>"
+										   placeholder="<spring:message code="area.list.header.nameEN"/>">
 								</div>
 							</div>
 						</div>
@@ -44,12 +46,10 @@
 					<div class="panel-footer panel-footer-search">
 						<div class="btn-group" role="group" aria-label="...">
 							<button type="submit" class="btn  btn-info">
-								<i class="fa fa-search"></i>
-								<spring:message code="public.search" />
+								<i class="fa fa-search"></i><spring:message code="public.search" />
 							</button>
-							<button id="resetButton" type="button" class="btn  btn-warning">
-								<i class="fa fa-repeat"></i>
-								<spring:message code="public.reset" />
+							<button id="resetButton" type="button" class="btn btn-warning" onclick="searchFormReset();">
+								<i class="fa fa-repeat"></i> <spring:message code="public.reset" />
 							</button>
 						</div>
 
@@ -70,8 +70,8 @@
 						<table class="table table-striped table-hover dataTable" style="margin-bottom:0px;">
 							<thead>
 								<tr>
-									<th <tags:sort column="name" page="${pages}"/>>区域名称</th>
-									<th <tags:sort column="nameEN" page="${pages}"/>>区域名称(英文)</th>
+									<th <tags:sort column="name" page="${pages}"/>><spring:message code="area.list.header.name"/></th>
+									<th <tags:sort column="nameEN" page="${pages}"/>><spring:message code="area.list.header.nameEN"/></th>
 									<th><spring:message code="public.oper" /></th>
 								</tr>
 							</thead>

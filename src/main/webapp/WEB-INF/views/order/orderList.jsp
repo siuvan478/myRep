@@ -7,7 +7,7 @@
 
 <html>
 <head>
-<title>订单列表</title>
+<title><spring:message code="order.list.header.title"/></title>
 </head>
 <body>
 	<br />
@@ -24,7 +24,7 @@
 			<div class="col-lg-12">
 				<div class="panel panel-info">
 					<div class="panel-heading">
-						订单列表
+						<spring:message code="order.list.header.title"/>
 						<small></small>
 						<button type="button" class="btn-mini btn-link pull-right search-plus-minus">
 							<i class="fa fa-search-minus"></i>
@@ -34,22 +34,22 @@
 						<div class="row">
 							<div class="col-lg-4">
 								<div class="form-group">
-									<label for="orderNo">订单编号</label>
+									<label for="orderNo"><spring:message code="order.list.header.orderNo"/></label>
 									<input type="text" class="form-control" id="orderNo" name="orderNo" value="<c:out value="${pages.searchMap['orderNo']}"/>"
-										   placeholder="Please enter order number...">
+										   placeholder="<spring:message code="order.list.header.orderNo"/>">
 								</div>
 							</div>
 							<div class="col-lg-4">
 								<div class="form-group">
-									<label for="productId">产品类型</label>
+									<label for="productId"><spring:message code="order.list.header.productId"/></label>
 									<tags:selectbox name="productId" map="${products}" value="${pages.searchMap['productId']}" empty="true" />
 								</div>
 							</div>
 							<div class="col-lg-4">
 								<div class="form-group">
-									<label for="status">订单状态</label>
+									<label for="status"><spring:message code="order.list.header.status"/></label>
 									<select name="status" class="status form-control" id="status">
-										<option value>请选择</option>
+										<option value><spring:message code="select2.placeholder"/></option>
 										<c:forEach var="status" items="${statuses}">
 											<option value="${status.key}" <c:if test="${pages.searchMap['status'] eq status.key}">selected</c:if>>${status.value}</option>
 										</c:forEach>
@@ -84,14 +84,14 @@
 						<table class="table table-striped table-hover dataTable" style="margin-bottom:0px;">
 							<thead>
 								<tr>
-									<th <tags:sort column="orderNo" page="${pages}"/>>订单编号</th>
-									<th <tags:sort column="productId" page="${pages}"/>>产品类型</th>
-									<th <tags:sort column="scaleId" page="${pages}"/>>产品规格</th>
-									<th <tags:sort column="cycle" page="${pages}"/>>周期</th>
-									<th <tags:sort column="totalPrice" page="${pages}"/>>金额</th>
-									<th <tags:sort column="orderTime" page="${pages}"/>>下单时间</th>
-									<th>联系地址</th>
-									<th <tags:sort column="status" page="${pages}"/>>状态</th>
+									<th <tags:sort column="orderNo" page="${pages}"/>><spring:message code="order.list.body.orderNo"/></th>
+									<th <tags:sort column="productId" page="${pages}"/>><spring:message code="order.list.body.productId"/></th>
+									<th <tags:sort column="scaleId" page="${pages}"/>><spring:message code="order.list.body.scale"/></th>
+									<th <tags:sort column="cycle" page="${pages}"/>><spring:message code="order.list.body.cycle"/></th>
+									<th <tags:sort column="totalPrice" page="${pages}"/>><spring:message code="order.list.body.totalPrice"/></th>
+									<th <tags:sort column="orderTime" page="${pages}"/>><spring:message code="order.list.body.orderTime"/></th>
+									<th><spring:message code="order.list.body.addressId"/></th>
+									<th <tags:sort column="status" page="${pages}"/>><spring:message code="order.list.body.status"/></th>
 									<th><spring:message code="public.oper" /></th>
 								</tr>
 							</thead>
@@ -110,7 +110,7 @@
 										</td>
 										<td>$ ${order.totalPrice}HKD</td>
 										<td><fmt:formatDate value="${order.orderTime}" pattern="yyyy-MM-dd HH:ss" /></td>
-										<td><span class="label label-default" onclick="window.open('${ctx}/address/update/${order.addressId}');" style="cursor: pointer">查看地址</span></td>
+										<td><span class="label label-default" onclick="window.open('${ctx}/address/update/${order.addressId}');" style="cursor: pointer"><spring:message code="order.list.body.addressId.view"/></span></td>
 										<td>
 											<c:forEach var="status" items="${statuses}">
 												<c:if test="${status.key eq order.status}">
@@ -119,9 +119,9 @@
 											</c:forEach>
 										</td>
 										<td>
-											<a href="${ctx}/order/view/${order.id}" title="查看"><i class="fa fa-eye fa-fw"></i></a>
+											<a href="${ctx}/order/view/${order.id}" title="<spring:message code="order.list.body.view"/>"><i class="fa fa-eye fa-fw"></i></a>
 											<c:if test="${order.status eq 1}">
-												<a onclick="showAuditOrderForm('${order.id}');" class="disabled" title="审批" data-toggle="modal" data-target="#auditOrderForm"><i class="fa fa-pencil fa-fw"></i></a>
+												<a onclick="showAuditOrderForm('${order.id}');" class="disabled" title="<spring:message code="order.list.body.audit"/>" data-toggle="modal" data-target="#auditOrderForm"><i class="fa fa-pencil fa-fw"></i></a>
 											</c:if>
 										</td>
 									</tr>
@@ -160,7 +160,7 @@
 			});
 
 			$("#productId").select2({
-				placeholder: "Please select...",
+				placeholder: "<spring:message code="select2.placeholder"/>",
 				allowClear: true,
 				language: lang_options(1)
 			});

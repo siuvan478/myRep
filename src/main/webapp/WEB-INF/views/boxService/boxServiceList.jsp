@@ -6,7 +6,7 @@
 
 <html>
 <head>
-<title>文件柜服务列表</title>
+<title><spring:message code="service.list.header.title"/></title>
 </head>
 <body>
 	<br />
@@ -19,7 +19,7 @@
 			<div class="col-lg-12">
 				<div class="panel panel-info">
 					<div class="panel-heading">
-						文件柜服务列表
+						<spring:message code="service.list.header.title"/>
 						<small></small>
 						<button type="button" class="btn-mini btn-link pull-right search-plus-minus">
 							<i class="fa fa-search-minus"></i>
@@ -29,14 +29,14 @@
 						<div class="row">
 							<div class="col-lg-4">
 								<div class="form-group">
-									<label for="contactName">联络人姓名</label>
+									<label for="contactName"><spring:message code="service.list.header.contactName"/></label>
 									<input type="text" class="form-control" id="contactName" name="contactName" value="<c:out value="${pages.searchMap['contactName']}"/>"
-										   placeholder="Please enter contact name...">
+										   placeholder="<spring:message code="service.list.header.contactName"/>">
 								</div>
 							</div>
 							<div class="col-lg-4">
 								<div class="form-group">
-									<label for="productId">产品类型</label>
+									<label for="productId"><spring:message code="service.list.header.productId"/></label>
 									<tags:selectbox name="productId" map="${products}" value="${pages.searchMap['productId']}" empty="true" />
 								</div>
 							</div>
@@ -66,14 +66,14 @@
 						<table class="table table-striped table-hover dataTable" style="margin-bottom:0px;">
 							<thead>
 								<tr>
-									<th <tags:sort column="userId" page="${pages}"/>>联络人</th>
-									<th <tags:sort column="productId" page="${pages}"/>>产品类型</th>
-									<th <tags:sort column="scaleId" page="${pages}"/>>规格</th>
-									<th <tags:sort column="cycle" page="${pages}"/>>周期</th>
-									<th <tags:sort column="startTime" page="${pages}"/>>服务开始时间</th>
-									<th <tags:sort column="endTime" page="${pages}"/>>服务结束时间</th>
-									<th <tags:sort column="flag" page="${pages}"/>>服务柜状态</th>
-									<th <tags:sort column="status" page="${pages}"/>>状态</th>
+									<th <tags:sort column="userId" page="${pages}"/>><spring:message code="service.list.body.contactName"/></th>
+									<th <tags:sort column="productId" page="${pages}"/>><spring:message code="service.list.body.productId"/></th>
+									<th <tags:sort column="scaleId" page="${pages}"/>><spring:message code="service.list.body.scale"/></th>
+									<th <tags:sort column="cycle" page="${pages}"/>><spring:message code="service.list.body.cycle"/></th>
+									<th <tags:sort column="startTime" page="${pages}"/>><spring:message code="service.list.body.startTime"/></th>
+									<th <tags:sort column="endTime" page="${pages}"/>><spring:message code="service.list.body.endTime"/></th>
+									<th <tags:sort column="flag" page="${pages}"/>><spring:message code="service.list.body.useStatus"/></th>
+									<th <tags:sort column="status" page="${pages}"/>><spring:message code="service.list.body.status"/></th>
 									<th><spring:message code="public.oper" /></th>
 								</tr>
 							</thead>
@@ -144,7 +144,7 @@
 			});
 
 			$("#productId").select2({
-				placeholder: "Please select...",
+				placeholder: "<spring:message code="select2.placeholder"/>",
 				allowClear: true,
 				language: lang_options(1)
 			});

@@ -13,9 +13,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>
-        订单详情
-    </title>
+    <title><spring:message code="order.view.title" /></title>
 </head>
 
 <body>
@@ -23,24 +21,24 @@
 	<div role="form"class="form-horizontal">
 		 <section class="content">
 			 <div class="box box-info">
-				 <div class="box-header"><h3 class="box-title">订单详情</h3></div>
+				 <div class="box-header"><h3 class="box-title"><spring:message code="order.view.title" /></h3></div>
 				 <div class="box-body">
 					<div class="row">
 						<div class="col-md-8">
 							<dl class="dl-horizontal">
-								<dt>订单编号</dt>
+								<dt><spring:message code="order.view.orderNo" /></dt>
 								<dd>${orderForm.orderNo}</dd>
 							</dl>
 							<dl class="dl-horizontal">
-								<dt>产品类型</dt>
+								<dt><spring:message code="order.view.productId" /></dt>
 								<dd>${orderForm.productName}</dd>
 							</dl>
 							<dl class="dl-horizontal">
-								<dt>产品规格</dt>
+								<dt><spring:message code="order.view.scale" /></dt>
 								<dd>${orderForm.scaleName}</dd>
 							</dl>
 							<dl class="dl-horizontal">
-								<dt>期限</dt>
+								<dt><spring:message code="order.view.cycle" /></dt>
 								<dd>
 									<c:forEach var="cycle" items="${cycles}">
 										<c:if test="${cycle.key eq orderForm.cycle}">
@@ -50,15 +48,15 @@
 								</dd>
 							</dl>
 							<dl class="dl-horizontal">
-								<dt>金额</dt>
+								<dt><spring:message code="order.view.totalPrice" /></dt>
 								<dd>$ ${orderForm.totalPrice}HKD</dd>
 							</dl>
 							<dl class="dl-horizontal">
-								<dt>下单时间</dt>
+								<dt><spring:message code="order.view.orderTime" /></dt>
 								<dd>${orderForm.orderTime}</dd>
 							</dl>
 							<dl class="dl-horizontal">
-								<dt>订单状态</dt>
+								<dt><spring:message code="order.view.status" /></dt>
 								<dd>
 									<c:forEach var="status" items="${statuses}">
 										<c:if test="${status.key eq orderForm.status}">
@@ -75,7 +73,7 @@
 				 </div>
 				 <div class="box-footer">
 					 <button class="btn btn-primary disabled btn-70" onclick="window.location.href='${ctx}/order'">
-						 返回
+						 <spring:message code="public.back"/>
 					 </button>
 				 </div>
 			</div>

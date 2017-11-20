@@ -6,7 +6,7 @@
 
 <html>
 <head>
-<title>配置</title>
+<title><spring:message code="config.title"/></title>
 </head>
 
 <body>
@@ -14,7 +14,7 @@
 <form role="form" id="inputForm" action="${ctx}/config/update" method="post" class="form-horizontal">
 	<section class="content">
 		<div class="box box-info">
-			<div class="box-header"><h3 class="box-title">业务配置</h3></div>
+			<div class="box-header"><h3 class="box-title"><spring:message code="config.title"/></h3></div>
 			<div class="box-body">
 				<div class="row">
 					<div class="col-md-12">
@@ -27,20 +27,20 @@
 					</div>
 					<div class="col-md-6">
 						<div class="form-group">
-							<label class="col-md-3 control-label">预约价格(全价):</label>
-							<div class="col-md-9">
+							<label class="col-md-6 control-label"><spring:message code="config.commonFee"/>:</label>
+							<div class="col-md-6">
 								<input class="form-control" type="text" id="commonFee" name="commonFee" value="${config.commonFee}">
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-md-3 control-label">全价次数:</label>
-							<div class="col-md-9">
+							<label class="col-md-6 control-label"><spring:message code="config.number"/>:</label>
+							<div class="col-md-6">
 								<input class="form-control" type="text" id="number" name="number" value="${config.number}">
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-md-3 control-label">预约优惠价格:</label>
-							<div class="col-md-9">
+							<label class="col-md-6 control-label"><spring:message code="config.discountFee"/>:</label>
+							<div class="col-md-6">
 								<input class="form-control" type="text" id="discountFee" name="discountFee" value="${config.discountFee}">
 							</div>
 						</div>
@@ -49,7 +49,7 @@
 			</div>
 			<div class="box-footer">
 				<button type="submit" class="btn btn-success btn-70"><i class="fa fa-save"></i> <spring:message code="public.save" /></button>
-				<button type="button" class="btn btn-primary btn-70 disabled" onclick="window.location.href='${ctx}/area'">取消</button>
+				<button type="button" class="btn btn-primary btn-70 disabled" onclick="window.location.href='${ctx}/area'"><spring:message code="public.cancel" /></button>
 			</div>
 		</div>
 	</section>
